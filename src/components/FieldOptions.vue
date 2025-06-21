@@ -1,5 +1,5 @@
 <template>
-	<ul class="grid grid-cols-3 gap-4">
+	<ul class="flex gap-4 flex-wrap justify-center max-w-4xl">
 		<li v-for="(option, index) in options" :key="option.label">
 			<FieldOption
 				:label="option.label"
