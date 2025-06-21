@@ -15,7 +15,6 @@
 						/>
 					</div>
 					<AddNewFieldButton />
-					<button class="cursor-pointer" @click="addTextField">Add text field</button>
 				</div>
 			</div>
 		</main>
@@ -29,8 +28,11 @@ import FormInfo from "./components/FormInfo.vue";
 import PreviewOptions from "./components/PreviewOptions.vue";
 import FieldOptionsModal from "@/components/FieldOptionsModal.vue";
 import AddNewFieldButton from "@/components/AddNewFieldButton.vue";
-import FormTitle from "@/components/formbuilder/FormTitle.vue";
 import Cross from "@/assets/cross.svg";
+
+// form builder components
+import FormTitle from "@/components/formbuilder/FormTitle.vue";
+import TextInput from "@/components/formbuilder/TextInput.vue";
 
 import type { Component } from "vue";
 import { ref, markRaw, provide } from "vue";
@@ -52,6 +54,14 @@ provide("addFormField", (field: string) => {
 			props: {
 				title: formName,
 				style: "font-weight:bold;font-size:32px"
+			}
+		});
+	} else if (field === "Text input") {
+		formFields.value.push({
+			component: markRaw(TextInput),
+			props: {
+				label: "Your label here",
+				name: "text-input"
 			}
 		});
 	}

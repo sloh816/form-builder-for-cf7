@@ -1,10 +1,14 @@
 <template>
-	<div class="form-field form-title">
-		<h1 :style="style">{{ title }}</h1>
-	</div>
+	<FormFieldWrapper>
+		<div class="form-field form-title">
+			<h1 :style="style">{{ title }}</h1>
+		</div>
+	</FormFieldWrapper>
 </template>
 
 <script setup lang="ts">
+import FormFieldWrapper from "@/components/FormFieldWrapper.vue";
+
 interface Props {
 	title: string;
 	style: Object | string;
