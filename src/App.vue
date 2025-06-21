@@ -2,15 +2,15 @@
 	<div class="flex flex-col min-h-screen">
 		<Header />
 		<main class="flex grow">
-			<FormInfo />
+			<FormInfo :formName="formName" />
 			<div class="form-builder bg-white shadow-md w-full px-6">
 				<PreviewOptions />
-				<div class="form-preview max-w-3xl">
+				<div class="form-preview max-w-3xl mb-16">
 					<div class="form-builder-preview grid gap-4">
 						<component
 							v-for="(field, index) in formFields"
 							:key="index"
-							:is="field.component"
+							:is="componentMap[field.component]"
 							v-bind="field.props"
 						/>
 					</div>
@@ -35,22 +35,49 @@ import FormTitle from "@/components/formbuilder/FormTitle.vue";
 import TextInput from "@/components/formbuilder/TextInput.vue";
 
 import type { Component } from "vue";
-import { ref, markRaw, provide } from "vue";
+import { ref, markRaw, provide, onMounted } from "vue";
 
 interface FormField {
-	component: Component;
+	component: string;
 	props: Record<string, any>;
 }
 
 const formFields = ref<FormField[]>([]);
-
 const formName = ref<string>("Untitled form...");
+
+const componentMap = {
+	FormTitle: markRaw(FormTitle),
+	TextInput: markRaw(TextInput)
+};
+
+onMounted(() => {
+	const savedFormName = localStorage.getItem("formName");
+	formName.value = savedFormName ? savedFormName : "Untitled form...";
+
+	const savedFields = localStorage.getItem("formFields");
+
+	if (savedFields) {
+		formFields.value = JSON.parse(savedFields);
+		formFields.value.forEach((field) => {
+			if (field.component === "FormTitle") {
+				field.props.title = formName;
+			}
+		});
+	}
+
+	console.log(formName.value, "from APP");
+});
+
+function saveToLocalStorage() {
+	localStorage.setItem("formFields", JSON.stringify(formFields.value));
+	localStorage.setItem("formName", formName.value);
+}
 
 //provide a function to add a form field
 provide("addFormField", (field: string) => {
 	if (field === "Form title") {
 		formFields.value.push({
-			component: markRaw(FormTitle),
+			component: "FormTitle",
 			props: {
 				title: formName,
 				style: "font-weight:bold;font-size:32px"
@@ -58,13 +85,15 @@ provide("addFormField", (field: string) => {
 		});
 	} else if (field === "Text input") {
 		formFields.value.push({
-			component: markRaw(TextInput),
+			component: "TextInput",
 			props: {
 				label: "Your label here",
 				name: "text-input"
 			}
 		});
 	}
+
+	saveToLocalStorage();
 
 	// close modal
 	const modal = document.querySelector(".fields-modal");
