@@ -5,7 +5,7 @@
 	>
 		<div class="bg-white p-12 rounded shadow-lg relative">
 			<h2 class="font-bold text-xl text-center mb-8">Select a field</h2>
-			<FieldOptions />
+			<FieldButtons />
 			<button
 				class="font-bold absolute top-4 right-4 cursor-pointer w-8 h-8 p-2 rounded block fill-slate-300 hover:fill-slate-600 transition-colors"
 				@click="closeFieldsModal"
@@ -17,7 +17,7 @@
 </template>
 
 <script setup lang="ts">
-import FieldOptions from "@/components/FieldOptions.vue";
+import FieldButtons from "@/components/FieldButtons.vue";
 import Cross from "@/assets/cross.svg";
 </script>
 

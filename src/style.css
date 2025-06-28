@@ -4,3 +4,26 @@ html,
 body {
 	font-family: "Figtree", sans-serif;
 }
+
+label {
+	display: block;
+	margin-top: 0.5rem;
+}
+
+.radio-button-group label {
+	margin-top: 0;
+}
+
+input[type="text"],
+select {
+	width: 100%;
+	padding: 0.5rem;
+	border: 1px solid #ccc;
+	border-radius: 4px;
+}
+
+select,
+label:has(input[type="radio"]),
+label:has(input[type="checkbox"]) {
+	cursor: pointer;
+}

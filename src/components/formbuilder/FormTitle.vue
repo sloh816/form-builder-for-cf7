@@ -1,41 +1,35 @@
 <template>
-	<button
-		class="form-field form-title text-left rounded hover:outline outline-indigo-700 outline-offset-8 cursor-pointer"
-		type="button"
-		@click="showFieldOptions"
-	>
-		<div>
-			<h1 :style="style">{{ title }}</h1>
-		</div>
-	</button>
-	<div
-		class="field-options shadow-sm border border-slate-300 p-4 fixed top-48 bg-white left-4 w-[275px] rounded"
-	>
-		Field options
-	</div>
+	<p class="font-bold text-2xl mt-4">{{ props.title }}</p>
+
+	<form class="text-input-options border border-slate-300 shadow-md rounded p-4">
+		<label :for="`label-${props.id}`" class="font-semibold">Label </label>
+		<select @change="updateHeadingLevel($event.target.value)">
+			<option value="1" :selected="props.headingLevel === 1">Heading 1</option>
+			<option value="2" :selected="props.headingLevel === 2">Heading 2</option>
+			<option value="3" :selected="props.headingLevel === 3">Heading 3</option>
+		</select>
+	</form>
 </template>
 
 <script setup lang="ts">
+import { inject } from "vue";
+
 interface Props {
 	title: string;
-	style: Object | string;
+	headingLevel?: number;
+	id: string;
 }
 
-const props = withDefaults(defineProps<Props>(), {
-	title: "Untitled form...",
-	style: "font-weight:bold;font-size:32px"
-});
+const props = defineProps<Props>();
 
-function showFieldOptions(event: MouseEvent) {
-	const fieldOptions = document.querySelectorAll(".field-options");
-	fieldOptions.forEach((option) => {
-		option.classList.add("hidden");
-	});
+const updateFormField = inject<Function>("updateFormField");
+function updateHeadingLevel(level: string) {
+	const newHeadingLevel = parseInt(level);
+	const newProps = {
+		...props,
+		headingLevel: newHeadingLevel
+	};
 
-	const target = event.currentTarget as HTMLElement;
-	const thisFieldOptions = target.nextElementSibling as HTMLElement;
-	if (thisFieldOptions) {
-		thisFieldOptions.classList.remove("hidden");
-	}
+	updateFormField?.(props.id, newProps);
 }
 </script>

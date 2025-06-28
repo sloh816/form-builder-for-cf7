@@ -24,6 +24,8 @@ interface Props {
 	label: string;
 	description: string;
 	icon: Component;
+	component: string;
+	defaultProps?: Record<string, any>;
 }
 
 const props = defineProps<Props>();
@@ -32,7 +34,19 @@ const props = defineProps<Props>();
 const addFormField = inject<Function>("addFormField");
 
 function handleClick() {
-	addFormField(props.label);
+	const defaultProps = { ...(props.defaultProps || {}) };
+
+	const randomId = Math.random().toString(36).substring(2, 8); // Generate a unique ID for the field
+	defaultProps.id = `${props.component.toLowerCase()}-${randomId}`;
+
+	addFormField?.({
+		component: props.component,
+		props: defaultProps
+	});
+
+	// Hide the modal after adding a field
+	const modal = document.querySelector(".fields-modal");
+	modal?.classList.add("hidden");
 }
 </script>
 

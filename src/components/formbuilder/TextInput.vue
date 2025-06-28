@@ -1,42 +1,107 @@
 <template>
-	<button
-		class="form-field text-input text-left rounded hover:outline outline-indigo-700 outline-offset-8 cursor-pointer"
-		type="button"
-		@click="handleClick"
-	>
-		<div>
-			<label :for="name" :style="labelStyle">{{ label }}</label>
-			<input
-				:style="inputStyle"
-				type="text"
-				size="40"
-				maxlength="400"
-				class="wpcf7-form-control wpcf7-text"
-				aria-invalid="false"
-				:name="name"
-				:id="name"
-				disabled
-			/>
+	<!-- <pre>{{ props }}</pre> -->
+	<form class="text-input-options border border-slate-300 shadow-md rounded p-4">
+		<label :for="`label-${props.id}`" class="font-semibold">Label </label>
+		<input
+			type="text"
+			:value="props.label"
+			@input="updateProps('label', $event.target.value)"
+			:id="`label-${props.id}`"
+		/>
+
+		<div class="text-input-type radio-button-group flex gap-4 mt-4">
+			<label>
+				<input
+					type="radio"
+					:id="`type-${props.id}`"
+					:name="`type-${props.id}`"
+					value="name"
+					:checked="props.type === 'name'"
+					@change="updateProps('type', $event.target.value)"
+				/>
+				<span> Name</span>
+			</label>
+			<label>
+				<input
+					type="radio"
+					:id="`type-${props.id}`"
+					:name="`type-${props.id}`"
+					value="email"
+					:checked="props.type === 'email'"
+					@change="updateProps('type', $event.target.value)"
+				/>
+				<span> Email</span>
+			</label>
+			<label>
+				<input
+					type="radio"
+					:id="`type-${props.id}`"
+					:name="`type-${props.id}`"
+					value="phone"
+					:checked="props.type === 'phone'"
+					@change="updateProps('type', $event.target.value)"
+				/>
+				<span> Phone</span>
+			</label>
+			<label>
+				<input
+					type="radio"
+					:id="`type-${props.id}`"
+					:name="`type-${props.id}`"
+					value="text"
+					:checked="props.type === 'text'"
+					@change="updateProps('type', $event.target.value)"
+				/>
+				<span> Other</span>
+			</label>
 		</div>
-	</button>
+
+		<label>
+			<input
+				type="checkbox"
+				:id="`required-${props.id}`"
+				:checked="props.required"
+				@change="updateProps('required', $event.target.checked)"
+			/>
+			<span> Required</span>
+		</label>
+
+		<label :for="`placeholder-${props.id}`" class="font-semibold">Placeholder </label>
+		<input
+			type="text"
+			:value="props.placeholder"
+			@input="updateProps('placeholder', $event.target.value)"
+			:id="`placeholder-${props.id}`"
+		/>
+
+		<label :for="`id-${props.id}`" class="font-semibold">Field ID </label>
+		<input
+			type="text"
+			:value="props.id"
+			@input="updateProps('id', $event.target.value)"
+			:id="`id-${props.id}`"
+		/>
+	</form>
 </template>
 
 <script setup lang="ts">
+import { ref, inject } from "vue";
+
 interface Props {
 	label: string;
-	name: string;
-	labelStyle: Object | string;
-	inputStyle: Object | string;
-	id: string;
+	type?: string;
+	placeholder?: string;
+	required?: boolean;
+	id?: string;
 }
 
-const props = withDefaults(defineProps<Props>(), {
-	labelStyle: "font-weight: bold; margin-bottom: 4px; display: block",
-	inputStyle: "width: 100%; border: 1px solid #ccc; padding: 8px; border-radius: 4px"
-});
+const props = defineProps<Props>();
 
-function handleClick() {
-	// This function can be used to handle click events if needed
-	console.log(`Text input with label "${props.label}" clicked.`);
+const updateFormField = inject<Function>("updateFormField");
+
+function updateProps(propKey: string, value: any) {
+	const newProps = { ...props };
+	newProps[propKey] = value;
+	updateFormField?.(props.id, newProps);
 }
 </script>

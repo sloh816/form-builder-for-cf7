@@ -3,14 +3,15 @@
 		<div class="flex flex-col">
 			<h2 class="font-bold mb-2">Form name</h2>
 			<input
+				id="form-name"
 				type="text"
 				placeholder="Untitled form..."
 				class="bg-white p-2 rounded text-sm border border-slate-300 mx-2 block"
-				@input="handleClick"
-				:value="formName"
+				:value="props.formName"
+				@input="handleInput($event.target.value)"
 			/>
 		</div>
-		<!-- <SavedForms /> -->
+		<SavedForms :savedForms="props.savedForms" :currentFormName="formName" />
 	</div>
 </template>
 
@@ -19,16 +20,14 @@ import SavedForms from "@/components/SavedForms.vue";
 import { inject } from "vue";
 
 interface Props {
-	formName: string;
+	formName?: string;
+	savedForms: Form[];
 }
 
 const props = defineProps<Props>();
 
-// Inject the function from parent to add a form field
 const updateFormName = inject<Function>("updateFormName");
-
-function handleClick(event: Event) {
-	localStorage.setItem("formName", event.target.value);
-	updateFormName(event.target.value);
+function handleInput(newName: string) {
+	updateFormName?.(newName);
 }
 </script>
