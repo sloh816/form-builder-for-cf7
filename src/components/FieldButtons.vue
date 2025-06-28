@@ -46,7 +46,13 @@ const options = [
 		label: "Text area",
 		description: "A multi-line text field",
 		icon: Textarea,
-		component: "TextArea"
+		component: "TextArea",
+		defaultProps: {
+			label: "Your message",
+			placeholder: "Type your message here...",
+			required: false,
+			rows: 4
+		}
 	},
 	{
 		label: "Checkboxes",

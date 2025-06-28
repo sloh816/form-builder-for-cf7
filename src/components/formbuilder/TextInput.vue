@@ -1,97 +1,62 @@
 <template>
 	<!-- <pre>{{ props }}</pre> -->
-	<form class="text-input-options border border-slate-300 shadow-md rounded p-4">
-		<label :for="`label-${props.id}`" class="font-semibold">Label </label>
-		<input
-			type="text"
-			:value="props.label"
-			@input="updateProps('label', $event.target.value)"
+	<form class="field-options border border-slate-300 shadow-md rounded p-4">
+		<TextInput
 			:id="`label-${props.id}`"
+			label="Label"
+			:value="props.label"
+			:inputFunction="(value) => updateProps('label', value)"
 		/>
 
-		<div class="text-input-type radio-button-group flex gap-4 mt-4">
-			<label>
-				<input
-					type="radio"
-					:id="`type-${props.id}`"
-					:name="`type-${props.id}`"
-					value="name"
-					:checked="props.type === 'name'"
-					@change="updateProps('type', $event.target.value)"
-				/>
-				<span> Name</span>
-			</label>
-			<label>
-				<input
-					type="radio"
-					:id="`type-${props.id}`"
-					:name="`type-${props.id}`"
-					value="email"
-					:checked="props.type === 'email'"
-					@change="updateProps('type', $event.target.value)"
-				/>
-				<span> Email</span>
-			</label>
-			<label>
-				<input
-					type="radio"
-					:id="`type-${props.id}`"
-					:name="`type-${props.id}`"
-					value="phone"
-					:checked="props.type === 'phone'"
-					@change="updateProps('type', $event.target.value)"
-				/>
-				<span> Phone</span>
-			</label>
-			<label>
-				<input
-					type="radio"
-					:id="`type-${props.id}`"
-					:name="`type-${props.id}`"
-					value="text"
-					:checked="props.type === 'text'"
-					@change="updateProps('type', $event.target.value)"
-				/>
-				<span> Other</span>
-			</label>
-		</div>
+		<RadioButtons
+			:id="`type-${props.id}`"
+			label="Input type"
+			:options="[
+				{ label: 'Name', isChecked: props.type === 'name', value: 'name' },
+				{ label: 'Email', isChecked: props.type === 'email', value: 'email' },
+				{ label: 'Phone', isChecked: props.type === 'phone', value: 'phone' },
+				{ label: 'Other', isChecked: props.type === 'text', value: 'text' }
+			]"
+			:changeFunction="(value) => updateProps('type', value)"
+		/>
 
-		<label>
-			<input
-				type="checkbox"
-				:id="`required-${props.id}`"
-				:checked="props.required"
-				@change="updateProps('required', $event.target.checked)"
-			/>
-			<span> Required</span>
-		</label>
+		<Boolean
+			:id="`required-${props.id}`"
+			:isChecked="props.required"
+			:changeFunction="(value) => updateProps('required', value)"
+			label="Required"
+		/>
 
-		<label :for="`placeholder-${props.id}`" class="font-semibold">Placeholder </label>
-		<input
-			type="text"
-			:value="props.placeholder"
-			@input="updateProps('placeholder', $event.target.value)"
+		<TextInput
 			:id="`placeholder-${props.id}`"
+			label="Placeholder"
+			:value="props.placeholder"
+			:inputFunction="(value) => updateProps('placeholder', value)"
 		/>
 
-		<label :for="`id-${props.id}`" class="font-semibold">Field ID </label>
-		<input
-			type="text"
-			:value="props.id"
-			@input="updateProps('id', $event.target.value)"
+		<TextInput
 			:id="`id-${props.id}`"
+			label="Field ID"
+			:value="props.id"
+			:inputFunction="(value) => updateProps('id', value)"
 		/>
+
+		<DeleteFieldButton :id="props.id" />
 	</form>
 </template>
 
 <script setup lang="ts">
+import DeleteFieldButton from "@/components/DeleteFieldButton.vue";
+import TextInput from "@/components/propFormFields/TextInput.vue";
+import Boolean from "@/components/propFormFields/Boolean.vue";
+import RadioButtons from "@/components/propFormFields/RadioButtons.vue";
 import { ref, inject } from "vue";
 
 interface Props {
 	label: string;
 	type?: string;
 	placeholder?: string;
-	required?: boolean;
+	required?: True | false;
 	id?: string;
 }
 

@@ -6,7 +6,7 @@
 				v-for="form in savedForms"
 				:key="form.name"
 				:formName="form.name"
-				:isCurrent="currentFormName === form.name"
+				:isCurrent="props.currentFormName === form.name"
 				:id="form.id"
 			/>
 		</div>
@@ -25,7 +25,7 @@ import SavedFormButton from "@/components/SavedFormButton.vue";
 
 interface Props {
 	savedForms: Form[];
-	currentFormName: string;
+	currentFormName?: string;
 }
 
 const props = defineProps<Props>();

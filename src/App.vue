@@ -36,6 +36,7 @@ import Cross from "@/assets/cross.svg";
 // form builder components
 import FormTitle from "@/components/formbuilder/FormTitle.vue";
 import TextInput from "@/components/formbuilder/TextInput.vue";
+import TextArea from "@/components/formbuilder/TextArea.vue";
 
 import type { Component } from "vue";
 import { ref, markRaw, provide, onMounted, inject } from "vue";
@@ -53,7 +54,8 @@ interface Form {
 
 const componentMap = {
 	FormTitle: markRaw(FormTitle),
-	TextInput: markRaw(TextInput)
+	TextInput: markRaw(TextInput),
+	TextArea: markRaw(TextArea)
 };
 
 const forms = ref<Form[]>([]);
@@ -170,6 +172,14 @@ provide("updateFormField", (id: string, newProps: Record<string, any>) => {
 		if (field) {
 			field.props = newProps;
 		}
+	}
+});
+
+provide("deleteField", (id: string) => {
+	if (currentForm.value) {
+		currentForm.value.fields = currentForm.value.fields.filter(
+			(field) => field.props.id !== id
+		);
 	}
 });
 </script>
