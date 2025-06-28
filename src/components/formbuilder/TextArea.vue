@@ -8,8 +8,8 @@
 				<span class="wpcf7-form-control-wrap" data-name="textarea-210">
 					<textarea
 						cols="40"
+						:maxlength="props.maxlength ?? null"
 						:rows="props.rows"
-						:maxlength="props.maxlength"
 						class="wpcf7-form-control wpcf7-textarea pointer-events-none"
 						aria-invalid="false"
 						name="textarea-210"
@@ -28,24 +28,11 @@
 					:inputFunction="(value) => updateProps('label', value)"
 				/>
 
-				<Boolean
-					:id="`required-${props.id}`"
-					:isChecked="props.required"
-					:changeFunction="(value) => updateProps('required', value)"
-					label="Required"
-				/>
 				<TextInput
 					:id="`placeholder-${props.id}`"
 					label="Placeholder"
 					:value="props.placeholder"
 					:inputFunction="(value) => updateProps('placeholder', value)"
-				/>
-
-				<TextInput
-					:id="`id-${props.id}`"
-					label="Field ID"
-					:value="props.id"
-					:inputFunction="(value) => updateProps('id', value)"
 				/>
 
 				<NumberInput
@@ -59,9 +46,23 @@
 				<NumberInput
 					:id="`id-${props.id}`"
 					label="Max Length"
-					:value="props.maxlength"
+					:value="props.maxlength ?? null"
 					:inputFunction="(value) => updateProps('maxlength', value)"
 					description="Maximum number of characters allowed"
+				/>
+
+				<Boolean
+					:id="`required-${props.id}`"
+					:isChecked="props.required"
+					:changeFunction="(value) => updateProps('required', value)"
+					label="Required"
+				/>
+
+				<TextInput
+					:id="`id-${props.id}`"
+					label="Field ID"
+					:value="props.id"
+					:inputFunction="(value) => updateProps('id', value)"
 				/>
 			</FieldOptionsFormWrapper>
 		</template>

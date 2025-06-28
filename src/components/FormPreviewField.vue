@@ -7,19 +7,31 @@
 			<slot name="preview" />
 		</button>
 
-		<div class="form-preview-field__options" v-if="showOptions">
+		<div class="form-preview-field__options hidden">
 			<slot name="options" />
 		</div>
 	</div>
 </template>
 
 <script setup lang="ts">
-import { ref } from "vue";
+function toggleOptions(event) {
+	const button = event.currentTarget;
+	const options = button.nextElementSibling;
 
-const showOptions = ref(false);
+	// toggle the visibility of the options
+	if (options.classList.contains("hidden")) {
+		options.classList.remove("hidden");
+	} else {
+		options.classList.add("hidden");
+	}
 
-function toggleOptions() {
-	showOptions.value = !showOptions.value;
+	// hide all options
+	const allOptions = document.querySelectorAll(".form-preview-field__options");
+	allOptions.forEach((option) => {
+		if (option !== options) {
+			option.classList.add("hidden");
+		}
+	});
 }
 </script>
 

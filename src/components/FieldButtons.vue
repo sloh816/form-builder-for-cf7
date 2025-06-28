@@ -51,7 +51,8 @@ const options = [
 			label: "Your message",
 			placeholder: "Type your message here...",
 			required: false,
-			rows: 4
+			rows: 4,
+			maxlength: null
 		}
 	},
 	{
@@ -64,7 +65,12 @@ const options = [
 		label: "Radio buttons",
 		description: "Select one option from a set",
 		icon: Radio,
-		component: "RadioButtons"
+		component: "RadioButtons",
+		defaultProps: {
+			label: "Select an option",
+			options: ["Option 1", "Option 2", "Option 3"],
+			required: false
+		}
 	},
 	{
 		label: "Checkbox",
@@ -109,7 +115,11 @@ const options = [
 		label: "Heading",
 		description: "Add a heading to the form",
 		icon: Heading,
-		component: "Heading"
+		component: "Heading",
+		defaultProps: {
+			headingLevel: 2,
+			heading: "Subheading"
+		}
 	},
 	{
 		label: "Text block",

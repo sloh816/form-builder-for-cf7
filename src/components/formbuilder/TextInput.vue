@@ -43,18 +43,18 @@
 					:changeFunction="(value) => updateProps('type', value)"
 				/>
 
-				<Boolean
-					:id="`required-${props.id}`"
-					:isChecked="props.required"
-					:changeFunction="(value) => updateProps('required', value)"
-					label="Required"
-				/>
-
 				<TextInput
 					:id="`placeholder-${props.id}`"
 					label="Placeholder"
 					:value="props.placeholder"
 					:inputFunction="(value) => updateProps('placeholder', value)"
+				/>
+
+				<Boolean
+					:id="`required-${props.id}`"
+					:isChecked="props.required"
+					:changeFunction="(value) => updateProps('required', value)"
+					label="Required"
 				/>
 
 				<TextInput

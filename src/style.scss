@@ -11,10 +11,7 @@
 	}
 
 	&__options {
-		width: 350px;
-		position: absolute;
-		top: -20px;
-		right: -370px;
+		margin-top: 1rem;
 
 		form {
 			label {
@@ -23,7 +20,8 @@
 
 			input[type="text"],
 			input[type="number"],
-			select {
+			select,
+			textarea {
 				width: 100%;
 				padding: 0.5rem;
 				border: 1px solid #ccc;

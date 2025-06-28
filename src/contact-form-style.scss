@@ -1,5 +1,4 @@
 .indiga-label {
-	font-weight: bold;
 	display: block;
 	margin-bottom: 4px;
 }
@@ -13,4 +12,28 @@
 	width: 100%;
 	border-radius: 4px;
 	padding: 8px;
+}
+
+.wpcf7-radio {
+	border: none;
+	padding: 0;
+	display: flex;
+	flex-direction: column;
+	gap: 4px;
+	margin: 8px 0;
+}
+
+.wpcf7-list-item {
+	display: block;
+}
+
+.wpcf7-list-item label {
+	display: inline-flex;
+	gap: 8px;
+	cursor: pointer;
+}
+
+.wpcf7-list-item input[type="radio"] {
+	width: 24px;
+	height: 24px;
 }

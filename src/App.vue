@@ -5,7 +5,7 @@
 			<FormInfo v-if="currentForm" :formName="currentForm.name" :savedForms="forms" />
 			<div class="bg-white shadow-md w-full px-6">
 				<PreviewOptions />
-				<div class="form-preview">
+				<div class="form-preview mb-16">
 					<!-- <pre>{{ currentForm }}</pre> -->
 					<div class="form-preview__fields grid gap-4 relative">
 						<div v-for="(field, index) in currentForm.fields" :key="index">
@@ -34,6 +34,8 @@ import Cross from "@/assets/cross.svg";
 import FormTitle from "@/components/formbuilder/FormTitle.vue";
 import TextInput from "@/components/formbuilder/TextInput.vue";
 import TextArea from "@/components/formbuilder/TextArea.vue";
+import Heading from "@/components/formbuilder/Heading.vue";
+import RadioButtons from "@/components/formbuilder/RadioButtons.vue";
 
 import type { Component } from "vue";
 import { ref, markRaw, provide, onMounted, inject } from "vue";
@@ -52,7 +54,9 @@ interface Form {
 const componentMap = {
 	FormTitle: markRaw(FormTitle),
 	TextInput: markRaw(TextInput),
-	TextArea: markRaw(TextArea)
+	TextArea: markRaw(TextArea),
+	Heading: markRaw(Heading),
+	RadioButtons: markRaw(RadioButtons)
 };
 
 const forms = ref<Form[]>([]);
@@ -123,6 +127,16 @@ provide("addFormField", (field: FormField) => {
 
 		// Add the field to the current form
 		currentForm.value.fields.push(field);
+
+		// toggle the form options
+		setTimeout(() => {
+			const fieldOptionsModal = document.querySelector(
+				`.form-preview-field__options:has(form[data-field-id="${field.props.id}"])`
+			);
+			if (fieldOptionsModal) {
+				fieldOptionsModal.classList.toggle("hidden");
+			}
+		}, 300);
 	}
 });
 
