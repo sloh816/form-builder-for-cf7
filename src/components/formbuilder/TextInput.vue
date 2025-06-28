@@ -1,10 +1,10 @@
 <template>
 	<button
-		class="text-left rounded hover:outline outline-indigo-700 outline-offset-8 cursor-pointer"
+		class="form-field text-input text-left rounded hover:outline outline-indigo-700 outline-offset-8 cursor-pointer"
 		type="button"
 		@click="handleClick"
 	>
-		<div class="form-field text-input">
+		<div>
 			<label :for="name" :style="labelStyle">{{ label }}</label>
 			<input
 				:style="inputStyle"
@@ -27,6 +27,7 @@ interface Props {
 	name: string;
 	labelStyle: Object | string;
 	inputStyle: Object | string;
+	id: string;
 }
 
 const props = withDefaults(defineProps<Props>(), {

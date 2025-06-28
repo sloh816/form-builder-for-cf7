@@ -6,7 +6,7 @@
 			<div class="form-builder bg-white shadow-md w-full px-6">
 				<PreviewOptions />
 				<div class="form-preview max-w-3xl mb-16">
-					<div class="form-builder-preview grid gap-4">
+					<div class="form-builder-preview grid gap-4 relative">
 						<component
 							v-for="(field, index) in formFields"
 							:key="index"
@@ -64,8 +64,6 @@ onMounted(() => {
 			}
 		});
 	}
-
-	console.log(formName.value, "from APP");
 });
 
 function saveToLocalStorage() {
