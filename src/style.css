@@ -4,31 +4,3 @@ html,
 body {
 	font-family: "Figtree", sans-serif;
 }
-
-label {
-	display: block;
-}
-
-input[type="text"],
-input[type="number"],
-select {
-	width: 100%;
-	padding: 0.5rem;
-	border: 1px solid #ccc;
-	border-radius: 4px;
-}
-
-input[type="number"] {
-	width: 80px;
-}
-
-select,
-label:has(input[type="radio"]),
-label:has(input[type="checkbox"]) {
-	cursor: pointer;
-}
-
-form.field-options {
-	display: grid;
-	gap: 1rem;
-}

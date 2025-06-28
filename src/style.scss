@@ -1,0 +1,50 @@
+.form-preview {
+	max-width: 750px;
+}
+
+.form-preview-field {
+	position: relative;
+
+	&__preview {
+		max-width: 750px;
+		width: 100%;
+	}
+
+	&__options {
+		width: 350px;
+		position: absolute;
+		top: -20px;
+		right: -370px;
+
+		form {
+			label {
+				display: block;
+			}
+
+			input[type="text"],
+			input[type="number"],
+			select {
+				width: 100%;
+				padding: 0.5rem;
+				border: 1px solid #ccc;
+				border-radius: 4px;
+			}
+
+			input[type="number"] {
+				width: 80px;
+			}
+
+			select,
+			label:has(input[type="radio"]),
+			label:has(input[type="checkbox"]) {
+				cursor: pointer;
+			}
+		}
+	}
+}
+
+button#add-new-field {
+	max-width: 750px;
+	width: 100%;
+	margin-right: 350px;
+}

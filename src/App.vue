@@ -3,23 +3,20 @@
 		<Header />
 		<main class="flex grow">
 			<FormInfo v-if="currentForm" :formName="currentForm.name" :savedForms="forms" />
-			<div class="form-builder bg-white shadow-md w-full px-6">
+			<div class="bg-white shadow-md w-full px-6">
 				<PreviewOptions />
-				<div class="form-preview max-w-3xl mb-16">
-					<div class="TEMP-WRAPPER grid grid-cols-2 items-start gap-10 mb-4">
-						<pre>{{ currentForm }}</pre>
-						<div class="form-builder-preview grid gap-4 relative">
-							<div v-for="(field, index) in currentForm.fields" :key="index">
-								<component
-									:is="componentMap[field.component]"
-									v-bind="field.props"
-								/>
-							</div>
+				<div class="form-preview">
+					<!-- <pre>{{ currentForm }}</pre> -->
+					<div class="form-preview__fields grid gap-4 relative">
+						<div v-for="(field, index) in currentForm.fields" :key="index">
+							<component :is="componentMap[field.component]" v-bind="field.props" />
 						</div>
 					</div>
 					<AddNewFieldButton />
 				</div>
+				<div class="email-preview hidden">Email preview</div>
 			</div>
+			<div class="min-w-[350px]">Styles panel</div>
 		</main>
 	</div>
 	<FormFieldsModal />
