@@ -1,6 +1,6 @@
 <template>
 	<div>
-		<form class="field-options border border-slate-300 shadow-md rounded p-4">
+		<FieldOptionsFormWrapper :id="props.id">
 			<TextInput
 				:id="`label-${props.id}`"
 				label="Label"
@@ -43,9 +43,7 @@
 				:inputFunction="(value) => updateProps('maxlength', value)"
 				description="Maximum number of characters allowed"
 			/>
-
-			<DeleteFieldButton :id="props.id" />
-		</form>
+		</FieldOptionsFormWrapper>
 	</div>
 </template>
 
@@ -54,6 +52,7 @@ import DeleteFieldButton from "@/components/DeleteFieldButton.vue";
 import TextInput from "@/components/propFormFields/TextInput.vue";
 import Boolean from "@/components/propFormFields/Boolean.vue";
 import NumberInput from "@/components/propFormFields/NumberInput.vue";
+import FieldOptionsFormWrapper from "@/components/FieldOptionsFormWrapper.vue";
 import { inject } from "vue";
 
 interface Props {

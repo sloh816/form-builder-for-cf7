@@ -1,18 +1,23 @@
 <template>
 	<p class="font-bold text-2xl mt-4">{{ props.title }}</p>
-
-	<form class="text-input-options border border-slate-300 shadow-md rounded p-4">
-		<label :for="`label-${props.id}`" class="font-semibold">Label </label>
-		<select @change="updateHeadingLevel($event.target.value)">
-			<option value="1" :selected="props.headingLevel === 1">Heading 1</option>
-			<option value="2" :selected="props.headingLevel === 2">Heading 2</option>
-			<option value="3" :selected="props.headingLevel === 3">Heading 3</option>
-		</select>
-	</form>
+	<FieldOptionsFormWrapper :id="props.id">
+		<SelectOptions
+			:id="`heading-level-${props.id}`"
+			label="Heading Level"
+			:options="[
+				{ label: 'H1', value: '1', isSelected: props.headingLevel === 1 },
+				{ label: 'H2', value: '2', isSelected: props.headingLevel === 2 },
+				{ label: 'H3', value: '3', isSelected: props.headingLevel === 3 }
+			]"
+			:changeFunction="(value) => updateHeadingLevel(value)"
+		/>
+	</FieldOptionsFormWrapper>
 </template>
 
 <script setup lang="ts">
 import { inject } from "vue";
+import FieldOptionsFormWrapper from "@/components/FieldOptionsFormWrapper.vue";
+import SelectOptions from "@/components/propFormFields/SelectOptions.vue";
 
 interface Props {
 	title: string;
