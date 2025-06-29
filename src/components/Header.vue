@@ -9,7 +9,7 @@
 		<div class="flex items-center gap-4">
 			<button
 				type="button"
-				class="text-indigo-700 px-4 py-2 rounded cursor-pointer"
+				class="text-indigo-700 px-4 py-2 rounded cursor-pointer hover:bg-indigo-100"
 				@click="saveForm"
 			>
 				Save form

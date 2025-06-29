@@ -8,12 +8,17 @@
 					<PreviewOptions />
 					<div class="flex items-center gap-2 mt-2">
 						<button
-							class="px-4 py-2 hover:bg-slate-100 cursor-pointer"
+							class="bg-slate-200 p-3 rounded-full cursor-pointer fill-slate-800 hover:bg-slate-300"
 							@click="duplicateForm"
 						>
-							Duplicate
+							<Duplicate class="w-5 h-5" />
 						</button>
-						<button class="px-4 py-2 hover:bg-slate-100 cursor-pointer">Delete</button>
+						<button
+							class="bg-red-200 p-3 rounded-full cursor-pointer fill-red-800 hover:bg-red-600 hover:fill-white"
+							@click="deleteForm"
+						>
+							<Bin class="w-5 h-5" />
+						</button>
 					</div>
 				</div>
 				<div class="form-preview mb-16">
@@ -40,6 +45,8 @@ import PreviewOptions from "./components/PreviewOptions.vue";
 import FormFieldsModal from "@/components/FormFieldsModal.vue";
 import AddNewFieldButton from "@/components/AddNewFieldButton.vue";
 import Cross from "@/assets/cross.svg";
+import Bin from "@/assets/bin.svg";
+import Duplicate from "@/assets/duplicate.svg";
 
 // form builder components
 import FormTitle from "@/components/formbuilder/FormTitle.vue";
@@ -162,6 +169,46 @@ function duplicateForm() {
 
 		currentFormIsSaved.value = false; // Mark the form as unsaved
 		console.log("Form duplicated!");
+	}
+}
+
+function deleteForm() {
+	if (currentForm.value) {
+		// Get the previous form if it exists
+		const indexOfCurrent = forms.value.findIndex((form) => form.id === currentForm.value.id);
+
+		let previousForm = null;
+
+		if (indexOfCurrent > 0) {
+			previousForm = forms.value[indexOfCurrent - 1];
+		} else if (indexOfCurrent === 0 && forms.value.length > 1) {
+			previousForm = forms.value[1]; // If the first form is deleted, set the second form as previous
+		} else if (indexOfCurrent === 0 && forms.value.length === 1) {
+			previousForm = null; // If it's the only form, there is no previous form
+		}
+
+		// Remove the current form from the forms array
+		forms.value = forms.value.filter((form) => form.id !== currentForm.value.id);
+
+		if (previousForm) {
+			currentForm.value = previousForm; // Set the current form to the previous form
+		} else {
+			// If no previous form exists, create a new form with default values
+			const formNumber = forms.value.length + 1;
+			currentForm.value = {
+				id: crypto.randomUUID(),
+				name: "Untitled Form " + formNumber,
+				fields: []
+			};
+		}
+
+		// Update the URL to remove the form ID
+		const url = new URL(window.location.href);
+		url.searchParams.delete("id");
+		window.history.pushState({}, "", url.toString());
+
+		saveForm();
+		console.log("Form deleted!");
 	}
 }
 
