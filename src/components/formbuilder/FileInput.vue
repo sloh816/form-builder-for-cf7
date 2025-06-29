@@ -102,8 +102,9 @@ const fileTypesMap = [
 ];
 
 function getFileSizeLimit() {
-	if (props.fileSizeLimit > 1024) {
-		return `${(props.fileSizeLimit / 1024).toFixed(2).replace(".00", "")}MB`;
+	// if KB is greater than 1000, conver to MB
+	if (props.fileSizeLimit >= 1000) {
+		return `${(props.fileSizeLimit / 1000).toFixed(2).replace(".00", "")}MB`;
 	}
 	return `${props.fileSizeLimit}KB`;
 }

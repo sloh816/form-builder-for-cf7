@@ -56,13 +56,6 @@
 					:changeFunction="(value) => updateProps('required', value)"
 					label="Required"
 				/>
-
-				<TextInput
-					:id="`id-${props.id}`"
-					label="Field ID"
-					:value="props.id"
-					:inputFunction="(value) => updateProps('id', value)"
-				/>
 			</FieldOptionsFormWrapper>
 		</template>
 	</FormPreviewField>

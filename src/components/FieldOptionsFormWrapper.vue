@@ -6,8 +6,14 @@
 		<button type="button" class="close-field-options" @click="(e) => closeFieldOptions(e)">
 			<Cross />
 		</button>
-		<p class="text-sm text-slate-600 mb-2">
-			Input type: <strong>{{ props.fieldType }}</strong>
+		<p class="text-sm text-slate-600 mb-2 flex items-center gap-4">
+			<span
+				>Input type: <strong>{{ props.fieldType }}</strong></span
+			>
+			<span>
+				Field ID:
+				<strong>{{ props.id }}</strong>
+			</span>
 		</p>
 
 		<slot />

@@ -5,7 +5,7 @@
 		</template>
 
 		<template #options>
-			<FieldOptionsFormWrapper :id="props.id" fieldType="">
+			<FieldOptionsFormWrapper :id="props.id" fieldType="Text block">
 				<TextArea
 					:id="`text-${props.id}`"
 					label="Text"
