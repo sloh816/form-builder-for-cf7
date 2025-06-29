@@ -37,6 +37,7 @@ import TextArea from "@/components/formbuilder/TextArea.vue";
 import Heading from "@/components/formbuilder/Heading.vue";
 import RadioButtons from "@/components/formbuilder/RadioButtons.vue";
 import FileInput from "@/components/formbuilder/FileInput.vue";
+import SubmitButton from "@/components/formbuilder/SubmitButton.vue";
 
 import type { Component } from "vue";
 import { ref, markRaw, provide, onMounted, inject } from "vue";
@@ -58,7 +59,8 @@ const componentMap = {
 	TextArea: markRaw(TextArea),
 	Heading: markRaw(Heading),
 	RadioButtons: markRaw(RadioButtons),
-	FileInput: markRaw(FileInput)
+	FileInput: markRaw(FileInput),
+	SubmitButton: markRaw(SubmitButton)
 };
 
 const forms = ref<Form[]>([]);

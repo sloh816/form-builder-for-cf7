@@ -82,7 +82,10 @@ const options = [
 		label: "Submit button",
 		description: "A button to submit the form",
 		icon: SubmitButton,
-		component: "SubmitButton"
+		component: "SubmitButton",
+		defaultProps: {
+			label: "Submit"
+		}
 	},
 	{
 		label: "Dropdown select",
