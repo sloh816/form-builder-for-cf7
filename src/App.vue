@@ -4,7 +4,18 @@
 		<main class="flex grow mt-16">
 			<FormInfo v-if="currentForm" :formName="currentForm.name" :savedForms="forms" />
 			<div class="bg-white shadow-md w-full px-6">
-				<PreviewOptions />
+				<div class="flex items-start justify-between">
+					<PreviewOptions />
+					<div class="flex items-center gap-2 mt-2">
+						<button
+							class="px-4 py-2 hover:bg-slate-100 cursor-pointer"
+							@click="duplicateForm"
+						>
+							Duplicate
+						</button>
+						<button class="px-4 py-2 hover:bg-slate-100 cursor-pointer">Delete</button>
+					</div>
+				</div>
 				<div class="form-preview mb-16">
 					<!-- <pre>{{ currentForm }}</pre> -->
 					<div class="form-preview__fields grid gap-4 relative">
@@ -129,6 +140,31 @@ function saveForm() {
 	currentFormIsSaved.value = true; // Mark the form as saved
 }
 
+function duplicateForm() {
+	if (currentForm.value) {
+		// Create a new form with the same fields as the current form
+		const newForm: Form = {
+			id: crypto.randomUUID(),
+			name: currentForm.value.name + " (Copy)",
+			fields: JSON.parse(JSON.stringify(currentForm.value.fields)) // Deep copy the fields
+		};
+
+		// Add the new form to the forms array
+		forms.value.push(newForm);
+		currentForm.value = newForm; // Set the current form to the new form
+
+		// Update any FormTitle components
+		currentForm.value.fields.forEach((field) => {
+			if (field.component === "FormTitle") {
+				field.props.title = newForm.name; // Update the title to match the new form name
+			}
+		});
+
+		currentFormIsSaved.value = false; // Mark the form as unsaved
+		console.log("Form duplicated!");
+	}
+}
+
 provide("addFormField", (field: FormField) => {
 	if (currentForm.value) {
 		if (field.component === "FormTitle") {
@@ -174,9 +210,7 @@ provide("saveForm", () => {
 
 provide("createNewForm", () => {
 	if (currentForm.value) {
-		// call saveForm from inject function
-		const saveForm = inject("saveForm") as () => void;
-		if (saveForm) saveForm();
+		saveForm(); // Save the current form before creating a new one
 	}
 
 	// Create a new form with default values
