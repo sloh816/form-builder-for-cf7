@@ -1,7 +1,7 @@
 <template>
 	<div class="flex flex-col min-h-screen">
 		<Header />
-		<main class="flex grow">
+		<main class="flex grow mt-16">
 			<FormInfo v-if="currentForm" :formName="currentForm.name" :savedForms="forms" />
 			<div class="bg-white shadow-md w-full px-6">
 				<PreviewOptions />
@@ -36,6 +36,7 @@ import TextInput from "@/components/formbuilder/TextInput.vue";
 import TextArea from "@/components/formbuilder/TextArea.vue";
 import Heading from "@/components/formbuilder/Heading.vue";
 import RadioButtons from "@/components/formbuilder/RadioButtons.vue";
+import FileInput from "@/components/formbuilder/FileInput.vue";
 
 import type { Component } from "vue";
 import { ref, markRaw, provide, onMounted, inject } from "vue";
@@ -56,7 +57,8 @@ const componentMap = {
 	TextInput: markRaw(TextInput),
 	TextArea: markRaw(TextArea),
 	Heading: markRaw(Heading),
-	RadioButtons: markRaw(RadioButtons)
+	RadioButtons: markRaw(RadioButtons),
+	FileInput: markRaw(FileInput)
 };
 
 const forms = ref<Form[]>([]);
@@ -80,10 +82,10 @@ onMounted(() => {
 		if (foundForm) {
 			currentForm.value = foundForm;
 		} else {
-			// create a new form with the provided name
+			// create a new form with the provided id
 			currentForm.value = {
-				id: crypto.randomUUID(),
-				name: formName,
+				id: formId,
+				name: "Untitled Form",
 				fields: []
 			};
 			forms.value.push(currentForm.value);
@@ -191,6 +193,22 @@ provide("deleteField", (id: string) => {
 		currentForm.value.fields = currentForm.value.fields.filter(
 			(field) => field.props.id !== id
 		);
+	}
+});
+
+provide("moveField", (id: string, direction: "up" | "down") => {
+	if (currentForm.value) {
+		const fields = currentForm.value.fields;
+		const index = fields.findIndex((field) => field.props.id === id);
+		if (index === -1) return; // Field not found
+
+		if (direction === "up" && index > 0) {
+			// Swap with the previous field
+			[fields[index], fields[index - 1]] = [fields[index - 1], fields[index]];
+		} else if (direction === "down" && index < fields.length - 1) {
+			// Swap with the next field
+			[fields[index], fields[index + 1]] = [fields[index + 1], fields[index]];
+		}
 	}
 });
 </script>

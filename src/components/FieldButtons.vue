@@ -94,7 +94,13 @@ const options = [
 		label: "File input",
 		description: "Upload a file",
 		icon: Upload,
-		component: "FileInput"
+		component: "FileInput",
+		defaultProps: {
+			label: "Upload a file",
+			fileTypes: ["*"],
+			fileSizeLimit: 2048, // in KB
+			required: false
+		}
 	},
 	{
 		label: "Date picker",
