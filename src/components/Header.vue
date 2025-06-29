@@ -16,7 +16,11 @@
 				<span v-if="props.isSaved" class="text-green-600 font-bold">✓</span>
 				<span v-if="!props.isSaved" class="text-red-700">*</span>
 			</button>
-			<button type="button" class="bg-indigo-700 text-white font-bold px-4 py-2 rounded">
+			<button
+				type="button"
+				class="bg-indigo-700 text-white font-bold px-4 py-2 rounded cursor-pointer hover:bg-indigo-800"
+				@click="showCodeModal"
+			>
 				Generate code
 			</button>
 		</div>
@@ -32,4 +36,5 @@ interface Props {
 const props = defineProps<Props>();
 
 const saveForm = inject<Function>("saveForm");
+const showCodeModal = inject<Function>("showCodeModal");
 </script>
