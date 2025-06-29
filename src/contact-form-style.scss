@@ -13,6 +13,16 @@
 	color: #555;
 }
 
+.indiga-checkboxes-group .indiga-label,
+.indiga-radio-buttons-group .indiga-label {
+	margin-bottom: 16px;
+}
+
+.indiga-checkboxes-group .wpcf7-form-control-wrap,
+.indiga-radio-buttons-group .wpcf7-form-control-wrap {
+	margin-left: 8px;
+}
+
 .wpcf7-form-control-wrap {
 	display: block;
 }
@@ -24,7 +34,8 @@
 	padding: 8px;
 }
 
-.wpcf7-radio {
+.wpcf7-radio,
+.wpcf7-checkbox {
 	border: none;
 	padding: 0;
 	display: flex;
@@ -43,7 +54,8 @@
 	cursor: pointer;
 }
 
-.wpcf7-list-item input[type="radio"] {
+.wpcf7-list-item input[type="radio"],
+.wpcf7-list-item input[type="checkbox"] {
 	width: 24px;
 	height: 24px;
 }

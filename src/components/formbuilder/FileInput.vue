@@ -2,7 +2,9 @@
 	<FormPreviewField>
 		<template #preview>
 			<label>
-				<span class="indiga-label">{{ props.label }}</span>
+				<span class="indiga-label"
+					>{{ props.label }}<span v-if="props.required">*</span></span
+				>
 				<div class="indiga-note-wrapper">
 					<span class="indiga-note">Maximum file size: {{ getFileSizeLimit() }}</span>
 					<span class="indiga-note"

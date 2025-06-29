@@ -59,7 +59,12 @@ const options = [
 		label: "Checkboxes",
 		description: "Select more than one option",
 		icon: Checkbox,
-		component: "Checkboxes"
+		component: "Checkboxes",
+		defaultProps: {
+			label: "Select options",
+			options: ["Option 1", "Option 2", "Option 3"],
+			required: false
+		}
 	},
 	{
 		label: "Radio buttons",
@@ -134,7 +139,10 @@ const options = [
 		label: "Text block",
 		description: "Write some text",
 		icon: TextAlign,
-		component: "TextBlock"
+		component: "TextBlock",
+		defaultProps: {
+			text: "This is a text block. You can write anything here..."
+		}
 	}
 ];
 </script>

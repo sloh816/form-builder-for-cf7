@@ -1,11 +1,11 @@
 <template>
 	<FormPreviewField>
 		<template #preview>
-			<div class="indiga-radio-buttons-group">
+			<div class="indiga-checkboxes-group">
 				<p class="indiga-label">{{ props.label }}<span v-if="props.required">*</span></p>
 				<p>
-					<span class="wpcf7-form-control-wrap" data-name="radio-844">
-						<span class="wpcf7-form-control wpcf7-radio">
+					<span class="wpcf7-form-control-wrap" :data-name="props.id">
+						<span class="wpcf7-form-control wpcf7-checkbox">
 							<span
 								v-for="(option, index) in props.options"
 								:class="[
@@ -14,10 +14,12 @@
 								]"
 							>
 								<label>
-									<input type="radio" :name="props.id" :value="option" /><span
-										class="wpcf7-list-item-label"
-										>{{ option }}</span
-									>
+									<input
+										type="checkbox"
+										:name="`${props.id}[]`"
+										:value="option"
+									/>
+									<span class="wpcf7-list-item-label">{{ option }}</span>
 								</label>
 							</span>
 						</span>
@@ -27,12 +29,12 @@
 		</template>
 
 		<template #options>
-			<FieldOptionsFormWrapper :id="props.id" fieldType="Radio buttons">
+			<FieldOptionsFormWrapper :id="props.id" fieldType="Checkboxes">
 				<TextInput
 					:id="`label-${props.id}`"
 					label="Label"
 					:value="props.label"
-					:inputFunction="(value) => updateLabel(value)"
+					:inputFunction="(value) => updateProps('label', value)"
 				/>
 
 				<TextArea
@@ -45,16 +47,9 @@
 
 				<Boolean
 					:id="`required-${props.id}`"
-					:isChecked="props.required ?? false"
-					:changeFunction="(value) => updateRequired(value)"
+					:isChecked="props.required"
+					:changeFunction="(value) => updateProps('required', value)"
 					label="Required"
-				/>
-
-				<TextInput
-					:id="`id-${props.id}`"
-					label="Field ID"
-					:value="props.id"
-					:inputFunction="(value) => updateProps('id', value)"
 				/>
 			</FieldOptionsFormWrapper>
 		</template>
@@ -67,37 +62,30 @@ import FieldOptionsFormWrapper from "@/components/FieldOptionsFormWrapper.vue";
 import FormPreviewField from "@/components/FormPreviewField.vue";
 
 import TextInput from "@/components/propFormFields/TextInput.vue";
-import TextArea from "@/components/propFormFields/TextArea.vue";
 import Boolean from "@/components/propFormFields/Boolean.vue";
+import TextArea from "@/components/propFormFields/TextArea.vue";
 
 interface Props {
 	id: string;
-	options?: String[];
 	label?: string;
 	required?: True | false;
+	options: String[];
 }
 
 const props = defineProps<Props>();
 
 const updateFormField = inject<Function>("updateFormField");
-
-function updateLabel(value: string) {
-	const newProps = { ...props, label: value };
+function updateProps(propKey: string, value: any) {
+	const newProps = { ...props, [propKey]: value };
 	updateFormField(props.id, newProps);
 }
 
 function updateOptions(value: string) {
-	const optionsArray = value.split("\n");
-	updateFormField(props.id, {
-		...props,
-		options: optionsArray
-	});
-}
-
-function updateRequired(value: boolean) {
-	updateFormField(props.id, {
-		...props,
-		required: value
-	});
+	const optionsArray = value
+		.split("\n")
+		.map((option) => option.trim())
+		.filter((option) => option);
+	const newProps = { ...props, options: optionsArray };
+	updateFormField(props.id, newProps);
 }
 </script>

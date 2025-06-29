@@ -38,6 +38,8 @@ import Heading from "@/components/formbuilder/Heading.vue";
 import RadioButtons from "@/components/formbuilder/RadioButtons.vue";
 import FileInput from "@/components/formbuilder/FileInput.vue";
 import SubmitButton from "@/components/formbuilder/SubmitButton.vue";
+import TextBlock from "@/components/formbuilder/TextBlock.vue";
+import Checkboxes from "@/components/formbuilder/Checkboxes.vue";
 
 import type { Component } from "vue";
 import { ref, markRaw, provide, onMounted, inject } from "vue";
@@ -60,7 +62,9 @@ const componentMap = {
 	Heading: markRaw(Heading),
 	RadioButtons: markRaw(RadioButtons),
 	FileInput: markRaw(FileInput),
-	SubmitButton: markRaw(SubmitButton)
+	SubmitButton: markRaw(SubmitButton),
+	TextBlock: markRaw(TextBlock),
+	Checkboxes: markRaw(Checkboxes)
 };
 
 const forms = ref<Form[]>([]);
