@@ -1,6 +1,6 @@
 <template>
 	<div class="flex flex-col min-h-screen">
-		<Header />
+		<Header :isSaved="currentFormIsSaved" />
 		<main class="flex grow mt-16">
 			<FormInfo v-if="currentForm" :formName="currentForm.name" :savedForms="forms" />
 			<div class="bg-white shadow-md w-full px-6">
@@ -63,6 +63,7 @@ const componentMap = {
 
 const forms = ref<Form[]>([]);
 const currentForm = ref<Form>({});
+const currentFormIsSaved = ref(false);
 
 onMounted(() => {
 	// Load saved forms from localStorage
@@ -119,6 +120,7 @@ function saveForm() {
 	const formsData = JSON.stringify(forms.value);
 	localStorage.setItem("indigaForms", formsData);
 	console.log("Form saved!");
+	currentFormIsSaved.value = true; // Mark the form as saved
 }
 
 provide("addFormField", (field: FormField) => {
@@ -140,6 +142,7 @@ provide("addFormField", (field: FormField) => {
 			}
 		}, 300);
 	}
+	currentFormIsSaved.value = false; // Mark the form as unsaved
 });
 
 provide("updateFormName", (newName: string) => {
@@ -156,6 +159,7 @@ provide("updateFormName", (newName: string) => {
 
 	// Update the query string in the URL
 	const url = new URL(window.location.href);
+	currentFormIsSaved.value = false; // Mark the form as unsaved
 });
 
 provide("saveForm", () => {
@@ -177,6 +181,7 @@ provide("createNewForm", () => {
 		fields: []
 	};
 	forms.value.push(currentForm.value);
+	currentFormIsSaved.value = false; // Mark the form as unsaved
 });
 
 provide("updateFormField", (id: string, newProps: Record<string, any>) => {
@@ -185,6 +190,7 @@ provide("updateFormField", (id: string, newProps: Record<string, any>) => {
 		if (field) {
 			field.props = newProps;
 		}
+		currentFormIsSaved.value = false; // Mark the form as unsaved
 	}
 });
 
@@ -194,6 +200,7 @@ provide("deleteField", (id: string) => {
 			(field) => field.props.id !== id
 		);
 	}
+	currentFormIsSaved.value = false; // Mark the form as unsaved
 });
 
 provide("moveField", (id: string, direction: "up" | "down") => {
@@ -210,5 +217,6 @@ provide("moveField", (id: string, direction: "up" | "down") => {
 			[fields[index], fields[index + 1]] = [fields[index + 1], fields[index]];
 		}
 	}
+	currentFormIsSaved.value = false; // Mark the form as unsaved
 });
 </script>

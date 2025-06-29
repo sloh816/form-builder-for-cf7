@@ -13,6 +13,8 @@
 				@click="saveForm"
 			>
 				Save form
+				<span v-if="props.isSaved" class="text-green-600 font-bold">✓</span>
+				<span v-if="!props.isSaved" class="text-red-700">*</span>
 			</button>
 			<button type="button" class="bg-indigo-700 text-white font-bold px-4 py-2 rounded">
 				Generate code
@@ -23,6 +25,11 @@
 
 <script setup lang="ts">
 import { inject } from "vue";
+
+interface Props {
+	isSaved?: boolean;
+}
+const props = defineProps<Props>();
 
 const saveForm = inject<Function>("saveForm");
 </script>
