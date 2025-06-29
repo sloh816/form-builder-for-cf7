@@ -1,8 +1,11 @@
 <template>
 	<form
-		class="bg-white grid justify-items-start gap-4 p-4 shadow-md rounded-lg border border-indigo-700 mb-8"
+		class="bg-white grid justify-items-start gap-4 p-4 shadow-md rounded-lg border border-indigo-700 mb-8 relative"
 		:data-field-id="props.id"
 	>
+		<button type="button" class="close-field-options" @click="(e) => closeFieldOptions(e)">
+			<Cross />
+		</button>
 		<p class="text-sm text-slate-600 mb-2">
 			Input type: <strong>{{ props.fieldType }}</strong>
 		</p>
@@ -21,6 +24,7 @@
 <script setup lang="ts">
 import DeleteFieldButton from "@/components/DeleteFieldButton.vue";
 import MoveButton from "@/components/MoveButton.vue";
+import Cross from "@/assets/cross.svg";
 
 interface Props {
 	id: string;
@@ -28,6 +32,27 @@ interface Props {
 }
 
 const props = defineProps<Props>();
+
+function closeFieldOptions(event: Event) {
+	const target = event.target as HTMLElement;
+	const fieldOptions = target.closest(".form-preview-field__options");
+	fieldOptions?.classList.add("hidden");
+}
 </script>
 
-<style scoped></style>
+<style scoped>
+.close-field-options {
+	position: absolute;
+	top: 16px;
+	right: 16px;
+	background-color: transparent;
+	border: none;
+	cursor: pointer;
+}
+
+.close-field-options svg {
+	width: 12px;
+	height: 12px;
+	fill: grey;
+}
+</style>
