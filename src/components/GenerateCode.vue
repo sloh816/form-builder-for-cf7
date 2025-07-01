@@ -180,9 +180,11 @@ function generateFormCode(form: Form): string {
                         .join(", ");
                 };
 
+                const note = `<div class="indiga-note-wrapper"><span class="indiga-note">Maximum file size: ${getFileSizeLimit()}</span><span class="indiga-note">Acceptable file types: ${getAcceptableFileTypes()}</span>`;
+
                 const templateCode = `[file ${field.props.id} filetypes:${field.props.fileTypes.join("|")} limit:${getFileSizeLimit()}]`;
 
-                return `<div class="indiga-field indiga-file-upload"><label><span class="indiga-label">${field.props.label}${required}</span><div class="indiga-note-wrapper"><span class="indiga-note">Maximum file size: ${getFileSizeLimit()}</span><span class="indiga-note">Acceptable file types: ${getAcceptableFileTypes()}</span></div>${templateCode}</label></div>`;
+                return `<div class="indiga-field indiga-file-upload"><label><span class="indiga-label">${field.props.label}${required}</span>${note}</div>${templateCode}</label></div>`;
             }
 
             if (field.component === "SubmitButton") {
@@ -196,6 +198,20 @@ function generateFormCode(form: Form): string {
                 const toggleButton = `<div class="indiga-toggle-switch-button-wrapper" data-checked="${field.props.default ? "true" : "false"}" style="display: none;"><button class="indiga-toggle-switch-button" aria-label="Toggle currently: ${field.props.default ? field.props.onLabel : field.props.offLabel}. Click to toggle ${!field.props.default ? field.props.onLabel : field.props.offLabel}" type="button"><span class="indiga-toggle-switch-button-inner"></span></button><span class="indiga-toggle-button-label">${field.props.default ? field.props.onLabel : field.props.offLabel}</span></div>`;
 
                 return `<div class="indiga-toggle-switch"><p class="indiga-label">${field.props.label}${required}</p>${radioButtons}${toggleButton}</div>`;
+            }
+
+            if (field.component === "DatePicker") {
+                const required = field.props.required ? "*" : "";
+                const minDate = field.props.minDate ? ` min:${field.props.minDate}` : "";
+                const maxDate = field.props.maxDate ? ` max:${field.props.maxDate}` : "";
+                const templateCode = `[date ${field.props.id}${minDate}${maxDate}]`;
+
+                const minDateNote = field.props.minDate ? `<span class="indiga-note">Minimum date: ${field.props.minDate}</span>` : "";
+                const maxDateNote = field.props.maxDate ? `<span class="indiga-note">Maximum date: ${field.props.maxDate}</span>` : "";
+
+                const note = `<div class="indiga-note-wrapper">${minDateNote}${maxDateNote}</div>`;
+
+                return `<div class="indiga-field"><label data-field-id="${field.props.id}"><span class="indiga-label">${field.props.label}${required}</span>${minDateNote || maxDateNote ? note : ""}${templateCode}</label></div>`;
             }
         });
 

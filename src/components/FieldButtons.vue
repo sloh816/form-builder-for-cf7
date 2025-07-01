@@ -121,6 +121,12 @@ const options = [
         description: "Input a date",
         icon: DatePicker,
         component: "DatePicker",
+        defaultProps: {
+            label: "Select a date",
+            minDate: "",
+            maxDate: "",
+            required: false,
+        },
     },
     {
         label: "Form title",

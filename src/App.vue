@@ -55,6 +55,7 @@ import TextBlock from "@/components/formbuilder/TextBlock.vue";
 import Checkboxes from "@/components/formbuilder/Checkboxes.vue";
 import Toggle from "./components/formbuilder/Toggle.vue";
 import DropdownSelect from "./components/formbuilder/DropdownSelect.vue";
+import DatePicker from "./components/formbuilder/DatePicker.vue";
 
 import { ref, markRaw, provide, onMounted } from "vue";
 
@@ -81,6 +82,7 @@ const componentMap = {
     Checkboxes: markRaw(Checkboxes),
     Toggle: markRaw(Toggle),
     DropdownSelect: markRaw(DropdownSelect),
+    DatePicker: markRaw(DatePicker),
 };
 
 const forms = ref<Form[]>([]);
