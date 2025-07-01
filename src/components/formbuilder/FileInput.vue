@@ -1,16 +1,18 @@
 <template>
     <FormPreviewField>
         <template #preview>
-            <label>
-                <span class="indiga-label">{{ props.label }}<span v-if="props.required">*</span></span>
-                <div class="indiga-note-wrapper">
-                    <span class="indiga-note">Maximum file size: {{ getFileSizeLimit() }}</span>
-                    <span class="indiga-note">Acceptable file types: {{ getAcceptableFileTypes() }}</span>
-                </div>
-                <span class="wpcf7-form-control-wrap" data-name="file-936">
-                    <input type="file" size="40" class="wpcf7-form-control wpcf7-file" accept="audio/*,video/*,image/*" aria-invalid="false" name="file-936" disabled />
-                </span>
-            </label>
+            <div class="indiga-file-upload indiga-field">
+                <label>
+                    <span class="indiga-label">{{ props.label }}<span v-if="props.required">*</span></span>
+                    <div class="indiga-note-wrapper">
+                        <span class="indiga-note">Maximum file size: {{ getFileSizeLimit() }}</span>
+                        <span class="indiga-note">Acceptable file types: {{ getAcceptableFileTypes() }}</span>
+                    </div>
+                    <span class="wpcf7-form-control-wrap" data-name="file-936">
+                        <input type="file" size="40" class="wpcf7-form-control wpcf7-file" accept="audio/*,video/*,image/*" aria-invalid="false" name="file-936" disabled />
+                    </span>
+                </label>
+            </div>
         </template>
 
         <template #options>
