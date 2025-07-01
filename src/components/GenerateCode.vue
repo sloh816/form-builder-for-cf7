@@ -25,6 +25,14 @@
                 <p class="font-bold w-32">File attachments</p>
                 <textarea class="border w-full h-32 rounded-lg p-2 font-mono text-sm">{{ fileAttachments }}</textarea>
             </div>
+
+            <h2 class="font-bold text-xl text-indigo-700 mt-16">Step 3: CSS</h2>
+            <p class="text-sm text-slate-500 mb-4">Add the following CSS to your website.</p>
+            <textarea class="border w-full h-64 rounded-lg p-2 font-mono text-sm"></textarea>
+
+            <h2 class="font-bold text-xl text-indigo-700 mt-8">Step 4: JavaScript</h2>
+            <p class="text-sm text-slate-500 mb-4">If your form includes a toggle button, it will need JavaScript to function properly. Add the following JavaScript to your website.</p>
+            <textarea class="border w-full h-64 rounded-lg p-2 font-mono text-sm"></textarea>
         </div>
     </div>
 </template>
@@ -57,15 +65,15 @@ function generateFormCode(form: Form): string {
     if (form) {
         const formCodeArray = form.fields.map((field) => {
             if (field.component === "FormTitle") {
-                return `<h${field.props.headingLevel} class="indiga-form-title">${field.props.title}</h${field.props.headingLevel}>`;
+                return `<h${field.props.headingLevel} class="indiga-field indiga-form-title">${field.props.title}</h${field.props.headingLevel}>`;
             }
 
             if (field.component === "TextBlock") {
-                return `<p class="indiga-text-block">${field.props.text.replace(/\n/g, "<br>")}</p>`;
+                return `<p class="indiga-field indiga-text-block">${field.props.text.replace(/\n/g, "<br>")}</p>`;
             }
 
             if (field.component === "Heading") {
-                return `<h${field.props.headingLevel} class="indiga-heading">${field.props.heading}</h${field.props.headingLevel}>`;
+                return `<h${field.props.headingLevel} class="indiga-field indiga-heading">${field.props.heading}</h${field.props.headingLevel}>`;
             }
 
             if (field.component === "TextInput") {
@@ -86,14 +94,14 @@ function generateFormCode(form: Form): string {
 
                 const templateCode = `[${type}${required} ${field.props.id}${autocomplete}]`;
 
-                return `<label data-field-id="${field.props.id}"><span class="indiga-label">${field.props.label}${required}</span>${templateCode}</label>`;
+                return `<div class="indiga-field"><label data-field-id="${field.props.id}"><span class="indiga-label">${field.props.label}${required}</span>${templateCode}</label></div>`;
             }
 
             if (field.component === "TextArea") {
                 const required = field.props.required ? "*" : "";
                 const templateCode = `[textarea${required} ${field.props.id}]`;
 
-                return `<label data-field-id="${field.props.id}"><span class="indiga-label">${field.props.label}${required}</span>${templateCode}</label>`;
+                return `<div class="indiga-field"><label data-field-id="${field.props.id}"><span class="indiga-label">${field.props.label}${required}</span>${templateCode}</label></div>`;
             }
 
             if (field.component === "RadioButtons") {
@@ -102,7 +110,7 @@ function generateFormCode(form: Form): string {
                 const options = field.props.options.map((option) => `"${option}"`).join(" ");
                 const templateCode = `[radio ${field.props.id} use_label_element ${options}]`;
 
-                return `<div class="indiga-radio-buttons-group"><p class="indiga-label">${field.props.label}${required}</p>${templateCode}</div>`;
+                return `<div class="indiga-field indiga-radio-buttons-group"><p class="indiga-label">${field.props.label}${required}</p>${templateCode}</div>`;
             }
 
             if (field.component === "Checkboxes") {
@@ -111,7 +119,7 @@ function generateFormCode(form: Form): string {
                 const options = field.props.options.map((option) => `"${option}"`).join(" ");
                 const templateCode = `[checkbox ${field.props.id} use_label_element ${options}]`;
 
-                return `<div class="indiga-checkboxes-group"><p class="indiga-label">${field.props.label}${required}</p>${templateCode}</div>`;
+                return `<div class="indiga-field indiga-checkboxes-group"><p class="indiga-label">${field.props.label}${required}</p>${templateCode}</div>`;
             }
 
             if (field.component === "FileInput") {
@@ -154,7 +162,20 @@ function generateFormCode(form: Form): string {
 
                 const templateCode = `[file ${field.props.id} filetypes:${field.props.fileTypes.join("|")} limit:${getFileSizeLimit()}]`;
 
-                return `<label><span class="indiga-label">${field.props.label}${required}</span><div class="indiga-note-wrapper"><span class="indiga-note">Maximum file size: ${getFileSizeLimit()}</span><span class="indiga-note">Acceptable file types: ${getAcceptableFileTypes()}</span></div>${templateCode}</label>`;
+                return `<div class="indiga-field indiga-file-upload"><label><span class="indiga-label">${field.props.label}${required}</span><div class="indiga-note-wrapper"><span class="indiga-note">Maximum file size: ${getFileSizeLimit()}</span><span class="indiga-note">Acceptable file types: ${getAcceptableFileTypes()}</span></div>${templateCode}</label></div>`;
+            }
+
+            if (field.component === "SubmitButton") {
+                return `<div class="indiga-field">[submit "${field.props.label}"]</div>`;
+            }
+
+            if (field.component === "Toggle") {
+                const required = field.props.required ? "*" : "";
+                const radioButtons = `[radio ${field.props.id} use_label_element "${field.props.onLabel}" "${field.props.offLabel}"]`;
+
+                const toggleButton = `<div class="indiga-toggle-switch-button-wrapper" data-checked="${field.props.default ? "true" : "false"}" style="display: none;"><button class="indiga-toggle-switch-button" aria-label="Toggle currently: ${field.props.default ? field.props.onLabel : field.props.offLabel}. Click to toggle ${!field.props.default ? field.props.onLabel : field.props.offLabel}" type="button"><span class="indiga-toggle-switch-button-inner"></span></button><span class="indiga-toggle-button-label">${field.props.default ? field.props.onLabel : field.props.offLabel}</span></div>`;
+
+                return `<div class="indiga-toggle-switch"><p class="indiga-label">${field.props.label}${required}</p>${radioButtons}${toggleButton}</div>`;
             }
         });
 
@@ -163,7 +184,15 @@ function generateFormCode(form: Form): string {
 }
 
 function generateAdditionalHeaders(form: Form): string {
-    // console.log("Generating additional headers for:", form);
+    console.log("Generating additional headers for:", form);
+
+    if (form) {
+        const emailField = form.fields.find((field) => field.component === "TextInput" && field.props.type === "email");
+
+        if (emailField) {
+            return `Reply-To: [${emailField.props.id}]`;
+        }
+    }
 }
 
 function generateMessageBody(form: Form): string {
@@ -171,7 +200,14 @@ function generateMessageBody(form: Form): string {
 }
 
 function generateFileAttachments(form: Form): string {
-    // console.log("Generating file attachments for:", form);
+    console.log("Generating file attachments for:", form);
+
+    if (form) {
+        return form.fields
+            .filter((field) => field.component === "FileInput")
+            .map((field) => `[${field.props.id}]`)
+            .join("");
+    }
 }
 
 const hideCodeModal = inject<Function>("hideCodeModal");
