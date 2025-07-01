@@ -133,6 +133,15 @@ function generateFormCode(form: Form): string {
                 return `<div class="indiga-field indiga-checkboxes-group"><p class="indiga-label">${field.props.label}${required}</p>${templateCode}</div>`;
             }
 
+            if (field.component === "DropdownSelect") {
+                const required = field.props.required ? "*" : "";
+
+                const options = field.props.options.map((option: string) => `"${option}"`).join(" ");
+                const templateCode = `[select ${field.props.id} ${options}]`;
+
+                return `<div class="indiga-field"><p class="indiga-label">${field.props.label}${required}</p>${templateCode}</div>`;
+            }
+
             if (field.component === "FileInput") {
                 const required = field.props.required ? "*" : "";
                 const getFileSizeLimit = () => {

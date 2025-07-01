@@ -1,4 +1,10 @@
-.indiga-label {
+.indiga-field p {
+    margin: 0;
+    padding: 0;
+}
+
+.indiga-label,
+p.indiga-label {
     display: block;
     margin-bottom: 4px;
 }
@@ -34,6 +40,7 @@
     width: 100%;
     border-radius: 4px;
     padding: 8px;
+    font-size: 16px;
 }
 
 .wpcf7-radio,
@@ -136,8 +143,3 @@
 // .indiga-field {
 //     margin: 20px 0;
 // }
-
-.indiga-field p {
-    margin: 0;
-    padding: 0;
-}
