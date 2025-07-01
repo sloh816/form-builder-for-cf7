@@ -5,17 +5,10 @@
             <FormInfo v-if="currentForm" :formName="currentForm.name" :savedForms="forms" />
             <div class="bg-white shadow-md w-full px-6">
                 <div class="flex items-start justify-between">
-                    <PreviewOptions />
-                    <div class="flex items-center gap-2 mt-2">
-                        <button class="bg-slate-200 p-3 rounded-full cursor-pointer fill-slate-800 hover:bg-slate-300" @click="duplicateForm">
-                            <Duplicate class="w-5 h-5" />
-                        </button>
-                        <button class="bg-red-200 p-3 rounded-full cursor-pointer fill-red-800 hover:bg-red-600 hover:fill-white" @click="deleteForm">
-                            <Bin class="w-5 h-5" />
-                        </button>
-                    </div>
+                    <PreviewOptions :showingFormPreview="showFormPreview" />
+                    <DuplicateAndDelete />
                 </div>
-                <div class="form-preview mb-16">
+                <div v-if="showFormPreview" class="form-preview mb-16">
                     <!-- <pre>{{ currentForm }}</pre> -->
                     <div class="form-preview__fields grid gap-4 relative">
                         <div v-for="(field, index) in currentForm.fields" :key="index">
@@ -24,13 +17,14 @@
                     </div>
                     <AddNewFieldButton />
                 </div>
-                <div class="email-preview hidden">Email preview</div>
+                <div v-if="!showFormPreview" class="email-preview">Email preview</div>
             </div>
             <div class="min-w-[350px]">Styles panel</div>
         </main>
     </div>
     <FormFieldsModal />
     <GenerateCode v-if="showCodeModal" :form="currentForm" />
+    <p class="fixed bottom-6 left-6 text-sm text-slate-600">Made with 💜 by <a href="#" class="text-indigo-700 underline">Shannon L.</a></p>
 </template>
 
 <script setup lang="ts">
@@ -39,8 +33,7 @@ import FormInfo from "./components/FormInfo.vue";
 import PreviewOptions from "./components/PreviewOptions.vue";
 import FormFieldsModal from "@/components/FormFieldsModal.vue";
 import AddNewFieldButton from "@/components/AddNewFieldButton.vue";
-import Bin from "@/assets/bin.svg";
-import Duplicate from "@/assets/duplicate.svg";
+import DuplicateAndDelete from "@/components/DuplicationAndDelete.vue";
 import GenerateCode from "@/components/GenerateCode.vue";
 
 // form builder components
@@ -89,6 +82,7 @@ const forms = ref<Form[]>([]);
 const currentForm = ref<Form>({});
 const currentFormIsSaved = ref(false);
 const showCodeModal = ref(false);
+const showFormPreview = ref(true);
 
 onMounted(() => {
     // Load saved forms from localStorage
@@ -221,6 +215,18 @@ function deleteForm() {
         console.log("Form deleted!");
     }
 }
+
+provide("setFormPreview", (value: boolean) => {
+    showFormPreview.value = value;
+});
+
+provide("duplicateForm", () => {
+    duplicateForm();
+});
+
+provide("deleteForm", () => {
+    deleteForm();
+});
 
 provide("showCodeModal", () => {
     showCodeModal.value = true;
