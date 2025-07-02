@@ -8,16 +8,8 @@
                     <PreviewOptions :showingFormPreview="showFormPreview" />
                     <DuplicateAndDelete />
                 </div>
-                <div v-if="showFormPreview" class="form-preview mb-16">
-                    <!-- <pre>{{ currentForm }}</pre> -->
-                    <div class="form-preview__fields grid gap-4 relative">
-                        <div v-for="(field, index) in currentForm.fields" :key="index">
-                            <component :is="componentMap[field.component]" v-bind="field.props" />
-                        </div>
-                    </div>
-                    <AddNewFieldButton />
-                </div>
-                <div v-if="!showFormPreview" class="email-preview">Email preview</div>
+                <FormPreview v-if="showFormPreview" :currentForm="currentForm" />
+                <EmailPreview v-else :currentForm="currentForm" />
             </div>
             <div class="min-w-[350px]">Styles panel</div>
         </main>
@@ -32,25 +24,12 @@ import Header from "./components/Header.vue";
 import FormInfo from "./components/FormInfo.vue";
 import PreviewOptions from "./components/PreviewOptions.vue";
 import FormFieldsModal from "@/components/FormFieldsModal.vue";
-import AddNewFieldButton from "@/components/AddNewFieldButton.vue";
+import FormPreview from "@/components/FormPreview.vue";
 import DuplicateAndDelete from "@/components/DuplicationAndDelete.vue";
 import GenerateCode from "@/components/GenerateCode.vue";
+import EmailPreview from "@/components/EmailPreview.vue";
 
-// form builder components
-import FormTitle from "@/components/formbuilder/FormTitle.vue";
-import TextInput from "@/components/formbuilder/TextInput.vue";
-import TextArea from "@/components/formbuilder/TextArea.vue";
-import Heading from "@/components/formbuilder/Heading.vue";
-import RadioButtons from "@/components/formbuilder/RadioButtons.vue";
-import FileInput from "@/components/formbuilder/FileInput.vue";
-import SubmitButton from "@/components/formbuilder/SubmitButton.vue";
-import TextBlock from "@/components/formbuilder/TextBlock.vue";
-import Checkboxes from "@/components/formbuilder/Checkboxes.vue";
-import Toggle from "./components/formbuilder/Toggle.vue";
-import DropdownSelect from "./components/formbuilder/DropdownSelect.vue";
-import DatePicker from "./components/formbuilder/DatePicker.vue";
-
-import { ref, markRaw, provide, onMounted } from "vue";
+import { ref, provide, onMounted } from "vue";
 
 interface FormField {
     component: string;
@@ -62,21 +41,6 @@ interface Form {
     name: string;
     fields: FormField[];
 }
-
-const componentMap = {
-    FormTitle: markRaw(FormTitle),
-    TextInput: markRaw(TextInput),
-    TextArea: markRaw(TextArea),
-    Heading: markRaw(Heading),
-    RadioButtons: markRaw(RadioButtons),
-    FileInput: markRaw(FileInput),
-    SubmitButton: markRaw(SubmitButton),
-    TextBlock: markRaw(TextBlock),
-    Checkboxes: markRaw(Checkboxes),
-    Toggle: markRaw(Toggle),
-    DropdownSelect: markRaw(DropdownSelect),
-    DatePicker: markRaw(DatePicker),
-};
 
 const forms = ref<Form[]>([]);
 const currentForm = ref<Form>({});
@@ -142,6 +106,14 @@ onMounted(() => {
             optionsModal.classList.add("hidden");
         }
     });
+
+    // check if showFormPreview exists in sessionStorage
+    const showFormPreviewSession = sessionStorage.getItem("showFormPreview");
+    if (showFormPreviewSession) {
+        showFormPreview.value = showFormPreviewSession === "true";
+    } else {
+        showFormPreview.value = true; // Default to showing form preview
+    }
 });
 
 function saveForm() {
@@ -218,6 +190,7 @@ function deleteForm() {
 
 provide("setFormPreview", (value: boolean) => {
     showFormPreview.value = value;
+    sessionStorage.setItem("showFormPreview", value.toString());
 });
 
 provide("duplicateForm", () => {
@@ -268,8 +241,6 @@ provide("updateFormName", (newName: string) => {
         }
     });
 
-    // Update the query string in the URL
-    const url = new URL(window.location.href);
     currentFormIsSaved.value = false; // Mark the form as unsaved
 });
 
