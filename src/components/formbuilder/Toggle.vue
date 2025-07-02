@@ -7,6 +7,7 @@
                 <p class="indiga-label">{{ props.label }}<span v-if="props.required">*</span></p>
 
                 <span class="wpcf7-form-control-wrap" :data-name="props.id">
+                    <span class="text-sm text-red-500">If this is showing as a radio button, try save and refresh the page.</span>
                     <span class="wpcf7-form-control wpcf7-radio">
                         <span class="wpcf7-list-item first">
                             <label>
