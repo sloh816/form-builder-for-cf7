@@ -61,10 +61,10 @@ import Boolean from "@/components/propFormFields/Boolean.vue";
 interface Props {
     id: string;
     label?: string;
-    required?: True | false;
+    required?: true | false;
     onLabel: string;
     offLabel: string;
-    default: True | false;
+    default: true | false;
 }
 
 const props = defineProps<Props>();

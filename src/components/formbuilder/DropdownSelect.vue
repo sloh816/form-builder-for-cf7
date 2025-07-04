@@ -38,7 +38,7 @@ import TextArea from "@/components/propFormFields/TextArea.vue";
 interface Props {
     id: string;
     label?: string;
-    required?: True | false;
+    required?: true | false;
     options: String[];
 }
 
