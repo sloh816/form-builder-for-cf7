@@ -6,6 +6,8 @@
 				class="border border-slate-300 p-2 rounded w-full"
 				type="text"
 				placeholder="Email address to send to..."
+				:value="props.currentForm.email"
+				@input="updateEmail($event.target.value)"
 			/>
 		</label>
 		<label class="flex gap-4 items-center mb-4">
@@ -14,7 +16,8 @@
 				class="border border-slate-300 p-2 rounded w-full"
 				type="text"
 				placeholder="Your website domain... eg. example.com"
-				@input="domain = $event.target.value"
+				:value="props.currentForm.domain"
+				@input="updateDomain($event.target.value)"
 			/>
 		</label>
 		<label class="flex gap-4 items-center mb-4">
@@ -23,7 +26,7 @@
 				class="border border-slate-300 p-2 rounded w-full"
 				type="text"
 				:value="subject"
-				@input="subject = $event.target.value"
+				@input="updateSubject($event.target.value)"
 			/>
 		</label>
 
@@ -46,16 +49,23 @@ The response is below:
 				{{ field.props.heading }}
 			</component>
 
-			<component v-if="field.component === 'Table'" is="table" class="w-full mb-8">
+			<component
+				v-if="field.component === 'Table'"
+				is="table"
+				class="w-full mb-8 border border-slate-600"
+			>
 				<tr>
-					<th class="w-1/2 bg-slate-600 text-white py-2 px-4 text-left">Field</th>
-					<th class="w-1/2 bg-slate-600 text-white py-2 px-4 text-left">Response</th>
+					<th class="w-1/2 bg-slate-600 text-white py-2 px-3 text-left">Field</th>
+					<th class="w-1/2 bg-slate-600 text-white py-2 px-3 text-left">Response</th>
 				</tr>
 				<tr v-for="formField in field.props.fields" :key="formField.props.name">
-					<td class="font-bold py-2 px-4 border-b border-slate-600">
+					<td
+						class="font-bold py-2 px-3 border-b border-slate-600 border-r border-slate-600"
+					>
+						{{ formField.props.name }}
 						{{ formField.props.label }}
 					</td>
-					<td class="py-2 px-4 border-b border-slate-600">Submission response here...</td>
+					<td class="py-2 px-3 border-b border-slate-600">Submission response here...</td>
 				</tr>
 			</component>
 		</div>
@@ -65,7 +75,7 @@ The response is below:
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted } from "vue";
+import { ref, onMounted, inject } from "vue";
 
 interface FormField {
 	component: string;
@@ -93,8 +103,25 @@ onMounted(() => {
 		// split the form into tables and heading/text
 		const formEmailPreview = [];
 		let tableOpen = [];
+
 		props.currentForm.fields.forEach((field, index) => {
-			if (field.component === "FormTitle" || field.component === "TextBlock") {
+			const pushLastTable = () => {
+				if (index === props.currentForm.fields.length - 1 && tableOpen.length > 0) {
+					formEmailPreview.push({
+						component: "Table",
+						props: {
+							fields: tableOpen
+						}
+					});
+				}
+			};
+
+			if (
+				field.component === "FormTitle" ||
+				field.component === "TextBlock" ||
+				field.component === "SubmitButton"
+			) {
+				pushLastTable();
 				return;
 			} else if (field.component === "Heading") {
 				if (tableOpen.length > 0) {
@@ -113,17 +140,35 @@ onMounted(() => {
 				tableOpen.push(field);
 			}
 
-			if (index === props.currentForm.fields.length - 1 && tableOpen.length > 0) {
-				formEmailPreview.push({
-					component: "Table",
-					props: {
-						fields: tableOpen
-					}
-				});
-			}
+			pushLastTable();
 		});
 
 		emailPreviewArray.value = formEmailPreview;
 	}
+
+	updateSubject(props.currentForm.name + " submission received");
 });
+
+const updateField = inject<Function>("updateField");
+function updateEmail(email: string) {
+	if (updateField) {
+		updateField("email", email);
+	}
+}
+
+function updateDomain(value: string) {
+	domain.value = value;
+
+	if (updateField) {
+		updateField("domain", value);
+	}
+}
+
+function updateSubject(value: string) {
+	subject.value = value;
+
+	if (updateField) {
+		updateField("subject", value);
+	}
+}
 </script>
