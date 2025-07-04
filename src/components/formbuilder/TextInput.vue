@@ -11,7 +11,7 @@
         </template>
         <template #options>
             <FieldOptionsFormWrapper :id="props.id" fieldType="Text input">
-                <TextInput :id="`label-${props.id}`" label="Label" :value="props.label" :inputFunction="(value) => updateProps('label', value)" />
+                <TextInput :id="`label-${props.id}`" label="Label" :value="props.label" :inputFunction="(value: any) => updateProps('label', value)" />
 
                 <RadioButtons
                     :id="`type-${props.id}`"
@@ -22,40 +22,39 @@
                         { label: 'Phone', isChecked: props.type === 'phone', value: 'phone' },
                         { label: 'Other', isChecked: props.type === 'text', value: 'text' },
                     ]"
-                    :changeFunction="(value) => updateProps('type', value)"
+                    :changeFunction="(value: any) => updateProps('type', value)"
                 />
 
-                <TextInput :id="`placeholder-${props.id}`" label="Placeholder" :value="props.placeholder" :inputFunction="(value) => updateProps('placeholder', value)" />
+                <TextInput :id="`placeholder-${props.id}`" label="Placeholder" :value="props.placeholder || ''" :inputFunction="(value: any) => updateProps('placeholder', value)" />
 
-                <Boolean :id="`required-${props.id}`" :isChecked="props.required" :changeFunction="(value) => updateProps('required', value)" label="Required" />
+                <Boolean :id="`required-${props.id}`" :isChecked="props.required" :changeFunction="(value: any) => updateProps('required', value)" label="Required" />
             </FieldOptionsFormWrapper>
         </template>
     </FormPreviewField>
 </template>
 
 <script setup lang="ts">
-import DeleteFieldButton from "@/components/DeleteFieldButton.vue";
-import TextInput from "@/components/propFormFields/TextInput.vue";
-import Boolean from "@/components/propFormFields/Boolean.vue";
-import RadioButtons from "@/components/propFormFields/RadioButtons.vue";
-import FieldOptionsFormWrapper from "@/components/FieldOptionsFormWrapper.vue";
-import FormPreviewField from "@/components/FormPreviewField.vue";
-import { ref, inject } from "vue";
+import TextInput from "../../components/propFormFields/TextInput.vue";
+import Boolean from "../../components/propFormFields/Boolean.vue";
+import RadioButtons from "../../components/propFormFields/RadioButtons.vue";
+import FieldOptionsFormWrapper from "../../components/FieldOptionsFormWrapper.vue";
+import FormPreviewField from "../../components/FormPreviewField.vue";
+import { inject } from "vue";
 
 interface Props {
     label: string;
     type?: string;
     placeholder?: string;
     required?: true | false;
-    id?: string;
+    id: string;
 }
 
 const props = defineProps<Props>();
 
 const updateFormField = inject<Function>("updateFormField");
 
-function updateProps(propKey: string, value: any) {
-    const newProps = { ...props };
+function updateProps(propKey: keyof Props, value: any) {
+    const newProps = { ...props } as Record<string, any>;
     newProps[propKey] = value;
     updateFormField?.(props.id, newProps);
 }

@@ -6,7 +6,7 @@
                 <p>
                     <span class="wpcf7-form-control-wrap" data-name="radio-844">
                         <span class="wpcf7-form-control wpcf7-radio">
-                            <span v-for="(option, index) in props.options" :class="['wpcf7-list-item', { first: index === 0, last: index === props.options.length - 1 }]">
+                            <span v-for="(option, index) in props.options ?? []" :class="['wpcf7-list-item', { first: index === 0, last: index === (props.options?.length ?? 0) - 1 }]">
                                 <label>
                                     <input type="radio" :name="props.id" :value="option" /><span class="wpcf7-list-item-label">{{ option }}</span>
                                 </label>
@@ -19,11 +19,11 @@
 
         <template #options>
             <FieldOptionsFormWrapper :id="props.id" fieldType="Radio buttons">
-                <TextInput :id="`label-${props.id}`" label="Label" :value="props.label" :inputFunction="(value) => updateLabel(value)" />
+                <TextInput :id="`label-${props.id}`" label="Label" :value="props.label" :inputFunction="(value: any) => updateLabel(value)" />
 
-                <TextArea :id="`options-${props.id}`" label="Options" description="One line per option" :value="props.options?.join('\n').trim()" :inputFunction="(value) => updateOptions(value)" />
+                <TextArea :id="`options-${props.id}`" label="Options" description="One line per option" :value="props.options?.join('\n').trim() ?? ''" :inputFunction="(value: any) => updateOptions(value)" />
 
-                <Boolean :id="`required-${props.id}`" :isChecked="props.required ?? false" :changeFunction="(value) => updateRequired(value)" label="Required" />
+                <Boolean :id="`required-${props.id}`" :isChecked="props.required ?? false" :changeFunction="(value: any) => updateRequired(value)" label="Required" />
             </FieldOptionsFormWrapper>
         </template>
     </FormPreviewField>
@@ -31,17 +31,17 @@
 
 <script setup lang="ts">
 import { inject } from "vue";
-import FieldOptionsFormWrapper from "@/components/FieldOptionsFormWrapper.vue";
-import FormPreviewField from "@/components/FormPreviewField.vue";
+import FieldOptionsFormWrapper from "../../components/FieldOptionsFormWrapper.vue";
+import FormPreviewField from "../../components/FormPreviewField.vue";
 
-import TextInput from "@/components/propFormFields/TextInput.vue";
-import TextArea from "@/components/propFormFields/TextArea.vue";
-import Boolean from "@/components/propFormFields/Boolean.vue";
+import TextInput from "../../components/propFormFields/TextInput.vue";
+import TextArea from "../../components/propFormFields/TextArea.vue";
+import Boolean from "../../components/propFormFields/Boolean.vue";
 
 interface Props {
     id: string;
     options?: String[];
-    label?: string;
+    label: string;
     required?: true | false;
 }
 
@@ -51,19 +51,19 @@ const updateFormField = inject<Function>("updateFormField");
 
 function updateLabel(value: string) {
     const newProps = { ...props, label: value };
-    updateFormField(props.id, newProps);
+    updateFormField?.(props.id, newProps);
 }
 
 function updateOptions(value: string) {
     const optionsArray = value.split("\n");
-    updateFormField(props.id, {
+    updateFormField?.(props.id, {
         ...props,
         options: optionsArray,
     });
 }
 
 function updateRequired(value: boolean) {
-    updateFormField(props.id, {
+    updateFormField?.(props.id, {
         ...props,
         required: value,
     });

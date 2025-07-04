@@ -17,11 +17,11 @@
 
         <template #options>
             <FieldOptionsFormWrapper :id="props.id" fieldType="File input">
-                <TextInput :id="`label-${props.id}`" label="Label" :value="props.label" :inputFunction="(value) => updateProps('label', value)" />
+                <TextInput :id="`label-${props.id}`" label="Label" :value="props.label || ''" :inputFunction="(value: any) => updateProps('label', value)" />
 
-                <Boolean :id="`required-${props.id}`" :isChecked="props.required" :changeFunction="(value) => updateProps('required', value)" label="Required" />
+                <Boolean :id="`required-${props.id}`" :isChecked="props.required" :changeFunction="(value: any) => updateProps('required', value)" label="Required" />
 
-                <NumberInput :id="`fileSizeLimit-${props.id}`" label="File Size Limit (KB)" :value="props.fileSizeLimit" :inputFunction="(value) => updateProps('fileSizeLimit', value)" />
+                <NumberInput :id="`fileSizeLimit-${props.id}`" label="File Size Limit (KB)" :value="props.fileSizeLimit" :inputFunction="(value: any) => updateProps('fileSizeLimit', value)" />
 
                 <MultiSelect
                     label="Allowed file types"
@@ -33,7 +33,7 @@
                             isSelected: props.fileTypes.includes(type.value),
                         }))
                     "
-                    :changeFunction="(arr) => updateProps('fileTypes', arr)"
+                    :changeFunction="(arr: any) => updateProps('fileTypes', arr)"
                 />
             </FieldOptionsFormWrapper>
         </template>
@@ -42,13 +42,13 @@
 
 <script setup lang="ts">
 import { inject } from "vue";
-import FieldOptionsFormWrapper from "@/components/FieldOptionsFormWrapper.vue";
-import FormPreviewField from "@/components/FormPreviewField.vue";
+import FieldOptionsFormWrapper from "../../components/FieldOptionsFormWrapper.vue";
+import FormPreviewField from "../../components/FormPreviewField.vue";
 
-import TextInput from "@/components/propFormFields/TextInput.vue";
-import Boolean from "@/components/propFormFields/Boolean.vue";
-import NumberInput from "@/components/propFormFields/NumberInput.vue";
-import MultiSelect from "@/components/propFormFields/MultiSelect.vue";
+import TextInput from "../../components/propFormFields/TextInput.vue";
+import Boolean from "../../components/propFormFields/Boolean.vue";
+import NumberInput from "../../components/propFormFields/NumberInput.vue";
+import MultiSelect from "../../components/propFormFields/MultiSelect.vue";
 
 interface Props {
     id: string;
@@ -99,6 +99,6 @@ function getAcceptableFileTypes() {
 const updateFormField = inject<Function>("updateFormField");
 function updateProps(propKey: string, value: any) {
     const newProps = { ...props, [propKey]: value };
-    updateFormField(props.id, newProps);
+    updateFormField?.(props.id, newProps);
 }
 </script>

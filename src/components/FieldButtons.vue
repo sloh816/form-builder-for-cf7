@@ -1,6 +1,6 @@
 <template>
     <ul class="flex gap-4 flex-wrap justify-center max-w-4xl">
-        <li v-for="(option, index) in options" :key="option.label">
+        <li v-for="option in options" :key="option.label">
             <FieldButton :label="option.label" :description="option.description" :icon="option.icon" :component="option.component" :defaultProps="option.defaultProps" />
         </li>
     </ul>
@@ -10,18 +10,17 @@
 import FieldButton from "./FieldButton.vue";
 
 //icons
-import TextInput from "@/assets/textinput.svg";
-import Checkbox from "@/assets/checkbox.svg";
-import DatePicker from "@/assets/date-picker.svg";
-import Dropdown from "@/assets/dropdown.svg";
-import Heading from "@/assets/heading.svg";
-import Radio from "@/assets/radio.svg";
-import SubmitButton from "@/assets/submit-button.svg";
-import TextAlign from "@/assets/text-align.svg";
-import Textarea from "@/assets/textarea.svg";
-import Title from "@/assets/title.svg";
-import Doc from "@/assets/document.svg";
-import Upload from "@/assets/upload.svg";
+import TextInput from "../assets/textinput.svg";
+import Checkbox from "../assets/checkbox.svg";
+import DatePicker from "../assets/date-picker.svg";
+import Dropdown from "../assets/dropdown.svg";
+import Heading from "../assets/heading.svg";
+import Radio from "../assets/radio.svg";
+import SubmitButton from "../assets/submit-button.svg";
+import TextAlign from "../assets/text-align.svg";
+import Textarea from "../assets/textarea.svg";
+import Title from "../assets/title.svg";
+import Upload from "../assets/upload.svg";
 
 const options = [
     {

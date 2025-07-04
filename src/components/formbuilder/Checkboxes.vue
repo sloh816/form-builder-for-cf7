@@ -20,11 +20,11 @@
 
         <template #options>
             <FieldOptionsFormWrapper :id="props.id" fieldType="Checkboxes">
-                <TextInput :id="`label-${props.id}`" label="Label" :value="props.label" :inputFunction="(value) => updateProps('label', value)" />
+                <TextInput :id="`label-${props.id}`" label="Label" :value="props.label" :inputFunction="(value: any) => updateProps('label', value)" />
 
-                <TextArea :id="`options-${props.id}`" label="Options" description="One line per option" :value="props.options?.join('\n').trim()" :inputFunction="(value) => updateOptions(value)" />
+                <TextArea :id="`options-${props.id}`" label="Options" description="One line per option" :value="props.options?.join('\n').trim()" :inputFunction="(value: any) => updateOptions(value)" />
 
-                <Boolean :id="`required-${props.id}`" :isChecked="props.required" :changeFunction="(value) => updateProps('required', value)" label="Required" />
+                <Boolean :id="`required-${props.id}`" :isChecked="props.required" :changeFunction="(value: any) => updateProps('required', value)" label="Required" />
             </FieldOptionsFormWrapper>
         </template>
     </FormPreviewField>
@@ -32,12 +32,12 @@
 
 <script setup lang="ts">
 import { inject } from "vue";
-import FieldOptionsFormWrapper from "@/components/FieldOptionsFormWrapper.vue";
-import FormPreviewField from "@/components/FormPreviewField.vue";
+import FieldOptionsFormWrapper from "../../components/FieldOptionsFormWrapper.vue";
+import FormPreviewField from "../../components/FormPreviewField.vue";
 
-import TextInput from "@/components/propFormFields/TextInput.vue";
-import Boolean from "@/components/propFormFields/Boolean.vue";
-import TextArea from "@/components/propFormFields/TextArea.vue";
+import TextInput from "../../components/propFormFields/TextInput.vue";
+import Boolean from "../../components/propFormFields/Boolean.vue";
+import TextArea from "../../components/propFormFields/TextArea.vue";
 
 interface Props {
     id: string;
@@ -51,7 +51,7 @@ const props = defineProps<Props>();
 const updateFormField = inject<Function>("updateFormField");
 function updateProps(propKey: string, value: any) {
     const newProps = { ...props, [propKey]: value };
-    updateFormField(props.id, newProps);
+    updateFormField?.(props.id, newProps);
 }
 
 function updateOptions(value: string) {
@@ -60,6 +60,6 @@ function updateOptions(value: string) {
         .map((option) => option.trim())
         .filter((option) => option);
     const newProps = { ...props, options: optionsArray };
-    updateFormField(props.id, newProps);
+    updateFormField?.(props.id, newProps);
 }
 </script>

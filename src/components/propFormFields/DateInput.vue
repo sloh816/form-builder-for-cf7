@@ -13,7 +13,7 @@
 interface Props {
     id: string;
     label?: string;
-    value: string;
+    value?: string;
     description?: string;
     inputFunction: Function;
 }

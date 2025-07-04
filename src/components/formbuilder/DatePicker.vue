@@ -21,13 +21,13 @@
 
         <template #options>
             <FieldOptionsFormWrapper :id="props.id" fieldType="">
-                <TextInput :id="`label-${props.id}`" label="Label" :value="props.label" :inputFunction="(value) => updateProps('label', value)" />
+                <TextInput :id="`label-${props.id}`" label="Label" :value="props.label" :inputFunction="(value: any) => updateProps('label', value)" />
 
-                <DateInput :id="`min-date-${props.id}`" label="Min date" :value="props.minDate" :inputFunction="(value) => updateProps('minDate', value)" />
+                <DateInput :id="`min-date-${props.id}`" label="Min date" :value="props.minDate" :inputFunction="(value: any) => updateProps('minDate', value)" />
 
-                <DateInput :id="`max-date-${props.id}`" label="Max date" :value="props.maxDate" :inputFunction="(value) => updateProps('maxDate', value)" />
+                <DateInput :id="`max-date-${props.id}`" label="Max date" :value="props.maxDate" :inputFunction="(value: any) => updateProps('maxDate', value)" />
 
-                <Boolean :id="`required-${props.id}`" :isChecked="props.required" :changeFunction="(value) => updateProps('required', value)" label="Required" />
+                <Boolean :id="`required-${props.id}`" :isChecked="props.required" :changeFunction="(value: any) => updateProps('required', value)" label="Required" />
             </FieldOptionsFormWrapper>
         </template>
     </FormPreviewField>
@@ -35,12 +35,12 @@
 
 <script setup lang="ts">
 import { inject } from "vue";
-import FieldOptionsFormWrapper from "@/components/FieldOptionsFormWrapper.vue";
-import FormPreviewField from "@/components/FormPreviewField.vue";
+import FieldOptionsFormWrapper from "../../components/FieldOptionsFormWrapper.vue";
+import FormPreviewField from "../../components/FormPreviewField.vue";
 
-import TextInput from "@/components/propFormFields/TextInput.vue";
-import Boolean from "@/components/propFormFields/Boolean.vue";
-import DateInput from "@/components/propFormFields/DateInput.vue";
+import TextInput from "../../components/propFormFields/TextInput.vue";
+import Boolean from "../../components/propFormFields/Boolean.vue";
+import DateInput from "../../components/propFormFields/DateInput.vue";
 
 interface Props {
     id: string;
@@ -55,7 +55,7 @@ const props = defineProps<Props>();
 const updateFormField = inject<Function>("updateFormField");
 function updateProps(propKey: string, value: any) {
     const newProps = { ...props, [propKey]: value };
-    updateFormField(props.id, newProps);
+    updateFormField?.(props.id, newProps);
 }
 
 function formatDate(date: string): string {

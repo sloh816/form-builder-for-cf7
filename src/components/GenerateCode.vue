@@ -26,7 +26,7 @@
             <div class="flex items-start gap-4 mt-4">
                 <p class="font-bold w-32">Subject</p>
                 <input class="border w-full rounded-lg p-2 font-mono text-sm" :value="props.form.subject" readonly />
-                <CopyButton :copyText="props.form.subject" />
+                <CopyButton :copyText="props.form.subject ?? ''" />
             </div>
 
             <div class="flex items-start gap-4 mt-4">

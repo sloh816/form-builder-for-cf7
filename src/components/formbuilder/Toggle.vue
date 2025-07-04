@@ -36,15 +36,15 @@
         <template #options>
             <FieldOptionsFormWrapper :id="props.id" fieldType="Toggle Switch">
                 <p class="text-sm bg-yellow-100 p-2 rounded-lg"><strong>Note:</strong> This toggle switch relies on JavaScript to function properly. Without JavaScript, it will display as standard radio buttons. The necessary JavaScript code will be generated and must be added to your WordPress site for full functionality.</p>
-                <TextInput :id="`label-${props.id}`" label="Label" :value="props.label" :inputFunction="(value) => updateProps('label', value)" />
+                <TextInput :id="`label-${props.id}`" label="Label" :value="props.label" :inputFunction="(value: any) => updateProps('label', value)" />
 
-                <TextInput :id="`onLabel-${props.id}`" label="On Label" :value="props.onLabel" :inputFunction="(value) => updateProps('onLabel', value)" />
+                <TextInput :id="`onLabel-${props.id}`" label="On Label" :value="props.onLabel" :inputFunction="(value: any) => updateProps('onLabel', value)" />
 
-                <TextInput :id="`offLabel-${props.id}`" label="Off Label" :value="props.offLabel" :inputFunction="(value) => updateProps('offLabel', value)" />
+                <TextInput :id="`offLabel-${props.id}`" label="Off Label" :value="props.offLabel" :inputFunction="(value: any) => updateProps('offLabel', value)" />
 
-                <Boolean :id="`default-${props.id}`" :isChecked="props.default" :changeFunction="(value) => updateProps('default', value)" label="Default on?" />
+                <Boolean :id="`default-${props.id}`" :isChecked="props.default" :changeFunction="(value: any) => updateProps('default', value)" label="Default on?" />
 
-                <Boolean :id="`required-${props.id}`" :isChecked="props.required" :changeFunction="(value) => updateProps('required', value)" label="Required" />
+                <Boolean :id="`required-${props.id}`" :isChecked="props.required" :changeFunction="(value: any) => updateProps('required', value)" label="Required" />
             </FieldOptionsFormWrapper>
         </template>
     </FormPreviewField>
@@ -52,15 +52,15 @@
 
 <script setup lang="ts">
 import { inject } from "vue";
-import FieldOptionsFormWrapper from "@/components/FieldOptionsFormWrapper.vue";
-import FormPreviewField from "@/components/FormPreviewField.vue";
+import FieldOptionsFormWrapper from "../../components/FieldOptionsFormWrapper.vue";
+import FormPreviewField from "../../components/FormPreviewField.vue";
 
-import TextInput from "@/components/propFormFields/TextInput.vue";
-import Boolean from "@/components/propFormFields/Boolean.vue";
+import TextInput from "../../components/propFormFields/TextInput.vue";
+import Boolean from "../../components/propFormFields/Boolean.vue";
 
 interface Props {
     id: string;
-    label?: string;
+    label: string;
     required?: true | false;
     onLabel: string;
     offLabel: string;
@@ -72,6 +72,6 @@ const props = defineProps<Props>();
 const updateFormField = inject<Function>("updateFormField");
 function updateProps(propKey: string, value: any) {
     const newProps = { ...props, [propKey]: value };
-    updateFormField(props.id, newProps);
+    updateFormField?.(props.id, newProps);
 }
 </script>
