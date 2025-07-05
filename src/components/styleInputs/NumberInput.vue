@@ -64,7 +64,7 @@ const defaultValue = computed(() => {
 
 const addStyle = inject<(Style) => void>("addStyle");
 function updateNumber(num: string) {
-	const properties = {};
+	const properties: Record<string, any> = {};
 	properties[props.propKey] = num;
 
 	if (addStyle) {

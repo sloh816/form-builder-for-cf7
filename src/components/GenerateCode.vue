@@ -120,7 +120,7 @@
 import Checkbox from "../assets/checkbox.svg";
 import { onMounted, ref, inject } from "vue";
 import CopyButton from "../components/CopyButton.vue";
-import { formCss } from "../data/form-css";
+import { formCss, defaultCss } from "../data/form-css";
 import { formJs } from "../data/form-js";
 
 interface FormField {
@@ -468,8 +468,30 @@ function convertFormForEmailPreview(form: Form): any[] {
 
 // #region Generate CSS
 function generateCss(css: string, form: Form): string {
+	const addPx = ["paddingTop", "paddingRight", "paddingBottom", "paddingLeft", "borderRadius"];
+
 	if (form) {
-		return css;
+		return css
+			.replace(/\[\[([^\]]+)\]\]/g, (match, p1) => {
+				const [label, property] = p1.split(".");
+				const style = form.styles?.find((s) => s.label === label);
+
+				if (style && style.properties[property]) {
+					return style.properties[property] + (addPx.includes(property) ? "px" : "");
+				}
+
+				return match;
+			})
+			.replace(/\[\[([^\]]+)\]\]/g, (match, p1) => {
+				const [label, property] = p1.split(".");
+				const defaultStyle = defaultCss.find((s) => s.label === label);
+				if (defaultStyle && defaultStyle.properties[property]) {
+					return (
+						defaultStyle.properties[property] + (addPx.includes(property) ? "px" : "")
+					);
+				}
+				return match; // return original match if not found
+			});
 	}
 
 	return "";

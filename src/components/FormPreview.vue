@@ -75,45 +75,36 @@ interface Props {
 
 const props = defineProps<Props>();
 
-const backgroundColor = computed(() => {
+function computeProperty(propKey: string, defaultValue: any, unit: string = ""): any {
+	const hasUnit = unit ? `${unit}` : "";
+
 	return (
-		props.currentForm.styles?.find((style) => style.label === "Body")?.properties
-			.backgroundColor || "#ffffff"
+		props.currentForm.styles?.find((style) => style.label === "Body")?.properties[propKey] +
+			hasUnit || defaultValue
 	);
+}
+
+const backgroundColor = computed(() => {
+	return computeProperty("backgroundColor", "#ffffff");
 });
 
 const paddingTop = computed(() => {
-	return (
-		props.currentForm.styles?.find((style) => style.label === "Body")?.properties.paddingTop +
-			"px" || "0px"
-	);
+	return computeProperty("paddingTop", "0px", "px");
 });
 
 const paddingBottom = computed(() => {
-	return (
-		props.currentForm.styles?.find((style) => style.label === "Body")?.properties
-			.paddingBottom + "px" || "0px"
-	);
+	return computeProperty("paddingBottom", "0px", "px");
 });
 
 const paddingRight = computed(() => {
-	return (
-		props.currentForm.styles?.find((style) => style.label === "Body")?.properties.paddingRight +
-			"px" || "0px"
-	);
+	return computeProperty("paddingRight", "0px", "px");
 });
 
 const paddingLeft = computed(() => {
-	return (
-		props.currentForm.styles?.find((style) => style.label === "Body")?.properties.paddingLeft +
-			"px" || "0px"
-	);
+	return computeProperty("paddingLeft", "0px", "px");
 });
 
 const borderRadius = computed(() => {
-	return (
-		props.currentForm.styles?.find((style) => style.label === "Body")?.properties.borderRadius +
-			"px" || "0px"
-	);
+	return computeProperty("borderRadius", "0px", "px");
 });
 </script>
