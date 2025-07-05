@@ -72,7 +72,7 @@ interface Props {
 	label: string;
 	type?: string;
 	placeholder?: string;
-	required?: true | false;
+	required?: true | false | True;
 	id: string;
 }
 
