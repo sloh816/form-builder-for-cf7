@@ -70,7 +70,7 @@ import TextArea from "../../components/propFormFields/TextArea.vue";
 interface Props {
 	id: string;
 	label?: string;
-	required?: true | false | True;
+	required?: boolean;
 	options: String[];
 }
 

@@ -1,7 +1,10 @@
 <template>
 	<div class="form-preview mb-16">
-		<!-- <pre>{{ currentForm }}</pre> -->
-		<div class="form-preview__fields grid gap-4 relative">
+		<!-- <pre>{{ currentForm.styles }}</pre> -->
+		<div
+			class="form-preview__fields grid gap-4 relative"
+			:style="`background-color:${backgroundColor}; padding-top:${paddingTop}; padding-bottom:${paddingBottom}; padding-left: ${paddingLeft}; padding-right:${paddingRight}; border-radius:${borderRadius};`"
+		>
 			<div v-for="(field, index) in props.currentForm.fields" :key="index" class="relative">
 				<InsertFieldAboveButton :index="index" class="absolute -top-[16px] left-0 z-10" />
 				<component :is="componentMap[field.component]" v-bind="field.props" />
@@ -14,7 +17,7 @@
 <script setup lang="ts">
 import AddNewFieldButton from "../components/AddNewFieldButton.vue";
 import InsertFieldAboveButton from "../components/InsertFieldAboveButton.vue";
-import { markRaw } from "vue";
+import { markRaw, ref, computed } from "vue";
 
 // form builder components
 import FormTitle from "../components/formbuilder/FormTitle.vue";
@@ -50,10 +53,20 @@ interface FormField {
 	props: Record<string, any>;
 }
 
+interface Style {
+	label: string;
+	properties: Record<string, any>;
+}
+
 interface Form {
 	id: string;
 	name: string;
+	email: string;
+	domain?: string;
+	subject?: string;
+	introText?: string;
 	fields: FormField[];
+	styles?: Style[];
 }
 
 interface Props {
@@ -61,4 +74,46 @@ interface Props {
 }
 
 const props = defineProps<Props>();
+
+const backgroundColor = computed(() => {
+	return (
+		props.currentForm.styles?.find((style) => style.label === "Body")?.properties
+			.backgroundColor || "#ffffff"
+	);
+});
+
+const paddingTop = computed(() => {
+	return (
+		props.currentForm.styles?.find((style) => style.label === "Body")?.properties.paddingTop +
+			"px" || "0px"
+	);
+});
+
+const paddingBottom = computed(() => {
+	return (
+		props.currentForm.styles?.find((style) => style.label === "Body")?.properties
+			.paddingBottom + "px" || "0px"
+	);
+});
+
+const paddingRight = computed(() => {
+	return (
+		props.currentForm.styles?.find((style) => style.label === "Body")?.properties.paddingRight +
+			"px" || "0px"
+	);
+});
+
+const paddingLeft = computed(() => {
+	return (
+		props.currentForm.styles?.find((style) => style.label === "Body")?.properties.paddingLeft +
+			"px" || "0px"
+	);
+});
+
+const borderRadius = computed(() => {
+	return (
+		props.currentForm.styles?.find((style) => style.label === "Body")?.properties.borderRadius +
+			"px" || "0px"
+	);
+});
 </script>

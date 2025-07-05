@@ -72,7 +72,7 @@ interface Props {
 	id: string;
 	options?: String[];
 	label: string;
-	required?: true | false | True;
+	required?: boolean;
 }
 
 const props = defineProps<Props>();

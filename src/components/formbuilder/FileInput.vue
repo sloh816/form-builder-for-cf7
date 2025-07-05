@@ -80,7 +80,7 @@ import MultiSelect from "../../components/propFormFields/MultiSelect.vue";
 interface Props {
 	id: string;
 	label?: string;
-	required?: true | false | True;
+	required?: boolean;
 	fileTypes: string[];
 	fileSizeLimit: number; // in KB
 }

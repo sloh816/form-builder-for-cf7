@@ -11,7 +11,64 @@
 				<FormPreview v-if="showFormPreview" :currentForm="currentForm" />
 				<EmailPreview v-else :currentForm="currentForm" />
 			</div>
-			<div class="min-w-[350px]">Styles panel</div>
+			<div class="min-w-[350px]">
+				<h2 class="font-bold text-xl p-4">Styles</h2>
+				<div class="mt-8">
+					<StyleDropdown label="Body">
+						<ColorInput
+							label="Background color"
+							:shaded="true"
+							:currentForm="currentForm"
+							section="Body"
+							propKey="backgroundColor"
+						/>
+						<NumberInput
+							label="Padding top"
+							:shaded="false"
+							:currentForm="currentForm"
+							section="Body"
+							propKey="paddingTop"
+							unit="px"
+						/>
+						<NumberInput
+							label="Padding bottom"
+							:shaded="true"
+							:currentForm="currentForm"
+							section="Body"
+							propKey="paddingBottom"
+							unit="px"
+						/>
+						<NumberInput
+							label="Padding left"
+							:shaded="false"
+							:currentForm="currentForm"
+							section="Body"
+							propKey="paddingLeft"
+							unit="px"
+						/>
+						<NumberInput
+							label="Padding right"
+							:shaded="true"
+							:currentForm="currentForm"
+							section="Body"
+							propKey="paddingRight"
+							unit="px"
+						/>
+						<NumberInput
+							label="Border radius"
+							:shaded="false"
+							:currentForm="currentForm"
+							section="Body"
+							propKey="borderRadius"
+							unit="px"
+						/>
+					</StyleDropdown>
+					<StyleDropdown label="Text"></StyleDropdown>
+					<StyleDropdown label="Input"></StyleDropdown>
+					<StyleDropdown label="Radio, checkboxes and toggle"></StyleDropdown>
+					<StyleDropdown label="Submit button"></StyleDropdown>
+				</div>
+			</div>
 		</main>
 	</div>
 	<FormFieldsModal />
@@ -30,12 +87,22 @@ import FormPreview from "./components/FormPreview.vue";
 import DuplicateAndDelete from "./components/DuplicationAndDelete.vue";
 import GenerateCode from "./components/GenerateCode.vue";
 import EmailPreview from "./components/EmailPreview.vue";
+import StyleDropdown from "./components/StyleDropdown.vue";
+
+// style inputs
+import NumberInput from "./components/styleInputs/NumberInput.vue";
+import ColorInput from "./components/styleInputs/ColorInput.vue";
 
 import { ref, provide, onMounted } from "vue";
 
 interface FormField {
 	component: string;
 	props: Record<string, any>;
+}
+
+interface Style {
+	label: string;
+	properties: Record<string, any>;
 }
 
 interface Form {
@@ -46,6 +113,7 @@ interface Form {
 	subject?: string;
 	introText?: string;
 	fields: FormField[];
+	styles?: Style[];
 }
 
 const forms = ref<Form[]>([]);
@@ -350,5 +418,28 @@ provide("moveField", (id: string, direction: "up" | "down") => {
 		}
 	}
 	currentFormIsSaved.value = false; // Mark the form as unsaved
+});
+
+provide("addStyle", (style: Style) => {
+	if (currentForm.value) {
+		if (!currentForm.value.styles) {
+			currentForm.value.styles = [];
+		}
+
+		// check if object with the same label already exists
+		const existingStyleIndex = currentForm.value.styles.findIndex(
+			(s) => s.label === style.label
+		);
+		if (existingStyleIndex !== -1) {
+			// Update existing style
+			currentForm.value.styles[existingStyleIndex].properties = {
+				...currentForm.value.styles[existingStyleIndex].properties,
+				...style.properties
+			};
+		} else {
+			// Add new style
+			currentForm.value.styles.push(style);
+		}
+	}
 });
 </script>

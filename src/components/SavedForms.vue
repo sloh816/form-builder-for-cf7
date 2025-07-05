@@ -28,6 +28,11 @@ interface FormField {
 	props: Record<string, any>;
 }
 
+interface Style {
+	label: string;
+	properties: Record<string, any>;
+}
+
 interface Form {
 	id: string;
 	name: string;
@@ -36,6 +41,7 @@ interface Form {
 	subject?: string;
 	introText?: string;
 	fields: FormField[];
+	styles?: Style[];
 }
 
 interface Props {

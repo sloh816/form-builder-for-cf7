@@ -35,7 +35,7 @@ import Boolean from "../../components/propFormFields/Boolean.vue";
 interface Props {
 	id: string;
 	label?: string;
-	required?: true | false | True;
+	required?: boolean;
 }
 
 const props = defineProps<Props>();
