@@ -14,7 +14,7 @@
 <script setup lang="ts">
 import AddNewFieldButton from "../components/AddNewFieldButton.vue";
 import InsertFieldAboveButton from "../components/InsertFieldAboveButton.vue";
-import { markRaw, inject } from "vue";
+import { markRaw } from "vue";
 
 // form builder components
 import FormTitle from "../components/formbuilder/FormTitle.vue";
