@@ -13,68 +13,15 @@
 			</div>
 			<div class="min-w-[350px]">
 				<h2 class="font-bold text-xl p-4">Styles</h2>
-				<div class="mt-8">
-					<StyleDropdown label="Body">
-						<ColorInput
-							label="Background color"
-							:shaded="true"
-							:currentForm="currentForm"
-							section="Body"
-							propKey="backgroundColor"
-						/>
-						<NumberInput
-							label="Padding top"
-							:shaded="false"
-							:currentForm="currentForm"
-							section="Body"
-							propKey="paddingTop"
-							unit="px"
-						/>
-						<NumberInput
-							label="Padding bottom"
-							:shaded="true"
-							:currentForm="currentForm"
-							section="Body"
-							propKey="paddingBottom"
-							unit="px"
-						/>
-						<NumberInput
-							label="Padding left"
-							:shaded="false"
-							:currentForm="currentForm"
-							section="Body"
-							propKey="paddingLeft"
-							unit="px"
-						/>
-						<NumberInput
-							label="Padding right"
-							:shaded="true"
-							:currentForm="currentForm"
-							section="Body"
-							propKey="paddingRight"
-							unit="px"
-						/>
-						<NumberInput
-							label="Border radius"
-							:shaded="false"
-							:currentForm="currentForm"
-							section="Body"
-							propKey="borderRadius"
-							unit="px"
-						/>
-					</StyleDropdown>
-					<StyleDropdown label="Text"></StyleDropdown>
-					<StyleDropdown label="Input"></StyleDropdown>
-					<StyleDropdown label="Radio, checkboxes and toggle"></StyleDropdown>
-					<StyleDropdown label="Submit button"></StyleDropdown>
-				</div>
+				<StyleOptions :currentForm="currentForm" />
 			</div>
 		</main>
 	</div>
 	<FormFieldsModal />
 	<GenerateCode v-if="showCodeModal" :form="currentForm" />
 	<p class="fixed bottom-6 left-6 text-sm text-slate-600">
-		Made with 💜 by <a href="#" class="text-indigo-700 underline">Shannon L.</a>
+		Made with 💜 by <a href="#" class="text-indigo-700 underline">Shannon L.</a><br />GitHub |
+		Report a problem
 	</p>
 </template>
 
@@ -87,26 +34,31 @@ import FormPreview from "./components/FormPreview.vue";
 import DuplicateAndDelete from "./components/DuplicationAndDelete.vue";
 import GenerateCode from "./components/GenerateCode.vue";
 import EmailPreview from "./components/EmailPreview.vue";
-import StyleDropdown from "./components/StyleDropdown.vue";
-
-// style inputs
-import NumberInput from "./components/styleInputs/NumberInput.vue";
-import ColorInput from "./components/styleInputs/ColorInput.vue";
+import StyleOptions from "./components/StyleOptions.vue";
 
 import { ref, provide, onMounted } from "vue";
 import type { Form, FormField, Style } from "./data/types";
+import { defaultCss } from "./data/form-css";
 
 const forms = ref<Form[]>([]);
-const currentForm = ref<Form>({
-	id: "",
-	name: "",
-	email: "",
-	fields: []
-});
+const currentForm = ref<Form>(createDefaultForm(crypto.randomUUID()));
 const currentFormIsSaved = ref(false);
 const showCodeModal = ref(false);
 const showFormPreview = ref(true);
 const addFormFieldIndex = ref<number | null>(null);
+
+function createDefaultForm(id: string): Form {
+	return {
+		id,
+		name: "Untitled Form",
+		email: "",
+		domain: "",
+		subject: "",
+		introText: "",
+		fields: [],
+		styles: defaultCss
+	};
+}
 
 onMounted(() => {
 	// Load saved forms from localStorage
@@ -120,20 +72,35 @@ onMounted(() => {
 	const urlParams = new URLSearchParams(queryString);
 	const formId = urlParams.get("id");
 
+	const loadCss = (form: Form) => {
+		const styles = form.styles || [];
+		const defaultStyles = defaultCss;
+
+		// merge default styles with form styles
+		const mergedStyles = defaultStyles.map((defaultStyle) => {
+			const formStyle = styles.find((s) => s.label === defaultStyle.label);
+			return {
+				...defaultStyle,
+				properties: {
+					...defaultStyle.properties,
+					...formStyle?.properties
+				}
+			};
+		});
+
+		currentForm.value.styles = mergedStyles;
+	};
+
 	// if formId is provided, find the form
 	if (formId) {
 		const foundForm = forms.value.find((form) => form.id === formId);
 		if (foundForm) {
 			currentForm.value = foundForm;
+			loadCss(currentForm.value);
+			currentFormIsSaved.value = true; // Mark the form as saved
 		} else {
 			// create a new form with the provided id
-			currentForm.value = {
-				id: formId,
-				name: "Untitled Form",
-				email: "",
-				fields: []
-			};
-
+			currentForm.value = createDefaultForm(formId);
 			forms.value.push(currentForm.value);
 		}
 	} else {
@@ -142,13 +109,7 @@ onMounted(() => {
 			currentForm.value = forms.value[0];
 		} else {
 			// Create a new form with default values
-			currentForm.value = {
-				id: crypto.randomUUID(),
-				name: "Untitled Form 1",
-				email: "",
-				fields: []
-			};
-
+			currentForm.value = createDefaultForm(crypto.randomUUID());
 			forms.value.push(currentForm.value);
 		}
 	}

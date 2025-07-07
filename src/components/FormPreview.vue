@@ -1,18 +1,18 @@
 <template>
 	<div class="form-preview mb-16">
-		<!-- <pre>{{ currentForm.styles }}</pre> -->
-		<div
-			class="form-preview__fields grid gap-4 relative"
-			:style="`background-color:${backgroundColor}; padding-top:${paddingTop}; padding-bottom:${paddingBottom}; padding-left: ${paddingLeft}; padding-right:${paddingRight}; border-radius:${borderRadius};`"
-		>
+		<div class="form-preview__fields grid gap-4 relative" :style="computedStyles">
 			<div
-				v-for="(field, index) in props.currentForm.fields"
+				v-for="(field, index) in currentForm.fields"
 				:key="field.props.id"
 				class="form-preview-field-wrapper relative"
 				:id="field.props.id"
 			>
 				<InsertFieldAboveButton :index="index" class="absolute -top-[16px] left-0 z-10" />
-				<component :is="componentMap[field.component]" v-bind="field.props" />
+				<component
+					:is="componentMap[field.component]"
+					v-bind="field.props"
+					:currentForm="currentForm"
+				/>
 			</div>
 		</div>
 		<AddNewFieldButton />
@@ -25,7 +25,7 @@ import InsertFieldAboveButton from "../components/InsertFieldAboveButton.vue";
 import { markRaw, computed } from "vue";
 import type { Form } from "../data/types";
 
-// form builder components
+// Form builder components
 import FormTitle from "../components/formbuilder/FormTitle.vue";
 import TextInput from "../components/formbuilder/TextInput.vue";
 import TextArea from "../components/formbuilder/TextArea.vue";
@@ -58,38 +58,18 @@ interface Props {
 	currentForm: Form;
 }
 
-const props = defineProps<Props>();
+const { currentForm } = defineProps<Props>();
 
-function computeProperty(propKey: string, defaultValue: any, unit: string = ""): any {
-	const hasUnit = unit ? `${unit}` : "";
-
-	return (
-		props.currentForm.styles?.find((style) => style.label === "Body")?.properties[propKey] +
-			hasUnit || defaultValue
-	);
-}
-
-const backgroundColor = computed(() => {
-	return computeProperty("backgroundColor", "#ffffff");
-});
-
-const paddingTop = computed(() => {
-	return computeProperty("paddingTop", "0px", "px");
-});
-
-const paddingBottom = computed(() => {
-	return computeProperty("paddingBottom", "0px", "px");
-});
-
-const paddingRight = computed(() => {
-	return computeProperty("paddingRight", "0px", "px");
-});
-
-const paddingLeft = computed(() => {
-	return computeProperty("paddingLeft", "0px", "px");
-});
-
-const borderRadius = computed(() => {
-	return computeProperty("borderRadius", "0px", "px");
+const computedStyles = computed(() => {
+	const bodyStyles = currentForm.styles.find((style) => style.label === "Body");
+	return {
+		"background-color": bodyStyles.properties.backgroundColor,
+		"padding-top": bodyStyles.properties.paddingTop + "px",
+		"padding-bottom": bodyStyles.properties.paddingBottom + "px",
+		"padding-left": bodyStyles.properties.paddingLeft + "px",
+		"padding-right": bodyStyles.properties.paddingRight + "px",
+		"border-radius": bodyStyles.properties.borderRadius + "px",
+		"max-width": bodyStyles.properties.maxWidth + "px"
+	};
 });
 </script>

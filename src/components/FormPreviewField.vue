@@ -49,7 +49,6 @@ function toggleOptions(event: Event) {
 		}
 	});
 }
-
 const duplicateField = inject<(fieldId: string) => void>("duplicateField");
 
 function duplicateFieldHandler(event: Event) {

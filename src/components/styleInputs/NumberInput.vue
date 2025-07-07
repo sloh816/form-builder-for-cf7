@@ -1,9 +1,5 @@
 <template>
-	<label
-		:class="`flex items-center justify-between py-2 px-4 rounded${
-			shaded ? ' bg-indigo-50' : ''
-		}`"
-	>
+	<label class="flex items-center justify-between py-2 px-4 rounded">
 		<span>{{ props.label }}</span>
 		<div>
 			<input
@@ -23,7 +19,6 @@ import type { Form, Style } from "../../data/types";
 
 interface Props {
 	label: string;
-	shaded: boolean;
 	unit: string;
 	section: string;
 	propKey: string;
