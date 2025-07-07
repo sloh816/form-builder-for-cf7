@@ -61,15 +61,15 @@ interface Props {
 const { currentForm } = defineProps<Props>();
 
 const computedStyles = computed(() => {
-	const bodyStyles = currentForm.styles.find((style) => style.label === "Body");
+	const bodyStyles = currentForm.styles?.find((style) => style.label === "Body");
 	return {
-		"background-color": bodyStyles.properties.backgroundColor,
-		"padding-top": bodyStyles.properties.paddingTop + "px",
-		"padding-bottom": bodyStyles.properties.paddingBottom + "px",
-		"padding-left": bodyStyles.properties.paddingLeft + "px",
-		"padding-right": bodyStyles.properties.paddingRight + "px",
-		"border-radius": bodyStyles.properties.borderRadius + "px",
-		"max-width": bodyStyles.properties.maxWidth + "px"
+		"background-color": bodyStyles?.properties.backgroundColor,
+		"padding-top": bodyStyles?.properties.paddingTop + "px",
+		"padding-bottom": bodyStyles?.properties.paddingBottom + "px",
+		"padding-left": bodyStyles?.properties.paddingLeft + "px",
+		"padding-right": bodyStyles?.properties.paddingRight + "px",
+		"border-radius": bodyStyles?.properties.borderRadius + "px",
+		"max-width": bodyStyles?.properties.maxWidth + "px"
 	};
 });
 </script>

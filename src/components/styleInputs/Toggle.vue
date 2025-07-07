@@ -18,7 +18,7 @@
 </template>
 
 <script setup lang="ts">
-import { computed, inject, onMounted, ref } from "vue";
+import { computed, inject, onMounted } from "vue";
 import type { Form, Style } from "../../data/types";
 
 interface Props {

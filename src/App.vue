@@ -232,7 +232,9 @@ function deleteForm() {
 provide("duplicateField", (fieldId: string) => {
 	// find field by id from currentForm
 	if (currentForm.value) {
-		const field: Field = currentForm.value.fields.find((f) => f.props.id === fieldId);
+		const field: FormField | undefined = currentForm.value.fields.find(
+			(f) => f.props.id === fieldId
+		);
 		if (field) {
 			// Create a deep copy of the field
 			const newField: FormField = JSON.parse(JSON.stringify(field));

@@ -68,7 +68,7 @@ function updateHeadingText(text: string) {
 }
 
 const computedStyles = computed(() => {
-	const textStyles = props.currentForm.styles.find((style) => style.label === "Text");
+	const textStyles = props.currentForm.styles?.find((style) => style.label === "Text");
 	return {
 		"font-size": textStyles?.properties[`h${props.headingLevel}FontSize`] + "px",
 		color: textStyles?.properties[`h${props.headingLevel}Color`],

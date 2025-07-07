@@ -49,7 +49,7 @@ function updateHeadingLevel(level: string) {
 }
 
 const computedStyles = computed(() => {
-	const textStyles = props.currentForm.styles.find((style) => style.label === "Text");
+	const textStyles = props.currentForm.styles?.find((style) => style.label === "Text");
 	return {
 		"font-size": textStyles?.properties.formTitleFontSize + "px",
 		color: textStyles?.properties.formTitleColor,

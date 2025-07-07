@@ -6,7 +6,7 @@
 <script setup lang="ts">
 interface Props {
 	formName: string;
-	isCurrent: boolean;
+	isCurrent: boolean | undefined;
 	id: string;
 }
 

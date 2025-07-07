@@ -114,7 +114,7 @@ interface Props {
 	required?: Boolean;
 	onLabel: string;
 	offLabel: string;
-	default: boolean;
+	default: boolean | undefined;
 }
 
 const props = defineProps<Props>();

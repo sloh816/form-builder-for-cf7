@@ -32,7 +32,7 @@
 import { inject } from "vue";
 
 interface Props {
-	showingFormPreview: boolean;
+	showingFormPreview: boolean | undefined;
 }
 
 const { showingFormPreview } = defineProps<Props>();
