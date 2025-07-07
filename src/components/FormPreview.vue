@@ -5,7 +5,12 @@
 			class="form-preview__fields grid gap-4 relative"
 			:style="`background-color:${backgroundColor}; padding-top:${paddingTop}; padding-bottom:${paddingBottom}; padding-left: ${paddingLeft}; padding-right:${paddingRight}; border-radius:${borderRadius};`"
 		>
-			<div v-for="(field, index) in props.currentForm.fields" :key="index" class="relative">
+			<div
+				v-for="(field, index) in props.currentForm.fields"
+				:key="field.props.id"
+				class="form-preview-field-wrapper relative"
+				:id="field.props.id"
+			>
 				<InsertFieldAboveButton :index="index" class="absolute -top-[16px] left-0 z-10" />
 				<component :is="componentMap[field.component]" v-bind="field.props" />
 			</div>

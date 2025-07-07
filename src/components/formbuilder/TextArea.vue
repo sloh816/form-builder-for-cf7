@@ -73,7 +73,7 @@ import { inject } from "vue";
 interface Props {
 	label?: string;
 	placeholder?: string;
-	required?: boolean;
+	required?: Boolean;
 	rows?: number;
 	maxlength?: number | null;
 	id: string;

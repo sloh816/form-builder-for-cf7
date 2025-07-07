@@ -111,7 +111,7 @@ import Boolean from "../../components/propFormFields/Boolean.vue";
 interface Props {
 	id: string;
 	label: string;
-	required?: boolean;
+	required?: Boolean;
 	onLabel: string;
 	offLabel: string;
 	default: boolean;

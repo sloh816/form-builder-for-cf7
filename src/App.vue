@@ -268,6 +268,23 @@ function deleteForm() {
 	}
 }
 
+provide("duplicateField", (fieldId: string) => {
+	// find field by id from currentForm
+	if (currentForm.value) {
+		const field: Field = currentForm.value.fields.find((f) => f.props.id === fieldId);
+		if (field) {
+			// Create a deep copy of the field
+			const newField: FormField = JSON.parse(JSON.stringify(field));
+			newField.props.id = crypto.randomUUID(); // Generate a new ID for the duplicated field
+
+			// Add the new field to the current form
+			currentForm.value.fields.push(newField);
+			currentFormIsSaved.value = false; // Mark the form as unsaved
+			console.log("Field duplicated!");
+		}
+	}
+});
+
 provide("updateField", (key: string, value: any) => {
 	if (currentForm.value) {
 		(currentForm.value as Record<string, any>)[key] = value;

@@ -79,7 +79,7 @@ import DateInput from "../../components/propFormFields/DateInput.vue";
 interface Props {
 	id: string;
 	label?: string;
-	required?: boolean;
+	required?: Boolean;
 	minDate?: string;
 	maxDate?: string;
 }
