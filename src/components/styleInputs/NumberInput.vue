@@ -19,27 +19,7 @@
 
 <script setup lang="ts">
 import { computed, inject } from "vue";
-
-interface FormField {
-	component: string;
-	props: Record<string, any>;
-}
-
-interface Style {
-	label: string;
-	properties: Record<string, any>;
-}
-
-interface Form {
-	id: string;
-	name: string;
-	email: string;
-	domain?: string;
-	subject?: string;
-	introText?: string;
-	fields: FormField[];
-	styles?: Style[];
-}
+import type { Form, Style } from "../../data/types";
 
 interface Props {
 	label: string;
@@ -59,10 +39,10 @@ const defaultValue = computed(() => {
 			return style.properties[props.propKey];
 		}
 	}
-	return props.defaultValue || 0;
+	return 0;
 });
 
-const addStyle = inject<(Style) => void>("addStyle");
+const addStyle = inject<(style: Style) => void>("addStyle");
 function updateNumber(num: string) {
 	const properties: Record<string, any> = {};
 	properties[props.propKey] = num;

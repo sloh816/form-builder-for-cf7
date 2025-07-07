@@ -20,28 +20,8 @@
 </template>
 
 <script setup lang="ts">
-import { ref, inject, computed } from "vue";
-
-interface FormField {
-	component: string;
-	props: Record<string, any>;
-}
-
-interface Style {
-	label: string;
-	properties: Record<string, any>;
-}
-
-interface Form {
-	id: string;
-	name: string;
-	email: string;
-	domain?: string;
-	subject?: string;
-	introText?: string;
-	fields: FormField[];
-	styles?: Style[];
-}
+import { inject, computed } from "vue";
+import type { Form, Style } from "../../data/types";
 
 interface Props {
 	label: string;
@@ -62,9 +42,9 @@ const defaultValue = computed(() => {
 	}
 });
 
-const addStyle = inject<(Style) => void>("addStyle");
+const addStyle = inject<(style: Style) => void>("addStyle");
 function changeColor(color: string) {
-	const properties = {};
+	const properties: Record<string, any> = {};
 	properties[props.propKey] = color;
 
 	if (addStyle) {

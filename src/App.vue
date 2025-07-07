@@ -94,27 +94,7 @@ import NumberInput from "./components/styleInputs/NumberInput.vue";
 import ColorInput from "./components/styleInputs/ColorInput.vue";
 
 import { ref, provide, onMounted } from "vue";
-
-interface FormField {
-	component: string;
-	props: Record<string, any>;
-}
-
-interface Style {
-	label: string;
-	properties: Record<string, any>;
-}
-
-interface Form {
-	id: string;
-	name: string;
-	email: string;
-	domain?: string;
-	subject?: string;
-	introText?: string;
-	fields: FormField[];
-	styles?: Style[];
-}
+import type { Form, FormField, Style } from "./data/types";
 
 const forms = ref<Form[]>([]);
 const currentForm = ref<Form>({

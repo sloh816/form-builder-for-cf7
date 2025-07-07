@@ -122,21 +122,7 @@ import { onMounted, ref, inject } from "vue";
 import CopyButton from "../components/CopyButton.vue";
 import { formCss, defaultCss } from "../data/form-css";
 import { formJs } from "../data/form-js";
-
-interface FormField {
-	component: string;
-	props: Record<string, any>;
-}
-
-interface Form {
-	id: string;
-	name: string;
-	fields: FormField[];
-	email: string;
-	domain?: string;
-	subject?: string;
-	introText?: string;
-}
+import type { Form } from "../data/types";
 
 interface Props {
 	form: Form;
@@ -484,7 +470,7 @@ function generateCss(css: string, form: Form): string {
 			})
 			.replace(/\[\[([^\]]+)\]\]/g, (match, p1) => {
 				const [label, property] = p1.split(".");
-				const defaultStyle = defaultCss.find((s) => s.label === label);
+				const defaultStyle: any = defaultCss.find((s) => s.label === label);
 				if (defaultStyle && defaultStyle.properties[property]) {
 					return (
 						defaultStyle.properties[property] + (addPx.includes(property) ? "px" : "")

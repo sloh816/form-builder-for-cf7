@@ -17,7 +17,8 @@
 <script setup lang="ts">
 import AddNewFieldButton from "../components/AddNewFieldButton.vue";
 import InsertFieldAboveButton from "../components/InsertFieldAboveButton.vue";
-import { markRaw, ref, computed } from "vue";
+import { markRaw, computed } from "vue";
+import type { Form } from "../data/types";
 
 // form builder components
 import FormTitle from "../components/formbuilder/FormTitle.vue";
@@ -47,27 +48,6 @@ const componentMap: Record<string, any> = {
 	DropdownSelect: markRaw(DropdownSelect),
 	DatePicker: markRaw(DatePicker)
 };
-
-interface FormField {
-	component: string;
-	props: Record<string, any>;
-}
-
-interface Style {
-	label: string;
-	properties: Record<string, any>;
-}
-
-interface Form {
-	id: string;
-	name: string;
-	email: string;
-	domain?: string;
-	subject?: string;
-	introText?: string;
-	fields: FormField[];
-	styles?: Style[];
-}
 
 interface Props {
 	currentForm: Form;

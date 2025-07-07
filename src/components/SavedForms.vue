@@ -22,27 +22,7 @@
 <script setup lang="ts">
 import { inject } from "vue";
 import SavedFormButton from "../components/SavedFormButton.vue";
-
-interface FormField {
-	component: string;
-	props: Record<string, any>;
-}
-
-interface Style {
-	label: string;
-	properties: Record<string, any>;
-}
-
-interface Form {
-	id: string;
-	name: string;
-	email: string;
-	domain?: string;
-	subject?: string;
-	introText?: string;
-	fields: FormField[];
-	styles?: Style[];
-}
+import type { Form } from "../data/types";
 
 interface Props {
 	savedForms: Form[];
