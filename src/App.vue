@@ -142,9 +142,12 @@ onMounted(() => {
 	} else {
 		showFormPreview.value = true; // Default to showing form preview
 	}
+
+	console.log(currentForm.value);
 });
 
 function saveForm() {
+	console.log(forms.value);
 	const formsData = JSON.stringify(forms.value);
 	localStorage.setItem("indigaForms", formsData);
 	console.log("Form saved!");
@@ -238,7 +241,8 @@ provide("duplicateField", (fieldId: string) => {
 		if (field) {
 			// Create a deep copy of the field
 			const newField: FormField = JSON.parse(JSON.stringify(field));
-			newField.props.id = crypto.randomUUID(); // Generate a new ID for the duplicated field
+			newField.props.id =
+				field.props.id.split("-")[0] + "-" + crypto.randomUUID().substring(2, 8); // Generate a new ID for the duplicated field
 
 			// Add the new field to the current form
 			currentForm.value.fields.push(newField);

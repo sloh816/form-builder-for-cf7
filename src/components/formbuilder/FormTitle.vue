@@ -41,7 +41,8 @@ const updateFormField = inject<Function>("updateFormField");
 function updateHeadingLevel(level: string) {
 	const newHeadingLevel = parseInt(level);
 	const newProps = {
-		...props,
+		title: props.title,
+		id: props.id,
 		headingLevel: newHeadingLevel
 	};
 
