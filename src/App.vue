@@ -2,18 +2,21 @@
 	<div class="flex flex-col min-h-screen">
 		<Header :isSaved="currentFormIsSaved" />
 		<main class="flex grow mt-16">
-			<FormInfo v-if="currentForm" :formName="currentForm.name" :savedForms="forms" />
+			<FormInfo v-if="currentForm" :currentFormId="currentForm.id" :savedForms="forms" />
 			<div class="bg-white shadow-md w-full px-6">
 				<div class="flex items-start justify-between">
 					<PreviewOptions :showingFormPreview="showFormPreview" />
 					<DuplicateAndDelete />
 				</div>
+				<pre>{{ currentForm.styles }}</pre>
 				<FormPreview v-if="showFormPreview" :currentForm="currentForm" />
 				<EmailPreview v-else :currentForm="currentForm" />
 			</div>
 			<div class="min-w-[350px]">
-				<h2 class="font-bold text-xl p-4">Styles</h2>
-				<StyleOptions :currentForm="currentForm" />
+				<div class="fixed min-w-[350px] overflow-y-auto h-screen pb-50">
+					<h2 class="font-bold text-xl p-4">Styles</h2>
+					<StyleOptions :currentForm="currentForm" />
+				</div>
 			</div>
 		</main>
 	</div>
@@ -142,8 +145,6 @@ onMounted(() => {
 	} else {
 		showFormPreview.value = true; // Default to showing form preview
 	}
-
-	console.log(currentForm.value);
 });
 
 function saveForm() {
@@ -336,18 +337,13 @@ provide("saveForm", () => {
 provide("createNewForm", () => {
 	if (currentForm.value) {
 		saveForm(); // Save the current form before creating a new one
-		const formNumber = forms.value.length + 1;
-		currentForm.value = {
-			id: crypto.randomUUID(),
-			name: "Untitled Form " + formNumber,
-			email: "",
-			fields: []
-		};
-		forms.value.push(currentForm.value);
-		currentFormIsSaved.value = false; // Mark the form as unsaved
+		const newForm: Form = createDefaultForm(crypto.randomUUID());
+
+		forms.value.push(newForm);
+		currentForm.value = newForm; // Set the current form to the new form
+
+		console.log(currentForm.value);
 	}
-	forms.value.push(currentForm.value);
-	currentFormIsSaved.value = false; // Mark the form as unsaved
 });
 
 provide("updateFormField", (id: string, newProps: Record<string, any>) => {
@@ -406,6 +402,8 @@ provide("addStyle", (style: Style) => {
 			// Add new style
 			currentForm.value.styles.push(style);
 		}
+
+		currentFormIsSaved.value = false; // Mark the form as unsaved
 	}
 });
 </script>

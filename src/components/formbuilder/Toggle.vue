@@ -4,7 +4,9 @@
 			<!-- <pre>{{ props }}</pre> -->
 
 			<div class="indiga-toggle-switch" :data-field-id="props.id">
-				<p class="indiga-label">{{ props.label }}<span v-if="props.required">*</span></p>
+				<p class="indiga-label" :style="computedStyles">
+					{{ props.label }}<span v-if="props.required">*</span>
+				</p>
 
 				<span class="wpcf7-form-control-wrap" :data-name="props.id">
 					<span class="text-sm text-red-500"
@@ -101,9 +103,10 @@
 </template>
 
 <script setup lang="ts">
-import { inject } from "vue";
+import { inject, computed } from "vue";
 import FieldOptionsFormWrapper from "../../components/FieldOptionsFormWrapper.vue";
 import FormPreviewField from "../../components/FormPreviewField.vue";
+import type { Form } from "../../data/types";
 
 import TextInput from "../../components/propFormFields/TextInput.vue";
 import Boolean from "../../components/propFormFields/Boolean.vue";
@@ -115,13 +118,31 @@ interface Props {
 	onLabel: string;
 	offLabel: string;
 	default: boolean | undefined;
+	currentForm: Form;
 }
 
 const props = defineProps<Props>();
 
+const computedStyles = computed(() => {
+	const textStyles = props.currentForm.styles?.find((style) => style.label === "Text");
+	return {
+		"font-size": textStyles?.properties.labelFontSize + "px",
+		color: textStyles?.properties.labelColor,
+		"font-weight": textStyles?.properties.labelBold
+	};
+});
+
 const updateFormField = inject<Function>("updateFormField");
 function updateProps(propKey: string, value: any) {
-	const newProps = { ...props, [propKey]: value };
+	const newProps = {
+		id: props.id,
+		label: props.label,
+		required: props.required,
+		onLabel: props.onLabel,
+		offLabel: props.offLabel,
+		default: props.default,
+		[propKey]: value
+	};
 	updateFormField?.(props.id, newProps);
 }
 </script>

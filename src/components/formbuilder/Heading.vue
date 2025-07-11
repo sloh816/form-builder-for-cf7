@@ -1,7 +1,7 @@
 <template>
 	<FormPreviewField>
 		<template #preview>
-			<p class="font-bold text-2xl mt-4" :style="computedStyles">{{ props.heading }}</p>
+			<p class="text-2xl mt-4" :style="computedStyles">{{ props.heading }}</p>
 		</template>
 
 		<template #options>
@@ -53,7 +53,6 @@ function updateHeadingLevel(level: string) {
 	const newProps = {
 		heading: props.heading,
 		id: props.id,
-		heading: props.heading,
 		headingLevel: newHeadingLevel
 	};
 
@@ -62,7 +61,6 @@ function updateHeadingLevel(level: string) {
 
 function updateHeadingText(text: string) {
 	const newProps = {
-		heading: props.heading,
 		id: props.id,
 		headingLevel: props.headingLevel,
 		heading: text

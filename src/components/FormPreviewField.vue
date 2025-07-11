@@ -74,7 +74,7 @@ function deleteFieldHandler(event: Event) {
 	const fieldId = formField?.id;
 
 	if (fieldId && duplicateField) {
-		deleteField(fieldId);
+		deleteField?.(fieldId);
 	}
 }
 </script>

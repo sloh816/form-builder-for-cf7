@@ -454,8 +454,6 @@ function convertFormForEmailPreview(form: Form): any[] {
 
 // #region Generate CSS
 function generateCss(css: string, form: Form): string {
-	const addPx = ["paddingTop", "paddingRight", "paddingBottom", "paddingLeft", "borderRadius"];
-
 	if (form) {
 		return css
 			.replace(/\[\[([^\]]+)\]\]/g, (match, p1) => {
@@ -463,7 +461,7 @@ function generateCss(css: string, form: Form): string {
 				const style = form.styles?.find((s) => s.label === label);
 
 				if (style && style.properties[property]) {
-					return style.properties[property] + (addPx.includes(property) ? "px" : "");
+					return style.properties[property];
 				}
 
 				return match;
@@ -472,9 +470,7 @@ function generateCss(css: string, form: Form): string {
 				const [label, property] = p1.split(".");
 				const defaultStyle: any = defaultCss.find((s) => s.label === label);
 				if (defaultStyle && defaultStyle.properties[property]) {
-					return (
-						defaultStyle.properties[property] + (addPx.includes(property) ? "px" : "")
-					);
+					return defaultStyle.properties[property];
 				}
 				return match; // return original match if not found
 			});

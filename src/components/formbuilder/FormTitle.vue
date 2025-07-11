@@ -1,7 +1,7 @@
 <template>
 	<FormPreviewField>
 		<template #preview>
-			<p class="font-bold text-3xl" :style="computedStyles">{{ props.title }}</p>
+			<p class="text-3xl" :style="computedStyles">{{ props.title }}</p>
 		</template>
 
 		<template #options>
@@ -54,7 +54,7 @@ const computedStyles = computed(() => {
 	return {
 		"font-size": textStyles?.properties.formTitleFontSize + "px",
 		color: textStyles?.properties.formTitleColor,
-		"font-weight": textStyles?.properties.formTitleFontWeight
+		"font-weight": textStyles?.properties.formTitleBold
 	};
 });
 </script>

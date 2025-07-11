@@ -2,7 +2,9 @@
 	<FormPreviewField>
 		<template #preview>
 			<fieldset class="indiga-radio-buttons-group">
-				<legend class="indiga-label">{{ props.label }}<span>*</span></legend>
+				<legend class="indiga-label" :style="computedStyles">
+					{{ props.label }}<span>*</span>
+				</legend>
 				<p>
 					<span class="wpcf7-form-control-wrap" data-name="radio-844">
 						<span class="wpcf7-form-control wpcf7-radio">
@@ -56,41 +58,45 @@
 </template>
 
 <script setup lang="ts">
-import { inject } from "vue";
+import { inject, computed } from "vue";
 import FieldOptionsFormWrapper from "../../components/FieldOptionsFormWrapper.vue";
 import FormPreviewField from "../../components/FormPreviewField.vue";
+import type { Form } from "../../data/types";
 
 import TextInput from "../../components/propFormFields/TextInput.vue";
 import TextArea from "../../components/propFormFields/TextArea.vue";
-import Boolean from "../../components/propFormFields/Boolean.vue";
 
 interface Props {
 	id: string;
 	options?: String[];
 	label: string;
+	currentForm: Form;
 }
 
 const props = defineProps<Props>();
 
 const updateFormField = inject<Function>("updateFormField");
 
+const computedStyles = computed(() => {
+	const textStyles = props.currentForm.styles?.find((style) => style.label === "Text");
+	return {
+		"font-size": textStyles?.properties.labelFontSize + "px",
+		color: textStyles?.properties.labelColor,
+		"font-weight": textStyles?.properties.labelBold
+	};
+});
+
 function updateLabel(value: string) {
-	const newProps = { ...props, label: value };
+	const newProps = { id: props.id, options: props.options, label: value };
 	updateFormField?.(props.id, newProps);
 }
 
 function updateOptions(value: string) {
 	const optionsArray = value.split("\n");
 	updateFormField?.(props.id, {
-		...props,
+		id: props.label,
+		label: props.label,
 		options: optionsArray
-	});
-}
-
-function updateRequired(value: boolean) {
-	updateFormField?.(props.id, {
-		...props,
-		required: value
 	});
 }
 </script>

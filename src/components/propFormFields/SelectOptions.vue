@@ -1,6 +1,6 @@
 <template>
 	<div>
-		<label :for="props.id" class="font-semibold">{{ props.label }} </label>
+		<label :for="props.id" class="font-semibold">{{ props.label }}</label>
 		<select
 			@change="(e) => changeFunction((e.target as HTMLInputElement).value)"
 			:id="props.id"
@@ -33,5 +33,3 @@ interface Props {
 
 const props = defineProps<Props>();
 </script>
-
-<style scoped></style>

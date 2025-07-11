@@ -2,7 +2,7 @@
 	<FormPreviewField>
 		<template #preview>
 			<label :data-field-id="props.id">
-				<span class="indiga-label"
+				<span class="indiga-label" :style="computedStyles"
 					>{{ props.label }}<span v-if="props.required">*</span></span
 				>
 
@@ -17,6 +17,7 @@
 						:name="props.id"
 						:placeholder="props.placeholder"
 						:id="props.id"
+						:style="computedFieldStyles"
 					/>
 				</span>
 			</label>
@@ -66,7 +67,8 @@ import Boolean from "../../components/propFormFields/Boolean.vue";
 import RadioButtons from "../../components/propFormFields/RadioButtons.vue";
 import FieldOptionsFormWrapper from "../../components/FieldOptionsFormWrapper.vue";
 import FormPreviewField from "../../components/FormPreviewField.vue";
-import { inject } from "vue";
+import { inject, computed } from "vue";
+import type { Form } from "../../data/types";
 
 interface Props {
 	label: string;
@@ -74,14 +76,48 @@ interface Props {
 	placeholder?: string;
 	required?: Boolean;
 	id: string;
+	currentForm: Form;
 }
 
 const props = defineProps<Props>();
 
 const updateFormField = inject<Function>("updateFormField");
 
+const computedStyles = computed(() => {
+	const textStyles = props.currentForm.styles?.find((style) => style.label === "Text");
+	return {
+		"font-size": textStyles?.properties.labelFontSize + "px",
+		color: textStyles?.properties.labelColor,
+		"font-weight": textStyles?.properties.labelBold
+	};
+});
+
+const computedFieldStyles = computed(() => {
+	const inputStyles = props.currentForm.styles?.find((style) => style.label === "Input");
+	return {
+		"border-color": inputStyles?.properties.textFieldBorderColor,
+		"border-width": inputStyles?.properties.textFieldBorderWidth + "px",
+		"border-radius": inputStyles?.properties.textFieldBorderRadius + "px",
+		"padding-top": inputStyles?.properties.textFieldPaddingTop + "px",
+		"padding-bottom": inputStyles?.properties.textFieldPaddingBottom + "px",
+		"padding-left": inputStyles?.properties.textFieldPaddingLeft + "px",
+		"padding-right": inputStyles?.properties.textFieldPaddingRight + "px",
+		"font-size": inputStyles?.properties.textFieldFontSize + "px",
+		color: inputStyles?.properties.textFieldColor,
+		"background-color": inputStyles?.properties.textFieldBackgroundColor,
+		"font-weight": inputStyles?.properties.textFieldBold,
+		"border-style": inputStyles?.properties.textFieldBorderStyle
+	};
+});
+
 function updateProps(propKey: keyof Props, value: any) {
-	const newProps = { ...props } as Record<string, any>;
+	const newProps = {
+		label: props.label,
+		type: props.type,
+		placeholder: props.placeholder,
+		required: props.required,
+		id: props.id
+	} as Record<string, any>;
 	newProps[propKey] = value;
 	updateFormField?.(props.id, newProps);
 }

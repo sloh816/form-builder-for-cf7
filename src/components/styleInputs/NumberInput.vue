@@ -40,7 +40,8 @@ const defaultValue = computed(() => {
 const addStyle = inject<(style: Style) => void>("addStyle");
 function updateNumber(num: string) {
 	const properties: Record<string, any> = {};
-	properties[props.propKey] = num;
+
+	properties[props.propKey] = num !== "" ? parseInt(num) : 0;
 
 	if (addStyle) {
 		addStyle({

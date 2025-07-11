@@ -2,7 +2,7 @@
 	<FormPreviewField>
 		<template #preview>
 			<fieldset class="indiga-checkboxes-group">
-				<legend class="indiga-label">
+				<legend class="indiga-label" :style="computedStyles">
 					{{ props.label }}<span v-if="props.required">*</span>
 				</legend>
 				<p>
@@ -59,9 +59,10 @@
 </template>
 
 <script setup lang="ts">
-import { inject } from "vue";
+import { inject, computed } from "vue";
 import FieldOptionsFormWrapper from "../../components/FieldOptionsFormWrapper.vue";
 import FormPreviewField from "../../components/FormPreviewField.vue";
+import type { Form } from "../../data/types";
 
 import TextInput from "../../components/propFormFields/TextInput.vue";
 import Boolean from "../../components/propFormFields/Boolean.vue";
@@ -72,13 +73,29 @@ interface Props {
 	label?: string;
 	required?: Boolean;
 	options: String[];
+	currentForm: Form;
 }
 
 const props = defineProps<Props>();
 
+const computedStyles = computed(() => {
+	const textStyles = props.currentForm.styles?.find((style) => style.label === "Text");
+	return {
+		"font-size": textStyles?.properties.labelFontSize + "px",
+		color: textStyles?.properties.labelColor,
+		"font-weight": textStyles?.properties.labelBold
+	};
+});
+
 const updateFormField = inject<Function>("updateFormField");
 function updateProps(propKey: string, value: any) {
-	const newProps = { ...props, [propKey]: value };
+	const newProps = {
+		id: props.id,
+		label: props.label,
+		required: props.required,
+		options: props.options,
+		[propKey]: value
+	};
 	updateFormField?.(props.id, newProps);
 }
 
@@ -87,7 +104,14 @@ function updateOptions(value: string) {
 		.split("\n")
 		.map((option) => option.trim())
 		.filter((option) => option);
-	const newProps = { ...props, options: optionsArray };
+
+	const newProps = {
+		id: props.id,
+		label: props.label,
+		required: props.required,
+		options: optionsArray
+	};
+
 	updateFormField?.(props.id, newProps);
 }
 </script>

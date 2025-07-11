@@ -13,7 +13,7 @@
 				"
 			/>
 		</div>
-		<SavedForms :savedForms="props.savedForms" :currentFormName="formName" />
+		<SavedForms :savedForms="props.savedForms" :currentFormId="props.currentFormId" />
 	</div>
 </template>
 
@@ -23,7 +23,7 @@ import { inject } from "vue";
 import type { Form } from "../data/types";
 
 interface Props {
-	formName?: string;
+	currentFormId?: string;
 	savedForms: Form[];
 }
 

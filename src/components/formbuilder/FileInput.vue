@@ -1,9 +1,9 @@
 <template>
 	<FormPreviewField>
 		<template #preview>
-			<div class="indiga-file-upload indiga-field">
+			<div class="indiga-file-upload indiga-field" :style="computedWrapperFieldStyles">
 				<label>
-					<span class="indiga-label"
+					<span class="indiga-label" :style="computedStyles"
 						>{{ props.label }}<span v-if="props.required">*</span></span
 					>
 					<div class="indiga-note-wrapper">
@@ -21,6 +21,7 @@
 							aria-invalid="false"
 							name="file-936"
 							disabled
+							:style="computedFieldStyles"
 						/>
 					</span>
 				</label>
@@ -68,9 +69,10 @@
 </template>
 
 <script setup lang="ts">
-import { inject } from "vue";
+import { inject, computed } from "vue";
 import FieldOptionsFormWrapper from "../../components/FieldOptionsFormWrapper.vue";
 import FormPreviewField from "../../components/FormPreviewField.vue";
+import type { Form } from "../../data/types";
 
 import TextInput from "../../components/propFormFields/TextInput.vue";
 import Boolean from "../../components/propFormFields/Boolean.vue";
@@ -83,6 +85,7 @@ interface Props {
 	required?: Boolean;
 	fileTypes: string[];
 	fileSizeLimit: number; // in KB
+	currentForm: Form;
 }
 
 const props = defineProps<Props>();
@@ -123,9 +126,57 @@ function getAcceptableFileTypes() {
 		.join(", ");
 }
 
+const computedStyles = computed(() => {
+	const textStyles = props.currentForm.styles?.find((style) => style.label === "Text");
+	return {
+		"font-size": textStyles?.properties.labelFontSize + "px",
+		color: textStyles?.properties.labelColor,
+		"font-weight": textStyles?.properties.labelBold
+	};
+});
+
+const computedFieldStyles = computed(() => {
+	const inputStyles = props.currentForm.styles?.find((style) => style.label === "Input");
+	return {
+		"border-color": inputStyles?.properties.textFieldBorderColor,
+		"border-width": inputStyles?.properties.textFieldBorderWidth + "px",
+		"border-radius": inputStyles?.properties.textFieldBorderRadius + "px",
+		"padding-top": inputStyles?.properties.textFieldPaddingTop + "px",
+		"padding-bottom": inputStyles?.properties.textFieldPaddingBottom + "px",
+		"padding-left": inputStyles?.properties.textFieldPaddingLeft + "px",
+		"padding-right": inputStyles?.properties.textFieldPaddingRight + "px",
+		"font-size": inputStyles?.properties.textFieldFontSize + "px",
+		color: inputStyles?.properties.textFieldColor,
+		"background-color": inputStyles?.properties.textFieldBackgroundColor,
+		"font-weight": inputStyles?.properties.textFieldBold,
+		"border-style": inputStyles?.properties.textFieldBorderStyle
+	};
+});
+
+const computedWrapperFieldStyles = computed(() => {
+	const inputStyles = props.currentForm.styles?.find((style) => style.label === "Input");
+	return {
+		"border-color": inputStyles?.properties.inputFieldBorderColor,
+		"border-width": inputStyles?.properties.inputFieldBorderWidth + "px",
+		"border-radius": inputStyles?.properties.inputFieldBorderRadius + "px",
+		"padding-top": inputStyles?.properties.inputFieldPaddingTop + "px",
+		"padding-bottom": inputStyles?.properties.inputFieldPaddingBottom + "px",
+		"padding-left": inputStyles?.properties.inputFieldPaddingLeft + "px",
+		"padding-right": inputStyles?.properties.inputFieldPaddingRight + "px",
+		"border-style": inputStyles?.properties.inputFieldBorderStyle
+	};
+});
+
 const updateFormField = inject<Function>("updateFormField");
 function updateProps(propKey: string, value: any) {
-	const newProps = { ...props, [propKey]: value };
+	const newProps = {
+		id: props.id,
+		label: props.label,
+		required: props.required,
+		fileTypes: props.fileTypes,
+		fileSizeLimit: props.fileSizeLimit,
+		[propKey]: value
+	};
 	updateFormField?.(props.id, newProps);
 }
 </script>

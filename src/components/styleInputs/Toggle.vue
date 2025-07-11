@@ -1,15 +1,13 @@
 <template>
 	<label class="flex items-center justify-between py-2 px-4 rounded">
 		<span>{{ props.label }}</span>
-		<div>
-			<input
-				type="checkbox"
-				class="border rounded border-slate-600 w-8 h-8 bg-white cursor-pointer hidden"
-				@input="(e) => updateNumber((e.target as HTMLInputElement).value)"
-				:checked="def === 'true' ? true : false"
-			/>
-			<div data-checked="false" :id="componentId">
-				<button class="indiga-toggle-switch-button" type="button">
+		<div class="style-option-toggle">
+			<div :data-checked="def" :id="componentId">
+				<button
+					class="indiga-toggle-switch-button"
+					type="button"
+					@click="(e) => updateValue((e.currentTarget as HTMLButtonElement))"
+				>
 					<span class="indiga-toggle-switch-button-inner"></span>
 				</button>
 			</div>
@@ -27,6 +25,8 @@ interface Props {
 	propKey: string;
 	currentForm?: Form;
 	defaultValue?: string;
+	trueValue?: string;
+	falseValue?: string;
 }
 
 const props = defineProps<Props>();
@@ -40,28 +40,30 @@ const componentId = computed(() =>
 onMounted(() => {
 	const toggleWrapper = document.getElementById(componentId.value) as HTMLDivElement;
 	const toggleButton = toggleWrapper.querySelector("button") as HTMLButtonElement;
-	const input = toggleWrapper.previousElementSibling as HTMLInputElement;
 
 	const setCheckedState = () => {
-		if (input.checked) {
-			toggleWrapper.setAttribute("data-checked", "true");
-		} else {
+		const isChecked = toggleWrapper.getAttribute("data-checked") === "true";
+		if (isChecked) {
 			toggleWrapper.setAttribute("data-checked", "false");
+		} else {
+			toggleWrapper.setAttribute("data-checked", "true");
 		}
 	};
 
-	setCheckedState();
-	toggleButton?.addEventListener("click", () => {
-		input.checked = !input.checked;
-		setCheckedState();
-	});
+	// setCheckedState();
+	toggleButton?.addEventListener("click", () => setCheckedState());
 });
 
 const addStyle = inject<(style: Style) => void>("addStyle");
-function updateNumber(num: string) {
-	const properties: Record<string, any> = {};
-	properties[props.propKey] = num;
+function updateValue(button: HTMLButtonElement) {
+	const toggleWrapper = button.parentElement as HTMLDivElement;
+	const checkedValue = !(toggleWrapper.getAttribute("data-checked") === "true");
+	const trueValue = props.trueValue || "true";
+	const falseValue = props.falseValue || "false";
 
+	const properties: Record<string, any> = {};
+	const value = checkedValue ? trueValue : falseValue;
+	properties[props.propKey] = value;
 	if (addStyle) {
 		addStyle({
 			label: props.section,

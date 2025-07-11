@@ -5,9 +5,9 @@
 
 			<div class="indiga-field">
 				<label :data-field-id="props.id">
-					<span class="indiga-label"
-						>{{ props.label }}<span v-if="props.required">*</span></span
-					>
+					<span class="indiga-label" :style="computedStyles">
+						{{ props.label }}<span v-if="props.required">*</span>
+					</span>
 					<span class="indiga-note-wrapper">
 						<span v-if="props.minDate" class="indiga-note"
 							>Minimum date: {{ formatDate(props.minDate) }}</span
@@ -26,6 +26,7 @@
 								:name="props.id"
 								:min="props.minDate"
 								:max="props.maxDate"
+								:style="computedFieldStyles"
 							/>
 						</span>
 					</p>
@@ -68,9 +69,10 @@
 </template>
 
 <script setup lang="ts">
-import { inject } from "vue";
+import { inject, computed } from "vue";
 import FieldOptionsFormWrapper from "../../components/FieldOptionsFormWrapper.vue";
 import FormPreviewField from "../../components/FormPreviewField.vue";
+import type { Form } from "../../data/types";
 
 import TextInput from "../../components/propFormFields/TextInput.vue";
 import Boolean from "../../components/propFormFields/Boolean.vue";
@@ -82,13 +84,48 @@ interface Props {
 	required?: Boolean;
 	minDate?: string;
 	maxDate?: string;
+	currentForm: Form;
 }
 
 const props = defineProps<Props>();
 
+const computedStyles = computed(() => {
+	const textStyles = props.currentForm.styles?.find((style) => style.label === "Text");
+	return {
+		"font-size": textStyles?.properties.labelFontSize + "px",
+		color: textStyles?.properties.labelColor,
+		"font-weight": textStyles?.properties.labelBold
+	};
+});
+
+const computedFieldStyles = computed(() => {
+	const inputStyles = props.currentForm.styles?.find((style) => style.label === "Input");
+	return {
+		"border-color": inputStyles?.properties.textFieldBorderColor,
+		"border-width": inputStyles?.properties.textFieldBorderWidth + "px",
+		"border-radius": inputStyles?.properties.textFieldBorderRadius + "px",
+		"padding-top": inputStyles?.properties.textFieldPaddingTop + "px",
+		"padding-bottom": inputStyles?.properties.textFieldPaddingBottom + "px",
+		"padding-left": inputStyles?.properties.textFieldPaddingLeft + "px",
+		"padding-right": inputStyles?.properties.textFieldPaddingRight + "px",
+		"font-size": inputStyles?.properties.textFieldFontSize + "px",
+		color: inputStyles?.properties.textFieldColor,
+		"background-color": inputStyles?.properties.textFieldBackgroundColor,
+		"font-weight": inputStyles?.properties.textFieldBold,
+		"border-style": inputStyles?.properties.textFieldBorderStyle
+	};
+});
+
 const updateFormField = inject<Function>("updateFormField");
 function updateProps(propKey: string, value: any) {
-	const newProps = { ...props, [propKey]: value };
+	const newProps = {
+		id: props.id,
+		label: props.label,
+		required: props.required,
+		minDate: props.minDate,
+		maxDate: props.maxDate,
+		[propKey]: value
+	};
 	updateFormField?.(props.id, newProps);
 }
 

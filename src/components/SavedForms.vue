@@ -6,7 +6,7 @@
 				v-for="form in savedForms"
 				:key="form.name"
 				:formName="form.name"
-				:isCurrent="props.currentFormName === form.name"
+				:isCurrent="props.currentFormId === form.id"
 				:id="form.id"
 			/>
 		</div>
@@ -26,11 +26,9 @@ import type { Form } from "../data/types";
 
 interface Props {
 	savedForms: Form[];
-	currentFormName?: string;
+	currentFormId?: string;
 }
 
 const props = defineProps<Props>();
 const createNewForm = inject<(event: MouseEvent) => void>("createNewForm");
 </script>
-
-<style scoped></style>
