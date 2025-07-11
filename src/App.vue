@@ -188,6 +188,8 @@ function duplicateForm() {
 
 		currentFormIsSaved.value = false; // Mark the form as unsaved
 		console.log("Form duplicated!");
+
+		saveForm();
 	}
 }
 

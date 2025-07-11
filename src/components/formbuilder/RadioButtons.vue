@@ -2,9 +2,7 @@
 	<FormPreviewField>
 		<template #preview>
 			<fieldset class="indiga-radio-buttons-group">
-				<legend class="indiga-label">
-					{{ props.label }}<span v-if="props.required">*</span>
-				</legend>
+				<legend class="indiga-label">{{ props.label }}<span>*</span></legend>
 				<p>
 					<span class="wpcf7-form-control-wrap" data-name="radio-844">
 						<span class="wpcf7-form-control wpcf7-radio">
@@ -19,10 +17,12 @@
 								]"
 							>
 								<label>
-									<input type="radio" :name="props.id" :value="option" /><span
-										class="wpcf7-list-item-label"
-										>{{ option }}</span
-									>
+									<input
+										type="radio"
+										:name="props.id"
+										:value="option"
+										:checked="index === 0"
+									/><span class="wpcf7-list-item-label">{{ option }}</span>
 								</label>
 							</span>
 						</span>
@@ -33,6 +33,9 @@
 
 		<template #options>
 			<FieldOptionsFormWrapper :id="props.id" fieldType="Radio buttons">
+				<p class="text-sm bg-yellow-100 p-2 rounded-lg w-full">
+					Radio buttons have the first item selected by default.
+				</p>
 				<TextInput
 					:id="`label-${props.id}`"
 					label="Label"
@@ -46,13 +49,6 @@
 					description="One line per option"
 					:value="props.options?.join('\n').trim() ?? ''"
 					:inputFunction="(value: any) => updateOptions(value)"
-				/>
-
-				<Boolean
-					:id="`required-${props.id}`"
-					:isChecked="props.required ?? false"
-					:changeFunction="(value: any) => updateRequired(value)"
-					label="Required"
 				/>
 			</FieldOptionsFormWrapper>
 		</template>
@@ -72,7 +68,6 @@ interface Props {
 	id: string;
 	options?: String[];
 	label: string;
-	required?: Boolean;
 }
 
 const props = defineProps<Props>();
