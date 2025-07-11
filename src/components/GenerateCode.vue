@@ -92,7 +92,13 @@
 				</div>
 			</div>
 
-			<h2 class="font-bold text-xl text-indigo-700 mt-16">Step 3: CSS</h2>
+			<p class="mt-16 mb-4 bg-amber-100 text-amber-800 px-4 py-3 rounded-xl">
+				<strong>
+					You only need to add Indiga's CSS and JavaScript to your website
+					<em>once</em> </strong
+				>.<br />All subsequent forms will use the same CSS and JavaScript.
+			</p>
+			<h2 class="font-bold text-xl text-indigo-700">Step 3: CSS</h2>
 			<p class="text-sm text-slate-500 mb-4">Add the following CSS to your website.</p>
 			<div class="relative">
 				<CopyButton class="absolute top-3 right-6" :copyText="css" />
