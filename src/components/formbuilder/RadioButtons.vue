@@ -83,20 +83,20 @@ const props = defineProps<Props>();
 
 const updateFormField = inject<Function>("updateFormField");
 const getComputedStyles = inject<Function>("getComputedStyles");
-const computedStyles = getComputedStyles([
+const computedStyles = getComputedStyles?.([
 	{ "font-size": "labelFontSize" },
 	{ color: "labelColor" },
 	{ "font-weight": "labelBold" }
 ]);
 
-const computedFieldStyles = getComputedStyles([
+const computedFieldStyles = getComputedStyles?.([
 	{ width: "radioCheckboxSize" },
 	{ height: "radioCheckboxSize" }
 ]);
 
-const computedGapStyle = getComputedStyles([{ gap: "radioCheckboxGap" }]);
+const computedGapStyle = getComputedStyles?.([{ gap: "radioCheckboxGap" }]);
 
-const computedLabelStyles = getComputedStyles([{ "font-size": "radioCheckboxFontSize" }]);
+const computedLabelStyles = getComputedStyles?.([{ "font-size": "radioCheckboxFontSize" }]);
 
 function updateLabel(value: string) {
 	const newProps = { id: props.id, options: props.options, label: value };

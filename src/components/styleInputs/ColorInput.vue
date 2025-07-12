@@ -25,7 +25,7 @@
 
 <script setup lang="ts">
 import { inject, computed } from "vue";
-import type { Form, Style } from "../../data/types";
+import type { Form } from "../../data/types";
 import CrossIcon from "../../assets/cross.svg";
 
 interface Props {
@@ -42,7 +42,7 @@ const defaultValue = computed(() => {
 	}
 });
 
-const addStyle = inject<(style: Style) => void>("addStyle");
+const addStyle = inject<(style: Record<string, string>) => void>("addStyle");
 function changeColor(color: string) {
 	const properties: Record<string, any> = {};
 	properties[props.propKey] = color;

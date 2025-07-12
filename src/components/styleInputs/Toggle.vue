@@ -17,7 +17,7 @@
 
 <script setup lang="ts">
 import { computed, inject, onMounted } from "vue";
-import type { Form, Style } from "../../data/types";
+import type { Form } from "../../data/types";
 
 interface Props {
 	label: string;
@@ -52,7 +52,7 @@ onMounted(() => {
 	toggleButton?.addEventListener("click", () => setCheckedState());
 });
 
-const addStyle = inject<(style: Style) => void>("addStyle");
+const addStyle = inject<(style: Record<string, string>) => void>("addStyle");
 function updateValue(button: HTMLButtonElement) {
 	const toggleWrapper = button.parentElement as HTMLDivElement;
 	const checkedValue = !(toggleWrapper.getAttribute("data-checked") === "true");

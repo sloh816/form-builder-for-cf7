@@ -126,7 +126,7 @@
 import Checkbox from "../assets/checkbox.svg";
 import { onMounted, ref, inject } from "vue";
 import CopyButton from "../components/CopyButton.vue";
-import { formCss, defaultCss } from "../data/form-css";
+import { formCss } from "../data/form-css";
 import { formJs } from "../data/form-js";
 import type { Form } from "../data/types";
 
@@ -461,10 +461,10 @@ function convertFormForEmailPreview(form: Form): any[] {
 // #region Generate CSS
 function generateCss(css: string, form: Form): string {
 	if (form) {
-		return css.replace(/\[\[([^\]]+)\]\]/g, (match, p1) => {
+		return css.replace(/\[\[([^\]]+)\]\]/g, (_, p1) => {
 			const cssProp = p1.trim();
-			const value = form.styles?.[cssProp] || defaultCss[cssProp];
-			return value;
+			const value = form.styles?.[cssProp];
+			return value ?? "";
 		});
 	}
 

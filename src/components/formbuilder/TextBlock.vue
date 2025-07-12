@@ -18,7 +18,7 @@
 </template>
 
 <script setup lang="ts">
-import { inject, computed } from "vue";
+import { inject } from "vue";
 import FieldOptionsFormWrapper from "../../components/FieldOptionsFormWrapper.vue";
 import FormPreviewField from "../../components/FormPreviewField.vue";
 import type { Form } from "../../data/types";
@@ -53,7 +53,7 @@ function updateProps(propKey: string, value: any) {
 }
 
 const getComputedStyles = inject<Function>("getComputedStyles");
-const computedStyles = getComputedStyles([
+const computedStyles = getComputedStyles?.([
 	{ "font-size": "textBlockFontSize" },
 	{ color: "textBlockColor" },
 	{ "background-color": "textBlockBackgroundColor" },

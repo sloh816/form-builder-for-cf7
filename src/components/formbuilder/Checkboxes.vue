@@ -64,7 +64,7 @@
 </template>
 
 <script setup lang="ts">
-import { inject, computed } from "vue";
+import { inject } from "vue";
 import FieldOptionsFormWrapper from "../../components/FieldOptionsFormWrapper.vue";
 import FormPreviewField from "../../components/FormPreviewField.vue";
 import type { Form } from "../../data/types";
@@ -84,20 +84,20 @@ interface Props {
 const props = defineProps<Props>();
 
 const getComputedStyles = inject<Function>("getComputedStyles");
-const computedStyles = getComputedStyles([
+const computedStyles = getComputedStyles?.([
 	{ "font-size": "labelFontSize" },
 	{ color: "labelColor" },
 	{ "font-weight": "labelBold" }
 ]);
 
-const computedFieldStyles = getComputedStyles([
+const computedFieldStyles = getComputedStyles?.([
 	{ width: "radioCheckboxSize" },
 	{ height: "radioCheckboxSize" }
 ]);
 
-const computedGapStyle = getComputedStyles([{ gap: "radioCheckboxGap" }]);
+const computedGapStyle = getComputedStyles?.([{ gap: "radioCheckboxGap" }]);
 
-const computedLabelStyles = getComputedStyles([{ "font-size": "radioCheckboxFontSize" }]);
+const computedLabelStyles = getComputedStyles?.([{ "font-size": "radioCheckboxFontSize" }]);
 
 const updateFormField = inject<Function>("updateFormField");
 function updateProps(propKey: string, value: any) {

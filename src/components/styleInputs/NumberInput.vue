@@ -15,7 +15,7 @@
 
 <script setup lang="ts">
 import { computed, inject } from "vue";
-import type { Form, Style } from "../../data/types";
+import type { Form } from "../../data/types";
 
 interface Props {
 	label: string;
@@ -32,7 +32,7 @@ const defaultValue = computed(() => {
 	}
 });
 
-const addStyle = inject<(style: Style) => void>("addStyle");
+const addStyle = inject<(style: Record<string, string>) => void>("addStyle");
 function updateNumber(num: string) {
 	const properties: Record<string, any> = {};
 	properties[props.propKey] = num !== "" ? parseInt(num) : 0;

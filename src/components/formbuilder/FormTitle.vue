@@ -22,7 +22,7 @@
 </template>
 
 <script setup lang="ts">
-import { inject, computed } from "vue";
+import { inject } from "vue";
 import FieldOptionsFormWrapper from "../../components/FieldOptionsFormWrapper.vue";
 import SelectOptions from "../../components/propFormFields/SelectOptions.vue";
 import FormPreviewField from "../../components/FormPreviewField.vue";
@@ -51,7 +51,7 @@ function updateHeadingLevel(level: string) {
 
 const getComputedStyles = inject<Function>("getComputedStyles");
 
-const computedStyles = getComputedStyles([
+const computedStyles = getComputedStyles?.([
 	{ "font-size": "formTitleFontSize" },
 	{ color: "formTitleColor" },
 	{ "font-weight": "formTitleBold" }

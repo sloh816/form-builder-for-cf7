@@ -65,7 +65,7 @@ function getComputedStyles(styleProps: Record<string, string>[]) {
 		return styleProps.map((prop) => {
 			const cssProp = Object.keys(prop)[0];
 			const styleKey = prop[cssProp];
-			let value = currentForm.styles[styleKey];
+			let value = currentForm?.styles?.[styleKey];
 
 			// if value string is a number, append 'px'
 			if (!isNaN(Number(value))) {
@@ -79,7 +79,7 @@ function getComputedStyles(styleProps: Record<string, string>[]) {
 	});
 }
 
-const computedStyles = getComputedStyles([
+const computedStyles = getComputedStyles?.([
 	{ "background-color": "backgroundColor" },
 	{ "padding-top": "bodyPaddingTop" },
 	{ "padding-bottom": "bodyPaddingBottom" },

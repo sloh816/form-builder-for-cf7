@@ -39,7 +39,7 @@ import EmailPreview from "./components/EmailPreview.vue";
 import StyleOptions from "./components/StyleOptions.vue";
 
 import { ref, provide, onMounted } from "vue";
-import type { Form, FormField, Style } from "./data/types";
+import type { Form, FormField } from "./data/types";
 import { defaultCss } from "./data/form-css";
 
 const forms = ref<Form[]>([]);
@@ -71,9 +71,9 @@ onMounted(() => {
 
 	const loadCss = (currentForm: Form) => {
 		// merge styles with default styles
-		currentForm.value.styles = {
+		currentForm.styles = {
 			...defaultCss,
-			...currentForm.value.styles
+			...currentForm.styles
 		};
 	};
 
@@ -87,7 +87,7 @@ onMounted(() => {
 		const foundForm = forms.value.find((form) => form.id === formId);
 		if (foundForm) {
 			currentForm.value = foundForm;
-			loadCss(currentForm);
+			loadCss(currentForm.value);
 			currentFormIsSaved.value = true; // Mark the form as saved
 		} else {
 			// create a new form with the provided id
@@ -98,7 +98,7 @@ onMounted(() => {
 		// Check if there are any saved forms
 		if (forms.value.length > 0) {
 			currentForm.value = forms.value[0];
-			loadCss(currentForm);
+			loadCss(currentForm.value);
 		} else {
 			// Create a new form with default values
 			currentForm.value = createDefaultForm(crypto.randomUUID());

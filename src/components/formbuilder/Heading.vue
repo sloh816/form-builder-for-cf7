@@ -30,7 +30,7 @@
 </template>
 
 <script setup lang="ts">
-import { inject, computed } from "vue";
+import { inject } from "vue";
 import FieldOptionsFormWrapper from "../../components/FieldOptionsFormWrapper.vue";
 import SelectOptions from "../../components/propFormFields/SelectOptions.vue";
 import TextInput from "../../components/propFormFields/TextInput.vue";
@@ -71,7 +71,7 @@ function updateHeadingText(text: string) {
 
 const getComputedStyles = inject<Function>("getComputedStyles");
 
-const computedStyles = getComputedStyles([
+const computedStyles = getComputedStyles?.([
 	{ "font-size": `h${props.headingLevel}FontSize` },
 	{ color: `h${props.headingLevel}Color` },
 	{ "font-weight": `h${props.headingLevel}Bold` }

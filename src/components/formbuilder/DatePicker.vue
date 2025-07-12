@@ -69,7 +69,7 @@
 </template>
 
 <script setup lang="ts">
-import { inject, computed } from "vue";
+import { inject } from "vue";
 import FieldOptionsFormWrapper from "../../components/FieldOptionsFormWrapper.vue";
 import FormPreviewField from "../../components/FormPreviewField.vue";
 import type { Form } from "../../data/types";
@@ -90,13 +90,13 @@ interface Props {
 const props = defineProps<Props>();
 const getComputedStyles = inject<Function>("getComputedStyles");
 
-const computedStyles = getComputedStyles([
+const computedStyles = getComputedStyles?.([
 	{ "font-size": "labelFontSize" },
 	{ color: "labelColor" },
 	{ "font-weight": "labelBold" }
 ]);
 
-const computedFieldStyles = getComputedStyles([
+const computedFieldStyles = getComputedStyles?.([
 	{ "border-color": "textFieldBorderColor" },
 	{ "border-width": "textFieldBorderWidth" },
 	{ "border-radius": "textFieldBorderRadius" },

@@ -107,7 +107,7 @@
 </template>
 
 <script setup lang="ts">
-import { inject, computed, onMounted } from "vue";
+import { inject, onMounted } from "vue";
 import FieldOptionsFormWrapper from "../../components/FieldOptionsFormWrapper.vue";
 import FormPreviewField from "../../components/FormPreviewField.vue";
 import type { Form } from "../../data/types";
@@ -159,7 +159,6 @@ function addFunctionToToggle(toggle: HTMLElement) {
 			".indiga-toggle-button-label"
 		) as HTMLElement;
 
-		const inputStyles = props.currentForm?.styles.toggleOnColor || "#3b82f6";
 		const onColor = toggleButton.querySelector(".on-background") as HTMLElement;
 
 		if (!isChecked === true) {
@@ -184,17 +183,17 @@ function addFunctionToToggle(toggle: HTMLElement) {
 
 const getComputedStyles = inject<Function>("getComputedStyles");
 
-const computedStyles = getComputedStyles([
+const computedStyles = getComputedStyles?.([
 	{ "font-size": "labelFontSize" },
 	{ color: "labelColor" },
 	{ "font-weight": "labelBold" }
 ]);
 
-const computedButtonStyles = getComputedStyles([{ "background-color": "toggleOffColor" }]);
+const computedButtonStyles = getComputedStyles?.([{ "background-color": "toggleOffColor" }]);
 
-const computedOnStyle = getComputedStyles([{ "background-color": "toggleOnColor" }]);
+const computedOnStyle = getComputedStyles?.([{ "background-color": "toggleOnColor" }]);
 
-const computedFontStyle = getComputedStyles([
+const computedFontStyle = getComputedStyles?.([
 	{ "font-size": "toggleLabelFontSize" },
 	{ "font-weight": "toggleLabelBold" }
 ]);
