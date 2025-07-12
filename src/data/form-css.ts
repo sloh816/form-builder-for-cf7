@@ -5,10 +5,10 @@ export const defaultCss = [
         "backgroundColor": "transparent",
         "maxWidth": "750",
         "borderRadius": "0",
-        "paddingRight": "0",
-        "paddingLeft": "0",
-        "paddingBottom": "0",
-        "paddingTop": "0"
+        "bodyPaddingRight": "0",
+        "bodyPaddingLeft": "0",
+        "bodyPaddingBottom": "0",
+        "bodyPaddingTop": "0"
         }
     },
     {

@@ -64,10 +64,10 @@ const computedStyles = computed(() => {
 	const bodyStyles = currentForm.styles?.find((style) => style.label === "Body");
 	return {
 		"background-color": bodyStyles?.properties.backgroundColor,
-		"padding-top": bodyStyles?.properties.paddingTop + "px",
-		"padding-bottom": bodyStyles?.properties.paddingBottom + "px",
-		"padding-left": bodyStyles?.properties.paddingLeft + "px",
-		"padding-right": bodyStyles?.properties.paddingRight + "px",
+		"padding-top": bodyStyles?.properties.bodyPaddingTop + "px",
+		"padding-bottom": bodyStyles?.properties.bodyPaddingBottom + "px",
+		"padding-left": bodyStyles?.properties.bodyPaddingLeft + "px",
+		"padding-right": bodyStyles?.properties.bodyPaddingRight + "px",
 		"border-radius": bodyStyles?.properties.borderRadius + "px",
 		"max-width": bodyStyles?.properties.maxWidth + "px"
 	};
