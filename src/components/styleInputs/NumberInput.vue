@@ -20,7 +20,6 @@ import type { Form, Style } from "../../data/types";
 interface Props {
 	label: string;
 	unit: string;
-	section: string;
 	propKey: string;
 	currentForm?: Form;
 }

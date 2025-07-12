@@ -8,7 +8,6 @@
 					<PreviewOptions :showingFormPreview="showFormPreview" />
 					<DuplicateAndDelete />
 				</div>
-				<pre>{{ currentForm.styles }}</pre>
 				<FormPreview v-if="showFormPreview" :currentForm="currentForm" />
 				<EmailPreview v-else :currentForm="currentForm" />
 			</div>
@@ -70,6 +69,14 @@ onMounted(() => {
 		forms.value = JSON.parse(savedForms) as Form[];
 	}
 
+	const loadCss = (currentForm: Form) => {
+		// merge styles with default styles
+		currentForm.value.styles = {
+			...defaultCss,
+			...currentForm.value.styles
+		};
+	};
+
 	// Get query string
 	const queryString = window.location.search;
 	const urlParams = new URLSearchParams(queryString);
@@ -80,6 +87,7 @@ onMounted(() => {
 		const foundForm = forms.value.find((form) => form.id === formId);
 		if (foundForm) {
 			currentForm.value = foundForm;
+			loadCss(currentForm);
 			currentFormIsSaved.value = true; // Mark the form as saved
 		} else {
 			// create a new form with the provided id
@@ -90,6 +98,7 @@ onMounted(() => {
 		// Check if there are any saved forms
 		if (forms.value.length > 0) {
 			currentForm.value = forms.value[0];
+			loadCss(currentForm);
 		} else {
 			// Create a new form with default values
 			currentForm.value = createDefaultForm(crypto.randomUUID());

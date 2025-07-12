@@ -4,48 +4,36 @@
 			<ColorInput
 				label="Background color"
 				:currentForm="currentForm"
-				section="Body"
 				propKey="backgroundColor"
 			/>
-			<NumberInput
-				label="Width"
-				:currentForm="currentForm"
-				section="Body"
-				propKey="maxWidth"
-				unit="px"
-			/>
+			<NumberInput label="Width" :currentForm="currentForm" propKey="maxWidth" unit="px" />
 			<NumberInput
 				label="Padding top"
 				:currentForm="currentForm"
-				section="Body"
 				propKey="bodyPaddingTop"
 				unit="px"
 			/>
 			<NumberInput
 				label="Padding bottom"
 				:currentForm="currentForm"
-				section="Body"
 				propKey="bodyPaddingBottom"
 				unit="px"
 			/>
 			<NumberInput
 				label="Padding left"
 				:currentForm="currentForm"
-				section="Body"
 				propKey="bodyPaddingLeft"
 				unit="px"
 			/>
 			<NumberInput
 				label="Padding right"
 				:currentForm="currentForm"
-				section="Body"
 				propKey="bodyPaddingRight"
 				unit="px"
 			/>
 			<NumberInput
 				label="Border radius"
 				:currentForm="currentForm"
-				section="Body"
 				propKey="borderRadius"
 				unit="px"
 			/>
@@ -161,26 +149,22 @@
 			<ColorInput
 				label="Background colour"
 				:currentForm="currentForm"
-				section="Input"
 				:propKey="`textFieldBackgroundColor`"
 			/>
 			<ColorInput
 				label="Text colour"
 				:currentForm="currentForm"
-				section="Input"
 				:propKey="`textFieldColor`"
 			/>
 			<NumberInput
 				label="Font size"
 				:currentForm="currentForm"
-				section="Input"
 				:propKey="`textFieldFontSize`"
 				unit="px"
 			/>
 			<Toggle
 				label="Bold"
 				:currentForm="currentForm"
-				section="Input"
 				:propKey="`textFieldBold`"
 				defaultValue="false"
 				trueValue="bold"
@@ -189,55 +173,47 @@
 			<DropdownSelect
 				label="Border style"
 				:currentForm="currentForm"
-				section="Input"
 				:propKey="`textFieldBorderStyle`"
 				:options="['solid', 'dashed', 'dotted']"
 			/>
 			<ColorInput
 				label="Border colour"
 				:currentForm="currentForm"
-				section="Input"
 				:propKey="`textFieldBorderColor`"
 			/>
 			<NumberInput
 				label="Border Width"
 				:currentForm="currentForm"
-				section="Input"
 				:propKey="`textFieldBorderWidth`"
 				unit="px"
 			/>
 			<NumberInput
 				label="Border radius"
 				:currentForm="currentForm"
-				section="Input"
 				:propKey="`textFieldBorderRadius`"
 				unit="px"
 			/>
 			<NumberInput
 				label="Padding top"
 				:currentForm="currentForm"
-				section="Input"
 				:propKey="`textFieldPaddingTop`"
 				unit="px"
 			/>
 			<NumberInput
 				label="Padding bottom"
 				:currentForm="currentForm"
-				section="Input"
 				:propKey="`textFieldPaddingBottom`"
 				unit="px"
 			/>
 			<NumberInput
 				label="Padding left"
 				:currentForm="currentForm"
-				section="Input"
 				:propKey="`textFieldPaddingLeft`"
 				unit="px"
 			/>
 			<NumberInput
 				label="Padding right"
 				:currentForm="currentForm"
-				section="Input"
 				:propKey="`textFieldPaddingRight`"
 				unit="px"
 			/>
@@ -246,55 +222,47 @@
 			<DropdownSelect
 				label="Border style"
 				:currentForm="currentForm"
-				section="Input"
 				:propKey="`inputFieldBorderStyle`"
 				:options="['solid', 'dashed', 'dotted']"
 			/>
 			<ColorInput
 				label="Border colour"
 				:currentForm="currentForm"
-				section="Input"
 				:propKey="`inputFieldBorderColor`"
 			/>
 			<NumberInput
 				label="Border Width"
 				:currentForm="currentForm"
-				section="Input"
 				:propKey="`inputFieldBorderWidth`"
 				unit="px"
 			/>
 			<NumberInput
 				label="Border radius"
 				:currentForm="currentForm"
-				section="Input"
 				:propKey="`inputFieldBorderRadius`"
 				unit="px"
 			/>
 			<NumberInput
 				label="Padding top"
 				:currentForm="currentForm"
-				section="Input"
 				:propKey="`inputFieldPaddingTop`"
 				unit="px"
 			/>
 			<NumberInput
 				label="Padding bottom"
 				:currentForm="currentForm"
-				section="Input"
 				:propKey="`inputFieldPaddingBottom`"
 				unit="px"
 			/>
 			<NumberInput
 				label="Padding left"
 				:currentForm="currentForm"
-				section="Input"
 				:propKey="`inputFieldPaddingLeft`"
 				unit="px"
 			/>
 			<NumberInput
 				label="Padding right"
 				:currentForm="currentForm"
-				section="Input"
 				:propKey="`inputFieldPaddingRight`"
 				unit="px"
 			/>
@@ -303,49 +271,34 @@
 			<NumberInput
 				label="Font size"
 				:currentForm="currentForm"
-				section="Input"
 				propKey="radioCheckboxFontSize"
 				unit="px"
 			/>
 			<NumberInput
 				label="Button size"
 				:currentForm="currentForm"
-				section="Input"
 				propKey="radioCheckboxSize"
 				unit="px"
 			/>
 			<NumberInput
 				label="Gap"
 				:currentForm="currentForm"
-				section="Input"
 				propKey="radioCheckboxGap"
 				unit="px"
 			/>
 		</StyleDropdown>
 		<StyleDropdown label="Toggle button">
-			<ColorInput
-				label="On Colour"
-				:currentForm="currentForm"
-				section="Input"
-				propKey="toggleOnColor"
-			/>
-			<ColorInput
-				label="Off Colour"
-				:currentForm="currentForm"
-				section="Input"
-				propKey="toggleOffColor"
-			/>
+			<ColorInput label="On Colour" :currentForm="currentForm" propKey="toggleOnColor" />
+			<ColorInput label="Off Colour" :currentForm="currentForm" propKey="toggleOffColor" />
 			<NumberInput
 				label="Font size"
 				:currentForm="currentForm"
-				section="Input"
 				propKey="toggleLabelFontSize"
 				unit="px"
 			/>
 			<Toggle
 				label="Bold"
 				:currentForm="currentForm"
-				section="Input"
 				propKey="toggleLabelBold"
 				defaultValue="true"
 				trueValue="bold"
@@ -359,6 +312,60 @@
 				section="Button"
 				propKey="buttonFontSize"
 				unit="px"
+			/>
+			<ColorInput
+				label="Label colour"
+				:currentForm="currentForm"
+				propKey="buttonLabelColor"
+			/>
+			<ColorInput
+				label="Background colour"
+				:currentForm="currentForm"
+				propKey="buttonBackgroundColor"
+			/>
+			<Toggle
+				label="Bold"
+				:currentForm="currentForm"
+				propKey="buttonBold"
+				defaultValue="true"
+				trueValue="bold"
+				falseValue="normal"
+			/>
+			<NumberInput
+				label="Padding top"
+				:currentForm="currentForm"
+				propKey="buttonPaddingTop"
+				unit="px"
+			/>
+			<NumberInput
+				label="Padding bottom"
+				:currentForm="currentForm"
+				propKey="buttonPaddingBottom"
+				unit="px"
+			/>
+			<NumberInput
+				label="Padding left"
+				:currentForm="currentForm"
+				propKey="buttonPaddingLeft"
+				unit="px"
+			/>
+			<NumberInput
+				label="Padding right"
+				:currentForm="currentForm"
+				propKey="buttonPaddingRight"
+				unit="px"
+			/>
+			<NumberInput
+				label="Border radius"
+				:currentForm="currentForm"
+				propKey="buttonBorderRadius"
+				unit="px"
+			/>
+			<DropdownSelect
+				label="Width"
+				:currentForm="currentForm"
+				propKey="buttonWidth"
+				:options="['auto', '100%', '50%']"
 			/>
 		</StyleDropdown>
 	</div>

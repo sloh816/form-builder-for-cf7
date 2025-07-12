@@ -21,7 +21,6 @@ import type { Form, Style } from "../../data/types";
 
 interface Props {
 	label: string;
-	section: string;
 	propKey: string;
 	currentForm?: Form;
 	defaultValue?: string;

@@ -31,7 +31,6 @@ import CrossIcon from "../../assets/cross.svg";
 interface Props {
 	label: string;
 	currentForm?: Form;
-	section: string;
 	propKey: string;
 }
 
