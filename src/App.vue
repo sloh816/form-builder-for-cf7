@@ -21,9 +21,9 @@
 	</div>
 	<FormFieldsModal />
 	<GenerateCode v-if="showCodeModal" :form="currentForm" />
-	<p class="fixed bottom-6 left-6 text-sm text-slate-600">
-		Made with 💜 by <a href="#" class="text-indigo-700 underline">Shannon L.</a><br />GitHub |
-		Report a problem
+	<p class="fixed bottom-6 left-6 text-sm text-slate-600 leading-relaxed">
+		<a href="https://github.com/sloh816/form-builder-for-cf7" class="underline">GitHub</a
+		><br />Made with 💜 by <a href="#" class="text-indigo-700 underline">Shannon L.</a>
 	</p>
 </template>
 
