@@ -1,23 +1,365 @@
 <template>
 	<div class="mt-8">
-		<StyleDropdown v-for="section in formSections" :key="section.label" :label="section.label">
-			<template v-for="group in section.groups" :key="group.title">
-				<h4 v-if="group.title" class="border-b border-indigo-400 font-semibold mb-2">
-					{{ group.title }}
-				</h4>
-				<div class="grid grid-cols-1 gap-2">
-					<component
-						v-for="field in group.fields"
-						:key="field.propKey"
-						:is="getComponent(field.type)"
-						:label="field.label"
-						:currentForm="currentForm"
-						:section="section.dataSection"
-						:propKey="field.propKey"
-						v-bind="field.props"
-					/>
-				</div>
+		<StyleDropdown label="Body">
+			<ColorInput
+				label="Background color"
+				:currentForm="currentForm"
+				section="Body"
+				propKey="backgroundColor"
+			/>
+			<NumberInput
+				label="Width"
+				:currentForm="currentForm"
+				section="Body"
+				propKey="maxWidth"
+				unit="px"
+			/>
+			<NumberInput
+				label="Padding top"
+				:currentForm="currentForm"
+				section="Body"
+				propKey="bodyPaddingTop"
+				unit="px"
+			/>
+			<NumberInput
+				label="Padding bottom"
+				:currentForm="currentForm"
+				section="Body"
+				propKey="bodyPaddingBottom"
+				unit="px"
+			/>
+			<NumberInput
+				label="Padding left"
+				:currentForm="currentForm"
+				section="Body"
+				propKey="bodyPaddingLeft"
+				unit="px"
+			/>
+			<NumberInput
+				label="Padding right"
+				:currentForm="currentForm"
+				section="Body"
+				propKey="bodyPaddingRight"
+				unit="px"
+			/>
+			<NumberInput
+				label="Border radius"
+				:currentForm="currentForm"
+				section="Body"
+				propKey="borderRadius"
+				unit="px"
+			/>
+		</StyleDropdown>
+		<StyleDropdown label="Headings">
+			<template v-for="heading in TextHeadings" :key="heading.propKey">
+				<h4 class="border-b border-indigo-400 font-semibold mb-2">{{ heading.label }}</h4>
+				<ColorInput
+					label="Colour"
+					:currentForm="currentForm"
+					section="Text"
+					:propKey="`${heading.propKey}Color`"
+				/>
+				<NumberInput
+					label="Font size"
+					:currentForm="currentForm"
+					section="Text"
+					:propKey="`${heading.propKey}FontSize`"
+					unit="px"
+				/>
+				<Toggle
+					label="Bold"
+					:currentForm="currentForm"
+					section="Text"
+					:propKey="`${heading.propKey}Bold`"
+					:defaultValue="heading.propKey === 'label' ? 'false' : 'true'"
+					trueValue="bold"
+					falseValue="normal"
+				/>
 			</template>
+		</StyleDropdown>
+		<StyleDropdown label="Text">
+			<h4 class="border-b border-indigo-400 font-semibold mb-2">Labels</h4>
+			<ColorInput
+				label="Colour"
+				:currentForm="currentForm"
+				section="Text"
+				:propKey="`labelColor`"
+			/>
+			<NumberInput
+				label="Font size"
+				:currentForm="currentForm"
+				section="Text"
+				:propKey="`labelFontSize`"
+				unit="px"
+			/>
+			<Toggle
+				label="Bold"
+				:currentForm="currentForm"
+				section="Text"
+				:propKey="`labelBold`"
+				defaultValue="false"
+				trueValue="bold"
+				falseValue="normal"
+			/>
+			<h4 class="border-b border-indigo-400 font-semibold mb-2">Text block</h4>
+			<ColorInput
+				label="Colour"
+				:currentForm="currentForm"
+				section="Text"
+				propKey="textBlockColor"
+			/>
+			<ColorInput
+				label="Background colour"
+				:currentForm="currentForm"
+				section="Text"
+				propKey="textBlockBackgroundColor"
+			/>
+			<NumberInput
+				label="Border radius"
+				:currentForm="currentForm"
+				section="Text"
+				propKey="`textBlockBorderRadius"
+				unit="px"
+			/>
+			<NumberInput
+				label="Font size"
+				:currentForm="currentForm"
+				section="Text"
+				propKey="textBlockFontSize"
+				unit="px"
+			/>
+			<NumberInput
+				label="Padding top"
+				:currentForm="currentForm"
+				section="Text"
+				propKey="textBlockPaddingTop"
+				unit="px"
+			/>
+			<NumberInput
+				label="Padding bottom"
+				:currentForm="currentForm"
+				section="Text"
+				propKey="textBlockPaddingBottom"
+				unit="px"
+			/>
+			<NumberInput
+				label="Padding left"
+				:currentForm="currentForm"
+				section="Text"
+				propKey="textBlockPaddingLeft"
+				unit="px"
+			/>
+			<NumberInput
+				label="Padding right"
+				:currentForm="currentForm"
+				section="Text"
+				propKey="textBlockPaddingRight"
+				unit="px"
+			/>
+		</StyleDropdown>
+		<StyleDropdown label="Input fields">
+			<ColorInput
+				label="Background colour"
+				:currentForm="currentForm"
+				section="Input"
+				:propKey="`textFieldBackgroundColor`"
+			/>
+			<ColorInput
+				label="Text colour"
+				:currentForm="currentForm"
+				section="Input"
+				:propKey="`textFieldColor`"
+			/>
+			<NumberInput
+				label="Font size"
+				:currentForm="currentForm"
+				section="Input"
+				:propKey="`textFieldFontSize`"
+				unit="px"
+			/>
+			<Toggle
+				label="Bold"
+				:currentForm="currentForm"
+				section="Input"
+				:propKey="`textFieldBold`"
+				defaultValue="false"
+				trueValue="bold"
+				falseValue="normal"
+			/>
+			<DropdownSelect
+				label="Border style"
+				:currentForm="currentForm"
+				section="Input"
+				:propKey="`textFieldBorderStyle`"
+				:options="['solid', 'dashed', 'dotted']"
+			/>
+			<ColorInput
+				label="Border colour"
+				:currentForm="currentForm"
+				section="Input"
+				:propKey="`textFieldBorderColor`"
+			/>
+			<NumberInput
+				label="Border Width"
+				:currentForm="currentForm"
+				section="Input"
+				:propKey="`textFieldBorderWidth`"
+				unit="px"
+			/>
+			<NumberInput
+				label="Border radius"
+				:currentForm="currentForm"
+				section="Input"
+				:propKey="`textFieldBorderRadius`"
+				unit="px"
+			/>
+			<NumberInput
+				label="Padding top"
+				:currentForm="currentForm"
+				section="Input"
+				:propKey="`textFieldPaddingTop`"
+				unit="px"
+			/>
+			<NumberInput
+				label="Padding bottom"
+				:currentForm="currentForm"
+				section="Input"
+				:propKey="`textFieldPaddingBottom`"
+				unit="px"
+			/>
+			<NumberInput
+				label="Padding left"
+				:currentForm="currentForm"
+				section="Input"
+				:propKey="`textFieldPaddingLeft`"
+				unit="px"
+			/>
+			<NumberInput
+				label="Padding right"
+				:currentForm="currentForm"
+				section="Input"
+				:propKey="`textFieldPaddingRight`"
+				unit="px"
+			/>
+		</StyleDropdown>
+		<StyleDropdown label="File input fields">
+			<DropdownSelect
+				label="Border style"
+				:currentForm="currentForm"
+				section="Input"
+				:propKey="`inputFieldBorderStyle`"
+				:options="['solid', 'dashed', 'dotted']"
+			/>
+			<ColorInput
+				label="Border colour"
+				:currentForm="currentForm"
+				section="Input"
+				:propKey="`inputFieldBorderColor`"
+			/>
+			<NumberInput
+				label="Border Width"
+				:currentForm="currentForm"
+				section="Input"
+				:propKey="`inputFieldBorderWidth`"
+				unit="px"
+			/>
+			<NumberInput
+				label="Border radius"
+				:currentForm="currentForm"
+				section="Input"
+				:propKey="`inputFieldBorderRadius`"
+				unit="px"
+			/>
+			<NumberInput
+				label="Padding top"
+				:currentForm="currentForm"
+				section="Input"
+				:propKey="`inputFieldPaddingTop`"
+				unit="px"
+			/>
+			<NumberInput
+				label="Padding bottom"
+				:currentForm="currentForm"
+				section="Input"
+				:propKey="`inputFieldPaddingBottom`"
+				unit="px"
+			/>
+			<NumberInput
+				label="Padding left"
+				:currentForm="currentForm"
+				section="Input"
+				:propKey="`inputFieldPaddingLeft`"
+				unit="px"
+			/>
+			<NumberInput
+				label="Padding right"
+				:currentForm="currentForm"
+				section="Input"
+				:propKey="`inputFieldPaddingRight`"
+				unit="px"
+			/>
+		</StyleDropdown>
+		<StyleDropdown label="Radio and checkbox fields">
+			<NumberInput
+				label="Font size"
+				:currentForm="currentForm"
+				section="Input"
+				propKey="radioCheckboxFontSize"
+				unit="px"
+			/>
+			<NumberInput
+				label="Button size"
+				:currentForm="currentForm"
+				section="Input"
+				propKey="radioCheckboxSize"
+				unit="px"
+			/>
+			<NumberInput
+				label="Gap"
+				:currentForm="currentForm"
+				section="Input"
+				propKey="radioCheckboxGap"
+				unit="px"
+			/>
+		</StyleDropdown>
+		<StyleDropdown label="Toggle button">
+			<ColorInput
+				label="On Colour"
+				:currentForm="currentForm"
+				section="Input"
+				propKey="toggleOnColor"
+			/>
+			<ColorInput
+				label="Off Colour"
+				:currentForm="currentForm"
+				section="Input"
+				propKey="toggleOffColor"
+			/>
+			<NumberInput
+				label="Font size"
+				:currentForm="currentForm"
+				section="Input"
+				propKey="toggleLabelFontSize"
+				unit="px"
+			/>
+			<Toggle
+				label="Bold"
+				:currentForm="currentForm"
+				section="Input"
+				propKey="toggleLabelBold"
+				defaultValue="true"
+				trueValue="bold"
+				falseValue="normal"
+			/>
+		</StyleDropdown>
+		<StyleDropdown label="Submit button">
+			<NumberInput
+				label="Font size"
+				:currentForm="currentForm"
+				section="Button"
+				propKey="buttonFontSize"
+				unit="px"
+			/>
 		</StyleDropdown>
 	</div>
 </template>
@@ -38,229 +380,10 @@ interface Props {
 
 const { currentForm } = defineProps<Props>();
 
-// Component mapping
-const componentMap = {
-	color: ColorInput,
-	number: NumberInput,
-	toggle: Toggle,
-	dropdown: DropdownSelect
-};
-
-const getComponent = (type: keyof typeof componentMap) => componentMap[type];
-
-// Helper functions for common field patterns
-const createPaddingFields = (prefix: string) => [
-	{
-		label: "Padding top",
-		propKey: `${prefix}PaddingTop`,
-		type: "number" as const,
-		props: { unit: "px" }
-	},
-	{
-		label: "Padding bottom",
-		propKey: `${prefix}PaddingBottom`,
-		type: "number" as const,
-		props: { unit: "px" }
-	},
-	{
-		label: "Padding left",
-		propKey: `${prefix}PaddingLeft`,
-		type: "number" as const,
-		props: { unit: "px" }
-	},
-	{
-		label: "Padding right",
-		propKey: `${prefix}PaddingRight`,
-		type: "number" as const,
-		props: { unit: "px" }
-	}
-];
-
-const createBorderFields = (prefix: string) => [
-	{
-		label: "Border style",
-		propKey: `${prefix}BorderStyle`,
-		type: "dropdown" as const,
-		props: { options: ["solid", "dashed", "dotted"] }
-	},
-	{ label: "Border colour", propKey: `${prefix}BorderColor`, type: "color" as const, props: {} },
-	{
-		label: "Border Width",
-		propKey: `${prefix}BorderWidth`,
-		type: "number" as const,
-		props: { unit: "px" }
-	},
-	{
-		label: "Border radius",
-		propKey: `${prefix}BorderRadius`,
-		type: "number" as const,
-		props: { unit: "px" }
-	}
-];
-
-const createTextHeadingFields = (propKey: string) => [
-	{ label: "Colour", propKey: `${propKey}Color`, type: "color" as const, props: {} },
-	{
-		label: "Font size",
-		propKey: `${propKey}FontSize`,
-		type: "number" as const,
-		props: { unit: "px" }
-	},
-	{
-		label: "Bold",
-		propKey: `${propKey}Bold`,
-		type: "toggle" as const,
-		props: {
-			defaultValue: propKey === "label" ? "false" : "true",
-			trueValue: "bold",
-			falseValue: "normal"
-		}
-	}
-];
-
-// Configuration object
-const formSections = [
-	{
-		label: "Body",
-		dataSection: "Body",
-		groups: [
-			{
-				title: null,
-				fields: [
-					{
-						label: "Background color",
-						propKey: "backgroundColor",
-						type: "color" as const,
-						props: {}
-					},
-					{
-						label: "Width",
-						propKey: "maxWidth",
-						type: "number" as const,
-						props: { unit: "px" }
-					},
-					{
-						label: "Border radius",
-						propKey: "borderRadius",
-						type: "number" as const,
-						props: { unit: "px" }
-					},
-					...createPaddingFields("body")
-				]
-			}
-		]
-	},
-	{
-		label: "Text",
-		dataSection: "Text",
-		groups: [
-			// Dynamic text heading groups
-			...["label", "formTitle", "h2", "h3", "h4"].map((propKey) => ({
-				title: {
-					label: "Labels",
-					formTitle: "Form title",
-					h2: "H2",
-					h3: "H3",
-					h4: "H4"
-				}[propKey],
-				fields: createTextHeadingFields(propKey)
-			})),
-			{
-				title: "Text block",
-				fields: [
-					{
-						label: "Colour",
-						propKey: "textBlockColor",
-						type: "color" as const,
-						props: {}
-					},
-					{
-						label: "Background colour",
-						propKey: "textBlockBackgroundColor",
-						type: "color" as const,
-						props: {}
-					},
-					{
-						label: "Border radius",
-						propKey: "textBlockBorderRadius",
-						type: "number" as const,
-						props: { unit: "px" }
-					},
-					{
-						label: "Font size",
-						propKey: "textBlockFontSize",
-						type: "number" as const,
-						props: { unit: "px" }
-					},
-					...createPaddingFields("textBlock")
-				]
-			}
-		]
-	},
-	{
-		label: "Inputs",
-		dataSection: "Input",
-		groups: [
-			{
-				title: "Fields",
-				fields: [
-					{
-						label: "Background colour",
-						propKey: "textFieldBackgroundColor",
-						type: "color" as const,
-						props: {}
-					},
-					{
-						label: "Text colour",
-						propKey: "textFieldColor",
-						type: "color" as const,
-						props: {}
-					},
-					{
-						label: "Font size",
-						propKey: "textFieldFontSize",
-						type: "number" as const,
-						props: { unit: "px" }
-					},
-					{
-						label: "Bold",
-						propKey: "textFieldBold",
-						type: "toggle" as const,
-						props: {
-							defaultValue: "false",
-							trueValue: "bold",
-							falseValue: "normal"
-						}
-					},
-					...createBorderFields("textField"),
-					...createPaddingFields("textField")
-				]
-			},
-			{
-				title: "File input fields",
-				fields: [...createBorderFields("inputField"), ...createPaddingFields("inputField")]
-			}
-		]
-	},
-	{
-		label: "Radio, checkboxes and toggle",
-		dataSection: "Radio",
-		groups: [
-			{
-				title: null,
-				fields: []
-			}
-		]
-	},
-	{
-		label: "Submit button",
-		dataSection: "Button",
-		groups: [
-			{
-				title: null,
-				fields: []
-			}
-		]
-	}
+const TextHeadings = [
+	{ label: "Form title", propKey: "formTitle" },
+	{ label: "H2", propKey: "h2" },
+	{ label: "H3", propKey: "h3" },
+	{ label: "H4", propKey: "h4" }
 ];
 </script>

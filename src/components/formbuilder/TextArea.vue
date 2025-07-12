@@ -84,32 +84,28 @@ interface Props {
 
 const props = defineProps<Props>();
 
-const computedStyles = computed(() => {
-	const textStyles = props.currentForm.styles?.find((style) => style.label === "Text");
-	return {
-		"font-size": textStyles?.properties.labelFontSize + "px",
-		color: textStyles?.properties.labelColor,
-		"font-weight": textStyles?.properties.labelBold
-	};
-});
+const getComputedStyles = inject<Function>("getComputedStyles");
 
-const computedFieldStyles = computed(() => {
-	const inputStyles = props.currentForm.styles?.find((style) => style.label === "Input");
-	return {
-		"border-color": inputStyles?.properties.textFieldBorderColor,
-		"border-width": inputStyles?.properties.textFieldBorderWidth + "px",
-		"border-radius": inputStyles?.properties.textFieldBorderRadius + "px",
-		"padding-top": inputStyles?.properties.textFieldPaddingTop + "px",
-		"padding-bottom": inputStyles?.properties.textFieldPaddingBottom + "px",
-		"padding-left": inputStyles?.properties.textFieldPaddingLeft + "px",
-		"padding-right": inputStyles?.properties.textFieldPaddingRight + "px",
-		"font-size": inputStyles?.properties.textFieldFontSize + "px",
-		color: inputStyles?.properties.textFieldColor,
-		"background-color": inputStyles?.properties.textFieldBackgroundColor,
-		"font-weight": inputStyles?.properties.textFieldBold,
-		"border-style": inputStyles?.properties.textFieldBorderStyle
-	};
-});
+const computedStyles = getComputedStyles([
+	{ "font-size": "labelFontSize" },
+	{ color: "labelColor" },
+	{ "font-weight": "labelBold" }
+]);
+
+const computedFieldStyles = getComputedStyles([
+	{ "border-color": "textFieldBorderColor" },
+	{ "border-width": "textFieldBorderWidth" },
+	{ "border-radius": "textFieldBorderRadius" },
+	{ "padding-top": "textFieldPaddingTop" },
+	{ "padding-bottom": "textFieldPaddingBottom" },
+	{ "padding-left": "textFieldPaddingLeft" },
+	{ "padding-right": "textFieldPaddingRight" },
+	{ "font-size": "textFieldFontSize" },
+	{ color: "textFieldColor" },
+	{ "background-color": "textFieldBackgroundColor" },
+	{ "font-weight": "textFieldBold" },
+	{ "border-style": "textFieldBorderStyle" }
+]);
 
 const updateFormField = inject<Function>("updateFormField");
 function updateProps(key: string, value: any) {

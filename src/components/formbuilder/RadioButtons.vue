@@ -18,13 +18,19 @@
 									}
 								]"
 							>
-								<label>
+								<label :style="computedGapStyle">
 									<input
 										type="radio"
 										:name="props.id"
 										:value="option"
 										:checked="index === 0"
-									/><span class="wpcf7-list-item-label">{{ option }}</span>
+										:style="computedFieldStyles"
+									/>
+									<span
+										class="wpcf7-list-item-label"
+										:style="computedLabelStyles"
+										>{{ option }}</span
+									>
 								</label>
 							</span>
 						</span>
@@ -58,7 +64,7 @@
 </template>
 
 <script setup lang="ts">
-import { inject, computed } from "vue";
+import { inject } from "vue";
 import FieldOptionsFormWrapper from "../../components/FieldOptionsFormWrapper.vue";
 import FormPreviewField from "../../components/FormPreviewField.vue";
 import type { Form } from "../../data/types";
@@ -76,15 +82,21 @@ interface Props {
 const props = defineProps<Props>();
 
 const updateFormField = inject<Function>("updateFormField");
+const getComputedStyles = inject<Function>("getComputedStyles");
+const computedStyles = getComputedStyles([
+	{ "font-size": "labelFontSize" },
+	{ color: "labelColor" },
+	{ "font-weight": "labelBold" }
+]);
 
-const computedStyles = computed(() => {
-	const textStyles = props.currentForm.styles?.find((style) => style.label === "Text");
-	return {
-		"font-size": textStyles?.properties.labelFontSize + "px",
-		color: textStyles?.properties.labelColor,
-		"font-weight": textStyles?.properties.labelBold
-	};
-});
+const computedFieldStyles = getComputedStyles([
+	{ width: "radioCheckboxSize" },
+	{ height: "radioCheckboxSize" }
+]);
+
+const computedGapStyle = getComputedStyles([{ gap: "radioCheckboxGap" }]);
+
+const computedLabelStyles = getComputedStyles([{ "font-size": "radioCheckboxFontSize" }]);
 
 function updateLabel(value: string) {
 	const newProps = { id: props.id, options: props.options, label: value };

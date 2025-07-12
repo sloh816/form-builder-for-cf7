@@ -39,12 +39,7 @@ const props = defineProps<Props>();
 
 const defaultValue = computed(() => {
 	if (props.currentForm?.styles) {
-		const style = props.currentForm.styles.find((style) => style.label === props.section);
-		if (style && style.properties[props.propKey]) {
-			return style.properties[props.propKey];
-		} else {
-			return "transparent";
-		}
+		return props.currentForm.styles[props.propKey] || "transparent";
 	}
 });
 
@@ -52,12 +47,6 @@ const addStyle = inject<(style: Style) => void>("addStyle");
 function changeColor(color: string) {
 	const properties: Record<string, any> = {};
 	properties[props.propKey] = color;
-
-	if (addStyle) {
-		addStyle({
-			label: props.section,
-			properties: properties
-		});
-	}
+	addStyle?.(properties);
 }
 </script>

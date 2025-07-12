@@ -29,25 +29,14 @@ const props = defineProps<Props>();
 
 const defaultValue = computed(() => {
 	if (props.currentForm?.styles) {
-		const style = props.currentForm.styles.find((style) => style.label === props.section);
-		if (style && style.properties[props.propKey]) {
-			return style.properties[props.propKey];
-		}
+		return props.currentForm.styles[props.propKey] || 0;
 	}
-	return 0;
 });
 
 const addStyle = inject<(style: Style) => void>("addStyle");
 function updateNumber(num: string) {
 	const properties: Record<string, any> = {};
-
 	properties[props.propKey] = num !== "" ? parseInt(num) : 0;
-
-	if (addStyle) {
-		addStyle({
-			label: props.section,
-			properties: properties
-		});
-	}
+	addStyle?.(properties);
 }
 </script>

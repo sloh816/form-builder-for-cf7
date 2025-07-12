@@ -69,12 +69,11 @@ function updateHeadingText(text: string) {
 	updateFormField?.(props.id, newProps);
 }
 
-const computedStyles = computed(() => {
-	const textStyles = props.currentForm.styles?.find((style) => style.label === "Text");
-	return {
-		"font-size": textStyles?.properties[`h${props.headingLevel}FontSize`] + "px",
-		color: textStyles?.properties[`h${props.headingLevel}Color`],
-		"font-weight": textStyles?.properties[`h${props.headingLevel}Bold`]
-	};
-});
+const getComputedStyles = inject<Function>("getComputedStyles");
+
+const computedStyles = getComputedStyles([
+	{ "font-size": `h${props.headingLevel}FontSize` },
+	{ color: `h${props.headingLevel}Color` },
+	{ "font-weight": `h${props.headingLevel}Bold` }
+]);
 </script>

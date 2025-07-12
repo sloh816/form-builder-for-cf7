@@ -75,31 +75,11 @@ onMounted(() => {
 	const urlParams = new URLSearchParams(queryString);
 	const formId = urlParams.get("id");
 
-	const loadCss = (form: Form) => {
-		const styles = form.styles || [];
-		const defaultStyles = defaultCss;
-
-		// merge default styles with form styles
-		const mergedStyles = defaultStyles.map((defaultStyle) => {
-			const formStyle = styles.find((s) => s.label === defaultStyle.label);
-			return {
-				...defaultStyle,
-				properties: {
-					...defaultStyle.properties,
-					...formStyle?.properties
-				}
-			};
-		});
-
-		currentForm.value.styles = mergedStyles;
-	};
-
 	// if formId is provided, find the form
 	if (formId) {
 		const foundForm = forms.value.find((form) => form.id === formId);
 		if (foundForm) {
 			currentForm.value = foundForm;
-			loadCss(currentForm.value);
 			currentFormIsSaved.value = true; // Mark the form as saved
 		} else {
 			// create a new form with the provided id
@@ -371,27 +351,13 @@ provide("moveField", (id: string, direction: "up" | "down") => {
 	currentFormIsSaved.value = false; // Mark the form as unsaved
 });
 
-provide("addStyle", (style: Style) => {
+provide("addStyle", (style: Record<string, string>) => {
 	if (currentForm.value) {
 		if (!currentForm.value.styles) {
-			currentForm.value.styles = [];
+			currentForm.value.styles = {};
 		}
 
-		// check if object with the same label already exists
-		const existingStyleIndex = currentForm.value.styles.findIndex(
-			(s) => s.label === style.label
-		);
-		if (existingStyleIndex !== -1) {
-			// Update existing style
-			currentForm.value.styles[existingStyleIndex].properties = {
-				...currentForm.value.styles[existingStyleIndex].properties,
-				...style.properties
-			};
-		} else {
-			// Add new style
-			currentForm.value.styles.push(style);
-		}
-
+		Object.assign(currentForm.value.styles, style);
 		currentFormIsSaved.value = false; // Mark the form as unsaved
 	}
 });

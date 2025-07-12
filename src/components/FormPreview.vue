@@ -22,7 +22,7 @@
 <script setup lang="ts">
 import AddNewFieldButton from "../components/AddNewFieldButton.vue";
 import InsertFieldAboveButton from "../components/InsertFieldAboveButton.vue";
-import { markRaw, computed } from "vue";
+import { markRaw, computed, provide } from "vue";
 import type { Form } from "../data/types";
 
 // Form builder components
@@ -60,16 +60,34 @@ interface Props {
 
 const { currentForm } = defineProps<Props>();
 
-const computedStyles = computed(() => {
-	const bodyStyles = currentForm.styles?.find((style) => style.label === "Body");
-	return {
-		"background-color": bodyStyles?.properties.backgroundColor,
-		"padding-top": bodyStyles?.properties.bodyPaddingTop + "px",
-		"padding-bottom": bodyStyles?.properties.bodyPaddingBottom + "px",
-		"padding-left": bodyStyles?.properties.bodyPaddingLeft + "px",
-		"padding-right": bodyStyles?.properties.bodyPaddingRight + "px",
-		"border-radius": bodyStyles?.properties.borderRadius + "px",
-		"max-width": bodyStyles?.properties.maxWidth + "px"
-	};
-});
+function getComputedStyles(styleProps: Record<string, string>[]) {
+	return computed(() => {
+		return styleProps.map((prop) => {
+			const cssProp = Object.keys(prop)[0];
+			const styleKey = prop[cssProp];
+			let value = currentForm.styles[styleKey];
+
+			// if value string is a number, append 'px'
+			if (!isNaN(Number(value))) {
+				value += "px";
+			}
+
+			return {
+				[cssProp]: value || ""
+			};
+		});
+	});
+}
+
+const computedStyles = getComputedStyles([
+	{ "background-color": "backgroundColor" },
+	{ "padding-top": "bodyPaddingTop" },
+	{ "padding-bottom": "bodyPaddingBottom" },
+	{ "padding-left": "bodyPaddingLeft" },
+	{ "padding-right": "bodyPaddingRight" },
+	{ "border-radius": "borderRadius" },
+	{ "max-width": "maxWidth" }
+]);
+
+provide("getComputedStyles", getComputedStyles);
 </script>

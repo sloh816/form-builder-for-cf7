@@ -461,25 +461,11 @@ function convertFormForEmailPreview(form: Form): any[] {
 // #region Generate CSS
 function generateCss(css: string, form: Form): string {
 	if (form) {
-		return css
-			.replace(/\[\[([^\]]+)\]\]/g, (match, p1) => {
-				const [label, property] = p1.split(".");
-				const style = form.styles?.find((s) => s.label === label);
-
-				if (style && style.properties[property]) {
-					return style.properties[property];
-				}
-
-				return match;
-			})
-			.replace(/\[\[([^\]]+)\]\]/g, (match, p1) => {
-				const [label, property] = p1.split(".");
-				const defaultStyle: any = defaultCss.find((s) => s.label === label);
-				if (defaultStyle && defaultStyle.properties[property]) {
-					return defaultStyle.properties[property];
-				}
-				return match; // return original match if not found
-			});
+		return css.replace(/\[\[([^\]]+)\]\]/g, (match, p1) => {
+			const cssProp = p1.trim();
+			const value = form.styles?.[cssProp] || defaultCss[cssProp];
+			return value;
+		});
 	}
 
 	return "";

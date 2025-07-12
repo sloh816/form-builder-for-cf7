@@ -49,7 +49,6 @@ onMounted(() => {
 			toggleWrapper.setAttribute("data-checked", "true");
 		}
 	};
-
 	// setCheckedState();
 	toggleButton?.addEventListener("click", () => setCheckedState());
 });
@@ -64,11 +63,6 @@ function updateValue(button: HTMLButtonElement) {
 	const properties: Record<string, any> = {};
 	const value = checkedValue ? trueValue : falseValue;
 	properties[props.propKey] = value;
-	if (addStyle) {
-		addStyle({
-			label: props.section,
-			properties: properties
-		});
-	}
+	addStyle?.(properties);
 }
 </script>

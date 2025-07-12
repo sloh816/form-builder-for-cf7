@@ -15,13 +15,18 @@
 									{ first: index === 0, last: index === props.options.length - 1 }
 								]"
 							>
-								<label>
+								<label :style="computedGapStyle">
 									<input
 										type="checkbox"
 										:name="`${props.id}[]`"
 										:value="option"
+										:style="computedFieldStyles"
 									/>
-									<span class="wpcf7-list-item-label">{{ option }}</span>
+									<span
+										class="wpcf7-list-item-label"
+										:style="computedLabelStyles"
+										>{{ option }}</span
+									>
 								</label>
 							</span>
 						</span>
@@ -78,14 +83,21 @@ interface Props {
 
 const props = defineProps<Props>();
 
-const computedStyles = computed(() => {
-	const textStyles = props.currentForm.styles?.find((style) => style.label === "Text");
-	return {
-		"font-size": textStyles?.properties.labelFontSize + "px",
-		color: textStyles?.properties.labelColor,
-		"font-weight": textStyles?.properties.labelBold
-	};
-});
+const getComputedStyles = inject<Function>("getComputedStyles");
+const computedStyles = getComputedStyles([
+	{ "font-size": "labelFontSize" },
+	{ color: "labelColor" },
+	{ "font-weight": "labelBold" }
+]);
+
+const computedFieldStyles = getComputedStyles([
+	{ width: "radioCheckboxSize" },
+	{ height: "radioCheckboxSize" }
+]);
+
+const computedGapStyle = getComputedStyles([{ gap: "radioCheckboxGap" }]);
+
+const computedLabelStyles = getComputedStyles([{ "font-size": "radioCheckboxFontSize" }]);
 
 const updateFormField = inject<Function>("updateFormField");
 function updateProps(propKey: string, value: any) {

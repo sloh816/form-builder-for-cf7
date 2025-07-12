@@ -4,11 +4,6 @@ export interface FormField {
 	props: Record<string, any>;
 }
 
-export interface Style {
-	label: string;
-	properties: Record<string, any>;
-}
-
 export interface Form {
 	id: string;
 	name: string;
@@ -17,5 +12,5 @@ export interface Form {
 	subject?: string;
 	introText?: string;
 	fields: FormField[];
-	styles?: Style[];
+	styles?: Record<string, string>;
 }

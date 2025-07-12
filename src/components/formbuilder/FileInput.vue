@@ -126,46 +126,39 @@ function getAcceptableFileTypes() {
 		.join(", ");
 }
 
-const computedStyles = computed(() => {
-	const textStyles = props.currentForm.styles?.find((style) => style.label === "Text");
-	return {
-		"font-size": textStyles?.properties.labelFontSize + "px",
-		color: textStyles?.properties.labelColor,
-		"font-weight": textStyles?.properties.labelBold
-	};
-});
+const getComputedStyles = inject<Function>("getComputedStyles");
 
-const computedFieldStyles = computed(() => {
-	const inputStyles = props.currentForm.styles?.find((style) => style.label === "Input");
-	return {
-		"border-color": inputStyles?.properties.textFieldBorderColor,
-		"border-width": inputStyles?.properties.textFieldBorderWidth + "px",
-		"border-radius": inputStyles?.properties.textFieldBorderRadius + "px",
-		"padding-top": inputStyles?.properties.textFieldPaddingTop + "px",
-		"padding-bottom": inputStyles?.properties.textFieldPaddingBottom + "px",
-		"padding-left": inputStyles?.properties.textFieldPaddingLeft + "px",
-		"padding-right": inputStyles?.properties.textFieldPaddingRight + "px",
-		"font-size": inputStyles?.properties.textFieldFontSize + "px",
-		color: inputStyles?.properties.textFieldColor,
-		"background-color": inputStyles?.properties.textFieldBackgroundColor,
-		"font-weight": inputStyles?.properties.textFieldBold,
-		"border-style": inputStyles?.properties.textFieldBorderStyle
-	};
-});
+const computedStyles = getComputedStyles([
+	{ "font-size": "labelFontSize" },
+	{ color: "labelColor" },
+	{ "font-weight": "labelBold" }
+]);
 
-const computedWrapperFieldStyles = computed(() => {
-	const inputStyles = props.currentForm.styles?.find((style) => style.label === "Input");
-	return {
-		"border-color": inputStyles?.properties.inputFieldBorderColor,
-		"border-width": inputStyles?.properties.inputFieldBorderWidth + "px",
-		"border-radius": inputStyles?.properties.inputFieldBorderRadius + "px",
-		"padding-top": inputStyles?.properties.inputFieldPaddingTop + "px",
-		"padding-bottom": inputStyles?.properties.inputFieldPaddingBottom + "px",
-		"padding-left": inputStyles?.properties.inputFieldPaddingLeft + "px",
-		"padding-right": inputStyles?.properties.inputFieldPaddingRight + "px",
-		"border-style": inputStyles?.properties.inputFieldBorderStyle
-	};
-});
+const computedFieldStyles = getComputedStyles([
+	{ "border-color": "textFieldBorderColor" },
+	{ "border-width": "textFieldBorderWidth" },
+	{ "border-radius": "textFieldBorderRadius" },
+	{ "padding-top": "textFieldPaddingTop" },
+	{ "padding-bottom": "textFieldPaddingBottom" },
+	{ "padding-left": "textFieldPaddingLeft" },
+	{ "padding-right": "textFieldPaddingRight" },
+	{ "font-size": "textFieldFontSize" },
+	{ color: "textFieldColor" },
+	{ "background-color": "textFieldBackgroundColor" },
+	{ "font-weight": "textFieldBold" },
+	{ "border-style": "textFieldBorderStyle" }
+]);
+
+const computedWrapperFieldStyles = getComputedStyles([
+	{ "border-color": "inputFieldBorderColor" },
+	{ "border-width": "inputFieldBorderWidth" },
+	{ "border-radius": "inputFieldBorderRadius" },
+	{ "padding-top": "inputFieldPaddingTop" },
+	{ "padding-bottom": "inputFieldPaddingBottom" },
+	{ "padding-left": "inputFieldPaddingLeft" },
+	{ "padding-right": "inputFieldPaddingRight" },
+	{ "border-style": "inputFieldBorderStyle" }
+]);
 
 const updateFormField = inject<Function>("updateFormField");
 function updateProps(propKey: string, value: any) {

@@ -36,7 +36,6 @@
 				<div
 					class="indiga-toggle-switch-button-wrapper"
 					:data-checked="props.default ? 'true' : 'false'"
-					style="display: none"
 				>
 					<button
 						class="indiga-toggle-switch-button"
@@ -45,10 +44,15 @@
 							props.default ? props.onLabel : props.offLabel
 						}`"
 						type="button"
+						:style="computedButtonStyles"
 					>
+						<span
+							class="on-background w-full h-full rounded-full hidden"
+							:style="computedOnStyle"
+						></span>
 						<span class="indiga-toggle-switch-button-inner"></span>
 					</button>
-					<span class="indiga-toggle-button-label">{{
+					<span class="indiga-toggle-button-label" :style="computedFontStyle">{{
 						props.default ? props.onLabel : props.offLabel
 					}}</span>
 				</div>
@@ -132,6 +136,8 @@ onMounted(() => {
 	} else {
 		console.warn(`Toggle switch with id ${props.id} not found.`);
 	}
+
+	console.log("mounted toggle", props.id);
 });
 
 function addFunctionToToggle(toggle: HTMLElement) {
@@ -152,6 +158,10 @@ function addFunctionToToggle(toggle: HTMLElement) {
 		const toggleButtonLabel = toggle.querySelector(
 			".indiga-toggle-button-label"
 		) as HTMLElement;
+
+		const inputStyles = props.currentForm?.styles.toggleOnColor || "#3b82f6";
+		const onColor = toggleButton.querySelector(".on-background") as HTMLElement;
+
 		if (!isChecked === true) {
 			const firstRadio = radioButtons.querySelector(
 				'.first input[type="radio"]'
@@ -159,6 +169,7 @@ function addFunctionToToggle(toggle: HTMLElement) {
 			firstRadio.checked = true;
 			toggleButtonLabel.textContent = firstRadio.value;
 			toggleButton.setAttribute("aria-description", "Currently toggled: " + firstRadio.value);
+			onColor.classList.remove("hidden");
 		} else {
 			const lastRadio = radioButtons.querySelector(
 				'.last input[type="radio"]'
@@ -166,18 +177,27 @@ function addFunctionToToggle(toggle: HTMLElement) {
 			lastRadio.checked = true;
 			toggleButtonLabel.textContent = lastRadio.value;
 			toggleButton.setAttribute("aria-description", "Currently toggled: " + lastRadio.value);
+			onColor.classList.add("hidden");
 		}
 	});
 }
 
-const computedStyles = computed(() => {
-	const textStyles = props.currentForm.styles?.find((style) => style.label === "Text");
-	return {
-		"font-size": textStyles?.properties.labelFontSize + "px",
-		color: textStyles?.properties.labelColor,
-		"font-weight": textStyles?.properties.labelBold
-	};
-});
+const getComputedStyles = inject<Function>("getComputedStyles");
+
+const computedStyles = getComputedStyles([
+	{ "font-size": "labelFontSize" },
+	{ color: "labelColor" },
+	{ "font-weight": "labelBold" }
+]);
+
+const computedButtonStyles = getComputedStyles([{ "background-color": "toggleOffColor" }]);
+
+const computedOnStyle = getComputedStyles([{ "background-color": "toggleOnColor" }]);
+
+const computedFontStyle = getComputedStyles([
+	{ "font-size": "toggleLabelFontSize" },
+	{ "font-weight": "toggleLabelBold" }
+]);
 
 const updateFormField = inject<Function>("updateFormField");
 function updateProps(propKey: string, value: any) {
